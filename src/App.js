@@ -10,17 +10,19 @@ import React from 'react';
 import {createAppContainer, createStackNavigator} from 'react-navigation';
 
 import Main from './screens/Main';
-import BuscaDevs from './screens/BuscaDevs';
+import Login from './screens/Login/index';
+import BuscaDevs from './screens/BuscaDevs/index';
 import DevDetails from './screens/devDetails/index';
 
 const MainStack = createStackNavigator(
   {
     Main: Main,
     BuscaDevs: BuscaDevs,
-    DevDetails: DevDetails
+    DevDetails: DevDetails,
+    Login: Login
   },
   {
-    initialRouteName: 'DevDetails',
+    initialRouteName: 'Login',
     headerMode: 'none',
   },
 );
