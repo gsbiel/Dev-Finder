@@ -1,5 +1,6 @@
-import React from 'react';
+import React,{Component} from 'react';
 import { authorize } from 'react-native-app-auth';
+import {connect} from 'react-redux';
 import {
   TextInput,
   AsyncStorage,
@@ -11,7 +12,7 @@ import {
 
 import styles from './styles';
 
-export default class Login extends React.PureComponent {
+class Login extends Component {
 
     state = {
         email: '',
@@ -88,18 +89,25 @@ export default class Login extends React.PureComponent {
 
       setToken = async (token) =>{
         await AsyncStorage.setItem('access_token', token);
-        // props.dispatch({
-        //     type:'SET_TOKEN',
-        //     payload:token
-        // });
+        this.props.dispatch({
+            type:'SET_TOKEN',
+            payload:token
+        });
+      }
+
+      getToken = async () => {
+        const token =  await AsyncStorage.getItem('access_token');
+        if(token){
+            this.props.dispatch({
+                type:'SET_TOKEN',
+                payload: token
+            });
+            this.props.navigation.navigate('UserScreen');
+        }
       }
 
       async componentDidMount() {
-  
-        const token = await AsyncStorage.getItem('access_token');
-        if(token !== '' && token !== null) {
-          this.props.navigation.navigate('UserScreen');
-        }
+        this.getToken();
       }  
 
   render() {
@@ -196,3 +204,4 @@ export default class Login extends React.PureComponent {
   }
 }
 
+export default connect()(Login);

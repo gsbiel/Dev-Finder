@@ -6,7 +6,7 @@
  * @flow
  */
 
-import React from 'react';
+import React,{Component} from 'react';
 import {createAppContainer, createStackNavigator} from 'react-navigation';
 
 import Main from './screens/Main';
@@ -15,6 +15,9 @@ import BuscaDevs from './screens/BuscaDevs';
 import DevDetails from './screens/devDetails';
 import AboutApp from './screens/AboutApp';
 import UserScreen from './screens/UserScreen'
+
+import {Provider} from 'react-redux';
+import store from './store';
 
 const MainStack = createStackNavigator(
   {
@@ -30,5 +33,16 @@ const MainStack = createStackNavigator(
     headerMode: 'none',
   },
 );
-const App = createAppContainer(MainStack);
+
+const Navigation = createAppContainer(MainStack);
+
+class App extends Component{
+  render(){
+    return(
+      <Provider store={store}>
+        <Navigation/>
+      </Provider>
+    )
+  }
+}
 export default App;
