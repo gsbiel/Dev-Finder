@@ -10,7 +10,7 @@ const repositoryItem = (props) => {
                 source={{uri: 'https://icon-library.net/images/data-repository-icon/data-repository-icon-15.jpg'}}/>
             <View style={styles.inFlexContainer}>
                 <Text >{props.name}</Text>
-                <Text >{props.stars} stars</Text>
+                <Text >{props.stars ? props.stars : '0'} stars</Text>
                 <Text>{props.language}</Text>
             </View>
         </View>

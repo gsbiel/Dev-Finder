@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import {View,FlatList} from 'react-native';
 
 import RepositoryItem from './RepositoryItem/index';
+import EmptyList from '../EmptyList/index';
 
 class RepositoryItems extends Component {
 
@@ -17,6 +18,13 @@ class RepositoryItems extends Component {
     render(){
         return(
             <FlatList
+            ref={flatList=>{
+                if(flatList){
+                    setInterval(()=>{
+                        flatList.flashScrollIndicators()
+                    },2000);
+                }
+            }}
             data={this.props.data}
             renderItem={({item})=>{
                 return(
@@ -24,7 +32,8 @@ class RepositoryItems extends Component {
                 );
             }}
             keyExtractor={item => item.id}
-            ItemSeparatorComponent={this.renderSeparator}/>
+            ItemSeparatorComponent={this.renderSeparator}
+            ListEmptyComponent ={<EmptyList/>}/>
         );
     }
 }

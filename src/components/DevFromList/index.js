@@ -9,17 +9,13 @@ export default class DevFromList extends Component {
     return (
       <View style={styles.container}>
         <Image
-          // source={{
-          //   uri:
-          //     'https://cdn.icon-icons.com/icons2/1999/PNG/512/avatar_man_people_person_profile_user_icon_123375.png',
-          // }}
           source={require('../../assets/images/user.png')}
           style={styles.image}
         />
         <View style={styles.containerInfo}>
-          <Text style={styles.devName}>Edeno Luiz Scherer</Text>
-          <Text style={styles.devUsername}>edenoscherer</Text>
-          <Text style={styles.devFollowers}>150 seguidores</Text>
+          <Text style={styles.devName}>{this.props.name}</Text>
+          <Text style={styles.devUsername}>{this.props.username}</Text>
+          <Text style={styles.devFollowers}>{this.props.followers} seguidores</Text>
         </View>
       </View>
     );
