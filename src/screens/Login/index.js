@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { authorize } from 'react-native-app-auth';
 import {
   TextInput,
   AsyncStorage,
@@ -16,57 +16,91 @@ export default class Login extends React.PureComponent {
     state = {
         email: '',
         password: '',
-        disabled: true
+        disabled: false
       }
+
+    config = {
+        serviceConfiguration: {
+            authorizationEndpoint: 'https://github.com/login/oauth/authorize',
+            tokenEndpoint: 'https://github.com/login/oauth/access_token'
+        },
+        clientId:'4d5e5470c4da4dd71d4f',
+        clientSecret:'b03e3fae2d8c669f7d4de9109edc9fabec05371a',
+        redirectUrl: 'io.devfinder://callback',
+        scopes: ["public_repo","read:user"]
+    }
       
+      // handlerSubmit = (x) => {
+      //   if(x == true) {
+      //     this.abilited(true)
+      //     const username = this.state.email;
+      //     const client_id = "c09b9c1a62acf64f338a";
+      //     const client_secret = "6cbea067837ba78773e3886eed918b493e0c8db9";
+      //     axios.get(`https://github.com/login/oauth/authorize`, {
     
-      handlerSubmit = (x) => {
-        if(x == true) {
-          this.abilited(true)
-          const username = this.state.email;
-          const client_id = "c09b9c1a62acf64f338a";
-          const client_secret = "6cbea067837ba78773e3886eed918b493e0c8db9";
-          axios.get(`https://github.com/login/oauth/authorize`, {
+      //       client_id: client_id,
+      //       redirect_uri: 'http://localhost:19002',
+      //       login: this.state.email,
+      //       allow_signup: true
     
-            client_id: client_id,
-            redirect_uri: 'http://localhost:19002',
-            login: this.state.email,
-            allow_signup: true
-    
-          }).then(async (response) => {
+      //     }).then(async (response) => {
                   
-            this.abilited(false)
-            // const user = JSON.stringify(response);
-            // alert(user)
-            //   try {
-            //     await AsyncStorage.setItem('user', user);
+      //       this.abilited(false)
+      //       // const user = JSON.stringify(response);
+      //       // alert(user)
+      //       //   try {
+      //       //     await AsyncStorage.setItem('user', user);
                 
-            //     this.props.navigation.navigate('Acceleration')                   
-            //   } catch (error) {
-            //     Alert.alert(error+" Erro ao salvar dados!")
-            //   }              
+      //       //     this.props.navigation.navigate('Acceleration')                   
+      //       //   } catch (error) {
+      //       //     Alert.alert(error+" Erro ao salvar dados!")
+      //       //   }              
                             
-          }).catch(function(error) {
-              alert("Senha ou email invalido!")
-              this.abilited(false)
-          })          
+      //     }).catch(function(error) {
+      //         alert("Senha ou email invalido!")
+      //         this.abilited(false)
+      //     })          
         
-        }  
-      };  
+      //   }  
+      // };  
      
     
       abilited = (x) => {
         this.setState({disabled:x})
       }
     
-    
-       async componentDidMount() {
-    
-         const user = await AsyncStorage.getItem('user');
-         if(user.token !== '' && user.token !== null) {
-           this.props.navigation.navigate('DevDetails')
-         }
-       }  
+      onLoginHandler = async () => {
+        this.abilited(true);
+        this.__authorize();
+        this.props.navigation.navigate('UserScreen');
+      }
+
+      __authorize = async () => {
+        try {
+            // Make request to Google to get token
+            const authState = await authorize(this.config)
+            this.setToken(authState.accessToken);
+        } catch (error) {
+            console.log('error', error);
+            this.abilited(true);
+        }
+      }
+
+      setToken = async (token) =>{
+        await AsyncStorage.setItem('access_token', token);
+        // props.dispatch({
+        //     type:'SET_TOKEN',
+        //     payload:token
+        // });
+      }
+
+      async componentDidMount() {
+  
+        const token = await AsyncStorage.getItem('access_token');
+        if(token !== '' && token !== null) {
+          this.props.navigation.navigate('UserScreen');
+        }
+      }  
 
   render() {
 
@@ -140,11 +174,12 @@ export default class Login extends React.PureComponent {
                 <Text style={styles.textButton}>Login</Text>
               </View>              
             </TouchableOpacity>  
-
         </View>                
 
             <TouchableOpacity 
-            onPress={() => navigate("DevDetails")}
+            onPress={() => {
+              if(!disabled) { this.onLoginHandler()}
+            }}
              >
               <View style={styles.git}>
 
