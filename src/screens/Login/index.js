@@ -1,154 +1,99 @@
-import React,{Component} from 'react';
-import { authorize } from 'react-native-app-auth';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {
-  TextInput,
-  AsyncStorage,
-  TouchableOpacity,
-  Text,
-  View,
-  Image,
-} from 'react-native';
+import {TextInput, TouchableOpacity, Text, View, Image} from 'react-native';
+import GitHubApi from './../../services/GitHubApi';
 
 import styles from './styles';
 
 class Login extends Component {
+  state = {
+    email: '',
+    password: '',
+    disabled: false,
+  };
 
-    state = {
-        email: '',
-        password: '',
-        disabled: false
-      }
+  abilited = x => {
+    this.setState({disabled: x});
+  };
 
-    config = {
-        serviceConfiguration: {
-            authorizationEndpoint: 'https://github.com/login/oauth/authorize',
-            tokenEndpoint: 'https://github.com/login/oauth/access_token'
-        },
-        clientId:'4d5e5470c4da4dd71d4f',
-        clientSecret:'b03e3fae2d8c669f7d4de9109edc9fabec05371a',
-        redirectUrl: 'io.devfinder://callback',
-        scopes: ["public_repo","read:user"]
-    }
-      
-      // handlerSubmit = (x) => {
-      //   if(x == true) {
-      //     this.abilited(true)
-      //     const username = this.state.email;
-      //     const client_id = "c09b9c1a62acf64f338a";
-      //     const client_secret = "6cbea067837ba78773e3886eed918b493e0c8db9";
-      //     axios.get(`https://github.com/login/oauth/authorize`, {
-    
-      //       client_id: client_id,
-      //       redirect_uri: 'http://localhost:19002',
-      //       login: this.state.email,
-      //       allow_signup: true
-    
-      //     }).then(async (response) => {
-                  
-      //       this.abilited(false)
-      //       // const user = JSON.stringify(response);
-      //       // alert(user)
-      //       //   try {
-      //       //     await AsyncStorage.setItem('user', user);
-                
-      //       //     this.props.navigation.navigate('Acceleration')                   
-      //       //   } catch (error) {
-      //       //     Alert.alert(error+" Erro ao salvar dados!")
-      //       //   }              
-                            
-      //     }).catch(function(error) {
-      //         alert("Senha ou email invalido!")
-      //         this.abilited(false)
-      //     })          
-        
-      //   }  
-      // };  
-     
-    
-      abilited = (x) => {
-        this.setState({disabled:x})
-      }
-    
-      onLoginHandler = async () => {
-        this.abilited(true);
-        this.__authorize();
-        this.props.navigation.navigate('UserScreen');
-      }
+  onLoginHandler = async () => {
+    this.abilited(true);
+    this.__authorize();
+    this.props.navigation.navigate('UserScreen');
+  };
 
-      __authorize = async () => {
-        try {
-            // Make request to Google to get token
-            const authState = await authorize(this.config)
-            this.setToken(authState.accessToken);
-        } catch (error) {
-            console.log('error', error);
-            this.abilited(true);
-        }
-      }
-
-      setToken = async (token) =>{
-        await AsyncStorage.setItem('access_token', token);
+  __authorize = async () => {
+    try {
+      const token = await GitHubApi.login();
+      if (token) {
         this.props.dispatch({
-            type:'SET_TOKEN',
-            payload:token
+          type: 'SET_TOKEN',
+          payload: token,
         });
+        return true;
       }
+    } catch (error) {
+      console.log('error', error);
+    }
+    this.abilited(true);
+  };
 
-      getToken = async () => {
-        const token =  await AsyncStorage.getItem('access_token');
-        if(token){
-            this.props.dispatch({
-                type:'SET_TOKEN',
-                payload: token
-            });
-            this.props.navigation.navigate('UserScreen');
-        }
-      }
+  getToken = async () => {
+    const token = await GitHubApi.getToken();
+    if (token) {
+      this.props.dispatch({
+        type: 'SET_TOKEN',
+        payload: token,
+      });
+      this.props.navigation.navigate('UserScreen');
+    }
+  };
 
-      async componentDidMount() {
-        this.getToken();
-      }  
+  async componentDidMount() {
+    await this.getToken();
+  }
 
   render() {
-
-    const {email,password,disabled} = this.state;
+    const {email, password, disabled} = this.state;
     const {navigate} = this.props.navigation;
-       
+
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           <Image
             style={styles.headerImage}
-            source={require("../../assets/images/alvo.png")}
+            source={require('../../assets/images/alvo.png')}
           />
-          
-          <Text style={styles.headerText}>Dev Finder</Text>
 
-        </View>           
-                
-        <View style={{flexDirection:'row'}}>
-            <TouchableOpacity 
-            onPress={() => navigate("DevDetails")}
-             >
-              <View style={styles.botoes}>
-                <Text style={styles.textButton}>Login</Text>
-              </View>              
-            </TouchableOpacity>
-            <TouchableOpacity 
-            onPress={() => navigate("DevDetails")}
-             >
-              <View style={styles.botoes}>
-                <Text style={styles.textButton}>Registrar</Text>
-              </View>              
-            </TouchableOpacity>
+          <Text style={styles.headerText}>Dev Finder</Text>
         </View>
 
-        <View>    
-            <View style={{flexDirection:'row', alignSelf:'center', marginTop:20, width:200, borderBottomWidth:1,borderBottomColor:'white'}}>
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity onPress={() => navigate('DevDetails')}>
+            <View style={styles.botoes}>
+              <Text style={styles.textButton}>Login</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigate('DevDetails')}>
+            <View style={styles.botoes}>
+              <Text style={styles.textButton}>Registrar</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        <View>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignSelf: 'center',
+              marginTop: 20,
+              width: 200,
+              borderBottomWidth: 1,
+              borderBottomColor: 'white',
+            }}>
             <Image
               style={styles.headerMail}
-              source={require("../../assets/images/ic_mail_24px.png")}
+              source={require('../../assets/images/ic_mail_24px.png')}
             />
             <TextInput
               style={styles.input}
@@ -156,14 +101,22 @@ class Login extends Component {
               value={email}
               keyboardType="email-address"
               placeholder="nome@gmail.com"
-              onChangeText={text => this.setState({email:text})}
-            />            
-            </View>
+              onChangeText={text => this.setState({email: text})}
+            />
+          </View>
 
-            <View style={{flexDirection:'row', alignSelf:'center', marginTop:20, width:200, borderBottomWidth:1,borderBottomColor:'white'}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignSelf: 'center',
+              marginTop: 20,
+              width: 200,
+              borderBottomWidth: 1,
+              borderBottomColor: 'white',
+            }}>
             <Image
               style={styles.headerPass}
-              source={require("../../assets/images/padlock-unlocked.png")}
+              source={require('../../assets/images/padlock-unlocked.png')}
             />
             <TextInput
               style={styles.input}
@@ -171,34 +124,33 @@ class Login extends Component {
               secureTextEntry={true}
               value={password}
               placeholder="Password"
-              onChangeText={text => this.setState({password:text,disabled:false})}
-            />            
+              onChangeText={text =>
+                this.setState({password: text, disabled: false})
+              }
+            />
+          </View>
+
+          <TouchableOpacity onPress={() => navigate('DevDetails')}>
+            <View style={styles.touchable}>
+              <Text style={styles.textButton}>Login</Text>
             </View>
-                         
-            <TouchableOpacity 
-            onPress={() => navigate("DevDetails")}
-             >
-              <View style={styles.touchable}>
-                <Text style={styles.textButton}>Login</Text>
-              </View>              
-            </TouchableOpacity>  
-        </View>                
+          </TouchableOpacity>
+        </View>
 
-            <TouchableOpacity 
-            onPress={() => {
-              if(!disabled) { this.onLoginHandler()}
-            }}
-             >
-              <View style={styles.git}>
-
-                <Image
-                    style={styles.headerPass}
-                    source={require("../../assets/images/GitHub-Mark-Light-32px.png")}
-                />    
-                <Text style={[styles.textButton,{marginLeft:15}]}>GitHub</Text>
-              </View>              
-            </TouchableOpacity>                  
-                
+        <TouchableOpacity
+          onPress={() => {
+            if (!disabled) {
+              this.onLoginHandler();
+            }
+          }}>
+          <View style={styles.git}>
+            <Image
+              style={styles.headerPass}
+              source={require('../../assets/images/GitHub-Mark-Light-32px.png')}
+            />
+            <Text style={[styles.textButton, {marginLeft: 15}]}>GitHub</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     );
   }
