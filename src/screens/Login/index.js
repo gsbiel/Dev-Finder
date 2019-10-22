@@ -18,7 +18,7 @@ class Login extends Component {
 
   onLoginHandler = async () => {
     this.abilited(true);
-    this.__authorize();
+    await this.__authorize();
     this.props.navigation.navigate('UserScreen');
   };
 
