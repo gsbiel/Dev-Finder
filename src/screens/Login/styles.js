@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
       width:200,
       borderColor:'#fff',
       borderWidth:1,
+      marginBottom:100
     },  
     textButton: {
       color:'white',
@@ -54,6 +55,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#ad7',
+      justifyContent:'space-between'
     },
     header: {
       alignItems: 'center',
