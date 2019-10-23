@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {TextInput, TouchableOpacity, Text, View, Image} from 'react-native';
 import GitHubApi from './../../services/GitHubApi';
 import LinearGradient from 'react-native-linear-gradient';
-
 import styles from './styles';
 
 class Login extends Component {
