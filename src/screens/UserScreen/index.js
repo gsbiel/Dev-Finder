@@ -9,6 +9,7 @@ import {
   PermissionsAndroid,
   Platform,
   TouchableOpacity,
+  AsyncStorage
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import {connect} from 'react-redux';
@@ -151,7 +152,7 @@ class UserScreen extends Component {
               '&key=' +
               API_KEY,
           )
-          .then(resp => {
+          .then(async resp => {
             const cidade =
               resp.data.results[0].address_components[3].short_name;
             const estado =
@@ -160,6 +161,8 @@ class UserScreen extends Component {
               city: cidade,
               state: estado,
             };
+            await AsyncStorage.setItem('city', position.city);
+            await AsyncStorage.setItem('state', position.state);
             this.props.dispatch({
               type: 'SET_LOCATION',
               payload: position,

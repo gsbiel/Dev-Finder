@@ -6,6 +6,7 @@ import {
   View,
   Image,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 import styles from './styles';
 
@@ -16,7 +17,7 @@ export default class Inicio extends React.PureComponent {
     const {navigate} = this.props.navigation;
                         
     return (
-      <View style={styles.container}>
+      <LinearGradient colors={['rgba(0,0,0,0.8)', '#57b4fd','rgba(0,0,0,0.8)']} style={styles.container}>
         <View style={styles.header}>
           <Image
             style={styles.headerImage}
@@ -43,7 +44,7 @@ export default class Inicio extends React.PureComponent {
               </View>              
           </TouchableOpacity>  
                                     
-      </View>
+      </LinearGradient>
     );
   }
 }

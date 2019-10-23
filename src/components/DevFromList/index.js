@@ -15,7 +15,7 @@ class DevFromList extends Component {
           })
         }>
         <Image
-          source={require('../../assets/images/user.png')}
+          source={{uri: this.props.avatar_url}}
           style={styles.image}
         />
         <View style={styles.containerInfo}>

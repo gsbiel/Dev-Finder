@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {TextInput, TouchableOpacity, Text, View, Image} from 'react-native';
 import GitHubApi from './../../services/GitHubApi';
-
+import LinearGradient from 'react-native-linear-gradient';
 import styles from './styles';
 
 class Login extends Component {
@@ -58,7 +58,7 @@ class Login extends Component {
     const {navigate} = this.props.navigation;
 
     return (
-      <View style={styles.container}>
+      <LinearGradient colors={['rgba(0,0,0,0.8)', '#57b4fd','rgba(0,0,0,0.8)']} style={styles.container}>
         <View style={styles.header}>
           <Image
             style={styles.headerImage}
@@ -151,7 +151,7 @@ class Login extends Component {
             <Text style={[styles.textButton, {marginLeft: 15}]}>GitHub</Text>
           </View>
         </TouchableOpacity>
-      </View>
+      </LinearGradient>
     );
   }
 }

@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
     padding: 10,
     width: Math.round(Dimensions.get('window').width) - 10,
     height: Math.round(Dimensions.get('window').height) - 10,
+    alignSelf:'center'
   },
   cardA: {
     backgroundColor: '#030442',
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
     top: '3%',
   },
   cardB: {
-    flex: 1,
+    //flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-start',
     padding: 10,
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     backgroundColor: 'white',
     width: 'auto',
-    height: '60%',
+    height: '70%',
   },
   image: {
     position: 'absolute',

@@ -61,7 +61,7 @@ class DevDetails extends Component {
             top: '6%',
             left: '5%',
           }}>
-          <TouchableOpacity onPress={() => console.log('fechar modal!')}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('BuscaDevs')}>
             <View
               style={{
                 borderWidth: 1,
@@ -168,8 +168,8 @@ class DevDetails extends Component {
                     label="Seguidores"
                     value={dev.followers.toString()}
                   />
-                  <DevInfoItem label="Site" value={dev.blog} />
-                  <DevInfoItem label="E-mail" value={dev.email} />
+                  <DevInfoItem label="Site" value={dev.html_url} />
+                  <DevInfoItem label="E-mail" value={dev.email ? dev.email : '----'} />
                 </View>
               </View>
               <View
