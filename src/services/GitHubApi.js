@@ -15,6 +15,16 @@ export default class GitHubApi {
   /**
    * @static
    * @param {string} username
+   * @returns {Promise<AxiosResponse<UserModel>>}
+   */
+  static async getUserByUsername(username) {
+    const request = await this.getAxios();
+    return request.get(`/users/${username}`);
+  }
+
+  /**
+   * @static
+   * @param {string} username
    * @returns {Promise<AxiosResponse<RepoListModel[]>>}
    */
   static async getRepos(username) {

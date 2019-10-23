@@ -269,6 +269,7 @@ class UserScreen extends Component {
                   <Button
                     disabled={!this.state.isGPSAllowed}
                     title="Busque um Dev!"
+                    onPress={() => this.props.navigation.navigate('BuscaDevs')}
                     color={colors.themeColor}
                   />
                 </View>

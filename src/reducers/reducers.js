@@ -62,7 +62,7 @@ const initialState = {
     },
     {
       name: 'Edeno',
-      username: 'edn',
+      username: 'edenoscherer',
       followers: 50,
     },
     {
