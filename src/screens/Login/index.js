@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {TextInput, TouchableOpacity, Text, View, Image} from 'react-native';
 import GitHubApi from './../../services/GitHubApi';
+import LinearGradient from 'react-native-linear-gradient';
 
 import styles from './styles';
 
@@ -58,17 +59,16 @@ class Login extends Component {
     const {navigate} = this.props.navigation;
 
     return (
-      <View style={styles.container}>
+      <LinearGradient colors={['rgba(0,0,0,0.8)', '#57b4fd','rgba(0,0,0,0.8)']} style={styles.container}>
         <View style={styles.header}>
           <Image
             style={styles.headerImage}
             source={require('../../assets/images/alvo.png')}
           />
-
           <Text style={styles.headerText}>Dev Finder</Text>
         </View>
 
-        <View style={{flexDirection: 'row'}}>
+        {/* <View style={{flexDirection: 'row'}}>
           <TouchableOpacity onPress={() => navigate('DevDetails')}>
             <View style={styles.botoes}>
               <Text style={styles.textButton}>Login</Text>
@@ -79,10 +79,10 @@ class Login extends Component {
               <Text style={styles.textButton}>Registrar</Text>
             </View>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <View>
-          <View
+          {/* <View
             style={{
               flexDirection: 'row',
               alignSelf: 'center',
@@ -103,9 +103,9 @@ class Login extends Component {
               placeholder="nome@gmail.com"
               onChangeText={text => this.setState({email: text})}
             />
-          </View>
+          </View> */}
 
-          <View
+          {/* <View
             style={{
               flexDirection: 'row',
               alignSelf: 'center',
@@ -128,13 +128,13 @@ class Login extends Component {
                 this.setState({password: text, disabled: false})
               }
             />
-          </View>
+          </View> */}
 
-          <TouchableOpacity onPress={() => navigate('DevDetails')}>
+          {/* <TouchableOpacity onPress={() => navigate('DevDetails')}>
             <View style={styles.touchable}>
               <Text style={styles.textButton}>Login</Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         <TouchableOpacity
@@ -148,10 +148,10 @@ class Login extends Component {
               style={styles.headerPass}
               source={require('../../assets/images/GitHub-Mark-Light-32px.png')}
             />
-            <Text style={[styles.textButton, {marginLeft: 15}]}>GitHub</Text>
+            <Text style={[styles.textButton, {marginLeft: 15}]}>Login: GitHub</Text>
           </View>
         </TouchableOpacity>
-      </View>
+      </LinearGradient>
     );
   }
 }
