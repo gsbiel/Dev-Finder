@@ -9,9 +9,9 @@ import {
   PermissionsAndroid,
   Platform,
   TouchableOpacity,
-  AsyncStorage
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
+import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from 'react-redux';
 import axios, {AxiosInstance, AxiosResponse} from 'axios';
 

@@ -2,10 +2,11 @@ import {StyleSheet, Dimensions} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
-    width: Math.round(Dimensions.get('window').width) - 10,
-    height: Math.round(Dimensions.get('window').height) - 10,
-    alignSelf:'center'
+    flex: 1,
+    //   padding: 10,
+    //   width: Math.round(Dimensions.get('window').width) - 10,
+    //   height: Math.round(Dimensions.get('window').height) - 10,
+    //   alignSelf:'center'
   },
   cardA: {
     backgroundColor: '#030442',
@@ -14,6 +15,8 @@ const styles = StyleSheet.create({
     width: 'auto',
     height: '22%',
     top: '3%',
+    marginRight: 10,
+    marginLeft: 10,
   },
   cardB: {
     //flex: 1,
@@ -25,7 +28,9 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     backgroundColor: 'white',
     width: 'auto',
-    height: '70%',
+    height: '75%',
+    marginRight: 10,
+    marginLeft: 10,
   },
   image: {
     position: 'absolute',

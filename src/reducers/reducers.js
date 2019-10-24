@@ -4,7 +4,7 @@ const initialState = {
   access_token: null,
   user: {
     name: 'Beltrano de Tal Almeida',
-    username: 'Beltral',
+    login: 'Beltral',
     followers: 500,
     site: 'www.beltrano.com.br',
     email: 'beltrano-tal@gmail.com',
@@ -47,32 +47,32 @@ const initialState = {
   favorites: [
     {
       name: 'Gaspar',
-      username: 'gsbiel',
+      login: 'gsbiel',
       followers: 250,
     },
     {
       name: 'Bia',
-      username: 'bihh',
+      login: 'bihh',
       followers: 100,
     },
     {
       name: 'Flavio',
-      username: 'flaflu',
+      login: 'flaflu',
       followers: 200,
     },
     {
       name: 'Edeno',
-      username: 'edenoscherer',
+      login: 'edenoscherer',
       followers: 50,
     },
     {
       name: 'Henrique',
-      username: 'henrr',
+      login: 'henrr',
       followers: 20,
     },
     {
       name: 'Eduardo',
-      username: 'Edudu',
+      login: 'Edudu',
       followers: 560,
     },
   ],

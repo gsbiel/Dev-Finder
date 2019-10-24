@@ -146,9 +146,8 @@ class DevDetails extends Component {
                 style={{
                   backgroundColor: colorTheme,
                   height: '100%',
-                  // width: '90%',
+                  width: this.scrollViewWidth,
                   borderRadius: 20,
-                  flex: 1,
                 }}>
                 <View
                   style={{

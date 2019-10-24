@@ -6,24 +6,20 @@ import styles from './styles';
 
 class DevFromList extends Component {
   render() {
+    const user = this.props.user;
     return (
       <TouchableOpacity
         style={styles.container}
         onPress={() =>
           this.props.navigation.navigate('DevDetails', {
-            username: this.props.username,
+            user: user,
           })
         }>
-        <Image
-          source={{uri: this.props.avatar_url}}
-          style={styles.image}
-        />
+        <Image source={{uri: user.avatar_url}} style={styles.image} />
         <View style={styles.containerInfo}>
-          <Text style={styles.devName}>{this.props.name}</Text>
-          <Text style={styles.devUsername}>{this.props.username}</Text>
-          <Text style={styles.devFollowers}>
-            {this.props.followers} seguidores
-          </Text>
+          <Text style={styles.devName}>{user.name}</Text>
+          <Text style={styles.devUsername}>{user.login}</Text>
+          <Text style={styles.devFollowers}>{user.followers} seguidores</Text>
         </View>
       </TouchableOpacity>
     );
