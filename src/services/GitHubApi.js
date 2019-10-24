@@ -22,7 +22,7 @@ export default class GitHubApi {
     return request.get(`/users/${username}`);
   }
 
-   /**
+  /**
    * @static
    * @param {string} local
    * @param {number} page
@@ -30,7 +30,9 @@ export default class GitHubApi {
    */
   static async getUsersByLocation(local, page) {
     const request = await this.getAxios();
-    return request.get(`/search/users?q=location:${local}&page=${page}&per_page=10`);
+    return request.get(
+      `/search/users?q=location:${local}&page=${page}&per_page=10`,
+    );
   }
 
   /**
@@ -105,6 +107,7 @@ export default class GitHubApi {
  * @property {string} site
  * @property {number} repositories
  * @property {string} username
+ * @property {string} login
  */
 
 /**

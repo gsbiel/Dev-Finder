@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, ActivityIndicator} from 'react-native';
 
+import colors from './../../styles/colors';
+
 const styles = {
   container: {
     flex: 1,
@@ -12,7 +14,7 @@ const styles = {
 const Loading = () => {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" color="#7800ff" />
+      <ActivityIndicator size="large" color={colors.primaryColor} />
     </View>
   );
 };
