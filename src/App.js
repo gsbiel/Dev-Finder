@@ -15,6 +15,7 @@ import BuscaDevs from './screens/BuscaDevs';
 import DevDetails from './screens/DevDetails';
 import AboutApp from './screens/AboutApp';
 import UserScreen from './screens/UserScreen';
+import Favorites from './screens/Favorites';
 
 import {Provider} from 'react-redux';
 import store from './store';
@@ -27,6 +28,7 @@ const MainStack = createStackNavigator(
     Login: Login,
     AboutApp: AboutApp,
     UserScreen: UserScreen,
+    Favorites: Favorites
   },
   {
     initialRouteName: 'AboutApp',

@@ -103,9 +103,7 @@ class BuscaDevs extends Component {
             keyExtractor={(item, index) => `${item.key}-${index}`}
             renderItem={({item})=>{
                 return (
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate("DevDetails", {json: JSON.stringify(item)})}>
                        <DevFromList avatar_url={item.avatar_url} name={item.name} username={item.login} followers={item.followers} />
-                    </TouchableOpacity>
                 );
             }}
             onEndReached={this.loadMoreData}

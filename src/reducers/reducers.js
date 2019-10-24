@@ -1,4 +1,4 @@
-import {SET_TOKEN, SET_USER, SET_REPO, SET_LOCATION} from '../actions/actions';
+import {SET_TOKEN, SET_USER, SET_REPO, SET_LOCATION, ADD_FAVORITE,DEL_FAVORITE} from '../actions/actions';
 
 const initialState = {
   access_token: null,
@@ -12,77 +12,25 @@ const initialState = {
       'https://secure.gravatar.com/avatar/f50a9db56e231198af3507f10b5d5491?d=mm',
     repositories: 0,
   },
-  repositories: [
-    {
-      id: '1',
-      name: 'Django Project',
-      stars: 120,
-      language: 'python',
-    },
-    {
-      id: '2',
-      name: 'C++ Project',
-      stars: 180,
-      language: 'C++',
-    },
-    {
-      id: '3',
-      name: 'React Native Project',
-      stars: 500,
-      language: 'javascript',
-    },
-    {
-      id: '4',
-      name: 'Android Project',
-      stars: 30,
-      language: 'java',
-    },
-    {
-      id: '5',
-      name: 'Ruby Project',
-      stars: 20,
-      language: 'ruby',
-    },
-  ],
+  repositories: [],
   favorites: [
-    {
-      name: 'Gaspar',
-      username: 'gsbiel',
-      followers: 250,
-    },
-    {
-      name: 'Bia',
-      username: 'bihh',
-      followers: 100,
-    },
-    {
-      name: 'Flavio',
-      username: 'flaflu',
-      followers: 200,
-    },
-    {
-      name: 'Edeno',
-      username: 'edenoscherer',
-      followers: 50,
-    },
-    {
-      name: 'Henrique',
-      username: 'henrr',
-      followers: 20,
-    },
-    {
-      name: 'Eduardo',
-      username: 'Edudu',
-      followers: 560,
-    },
+    "danielbonifacio", 
+    "davidalves1", 
+    "edgarberlinck", 
+    "eliasfaical", 
+    "wilcorrea", 
+    "viniciusmmartins", 
+    "edgareler", 
+    "vizeke"
   ],
   userLocation: {
-    city: 'Vitórinha',
-    state: 'ES',
+    city: 'Unknow',
+    state: '??',
   },
 };
 
 const appReducer = (state = initialState, action) => {
+  let newFavorites = null;
   switch (action.type) {
     case SET_TOKEN:
       return {...state, access_token: action.payload};
@@ -92,6 +40,13 @@ const appReducer = (state = initialState, action) => {
       return {...state, repositories: action.payload};
     case SET_LOCATION:
       return {...state, userLocation: action.payload};
+    case ADD_FAVORITE:
+      return {...state,favorites:[...state.favorites,action.payload]}
+    case DEL_FAVORITE:
+      newFavorites = state.favorites.filter(element=>{
+        return !(element === action.payload);
+      });
+      return {...state,favorites:newFavorites}
     default:
       return state;
   }

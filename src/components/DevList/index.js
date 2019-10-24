@@ -16,11 +16,11 @@ const devList = (props) => {
             }}
             data={props.data}
             renderItem={({item})=>{
-                return <DevFromList name={item.name} username={item.username} followers={item.followers} />
+                return <DevFromList name={item.name} username={item.username} followers={item.followers} avatar_url={item.image}/>
             }}
             keyExtractor = {item => item.username}
             ListEmptyComponent = {<EmptyList></EmptyList>}
-            ListFooterComponent={<Button title="Ver todos" color='skyblue' />}
+            ListFooterComponent={<Button title="Ver todos" color='skyblue' onPress={() => props.navigate('Favorites')}/>}
         />
     )
 }

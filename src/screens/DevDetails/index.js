@@ -6,6 +6,7 @@ import RepositoryItems from '../../components/RepositoryItems/index';
 import DevInfoItem from '../../components/DevInfoItem/index';
 import SlidingTab from '../../components/SlidingTab/index';
 import GitHubApi from '../../services/GitHubApi';
+import {connect} from 'react-redux';
 
 import styles from './styles';
 
@@ -14,9 +15,10 @@ const colorTheme = '#030442';
 class DevDetails extends Component {
   state = {
     isLoading: true,
-    isFavorite: 'true',
+    isFavorite: false,
     dev: null,
     repositoryData: null,
+    isFavoriteLoading:true
   };
 
   scrollRef = null;
@@ -25,17 +27,35 @@ class DevDetails extends Component {
     const username = this.props.navigation.getParam('username');
     const responseUser = await GitHubApi.getUserByUsername(username);
     const responseRepos = await GitHubApi.getRepos(username);
+    
+    const checkFavorite = this.props.favorites.find(dev=>{
+      return dev === username;
+    });
+    
     this.setState({
       dev: responseUser.data,
       repositoryData: responseRepos.data,
       isLoading: false,
+      isFavoriteLoading: false,
+      isFavorite: checkFavorite ? true : false
     });
   }
 
-  onLikeHandler = () => {
-    this.setState(prevState => {
-      return {isFavorite: !prevState.isFavorite};
-    });
+  onLikeHandler = async () => {
+    if(this.state.isFavorite){
+      await this.props.dispatch({
+        type:'DEL_FAVORITE',
+        payload: this.props.navigation.getParam('username')
+      });
+      this.setState({isFavorite:false});
+    }
+    else{
+      await this.props.dispatch({
+        type:'ADD_FAVORITE',
+        payload: this.props.navigation.getParam('username')
+      });
+      this.setState({isFavorite:true});
+    }
   };
 
   scrollHandler = xValue => {
@@ -61,7 +81,7 @@ class DevDetails extends Component {
             top: '6%',
             left: '5%',
           }}>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('BuscaDevs')}>
+          <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
             <View
               style={{
                 borderWidth: 1,
@@ -92,7 +112,7 @@ class DevDetails extends Component {
             <Text style={styles.devName}>{dev.name}</Text>
           </View>
 
-          <TouchableOpacity onPress={() => this.onLikeHandler()}>
+          <TouchableOpacity onPress={() => this.state.isFavoriteLoading ? '' : this.onLikeHandler()}>
             <View
               style={{
                 marginTop: 10,
@@ -200,4 +220,10 @@ class DevDetails extends Component {
   }
 }
 
-export default DevDetails;
+const mapStateToProps = (state) => {
+  return{
+    favorites: state.favorites
+  }
+}
+
+export default connect(mapStateToProps)(DevDetails);
