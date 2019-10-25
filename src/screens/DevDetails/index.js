@@ -83,8 +83,7 @@ class DevDetails extends Component {
       <LinearGradient
         colors={colors.linearGradientColors}
         style={styles.container}>
-        <View style={styles.cardA}></View>
-
+        <View style={styles.cardA} />>
         <View
           style={{
             position: 'absolute',
@@ -103,7 +102,6 @@ class DevDetails extends Component {
             </View>
           </TouchableOpacity>
         </View>
-
         <View style={styles.image}>
           <Image
             style={{width: '100%', height: '100%', borderRadius: 70}}
