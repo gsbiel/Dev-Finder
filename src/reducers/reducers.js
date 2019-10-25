@@ -5,6 +5,7 @@ import {
   SET_LOCATION,
   ADD_FAVORITE,
   DEL_FAVORITE,
+  SET_FAVORITES
 } from '../actions/actions';
 
 const initialState = {
@@ -47,6 +48,8 @@ const appReducer = (state = initialState, action) => {
       return {...state, repositories: action.payload};
     case SET_LOCATION:
       return {...state, userLocation: action.payload};
+    case SET_FAVORITES:
+      return {...state, favorites: action.payload}
     case ADD_FAVORITE:
       return {...state, favorites: [...state.favorites, action.payload]};
     case DEL_FAVORITE:
