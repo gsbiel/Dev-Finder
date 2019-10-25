@@ -10,17 +10,6 @@ const styles = StyleSheet.create({
         width: screenWidth,
         height: screenHeight
     },
-    bar:{
-        justifyContent:'center',
-        width:'100%',
-        height:30,
-        backgroundColor:colors.themeColor
-    },
-    barLabel:{
-        alignSelf:'center',
-        color: 'white',
-        fontWeight:'bold'
-    },
     profileLayout:{
         flex:1,
     },

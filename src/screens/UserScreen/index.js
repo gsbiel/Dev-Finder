@@ -23,6 +23,7 @@ import SlidingTab from '../../components/SlidingTab';
 import RepositoryItems from '../../components/RepositoryItems';
 import DevList from '../../components/DevList';
 import Loading from '../../components/Loading';
+import Header from '../../components/Header';
 import GitHubApi from './../../services/GitHubApi';
 import API_KEY from '../../googleAPI';
 
@@ -215,9 +216,7 @@ class UserScreen extends Component {
           <NavigationEvents
             onDidFocus={payload => this.forceComponentUpdate()}
           />
-          <View style={styles.bar}>
-            <Text style={styles.barLabel}> Perfil</Text>
-          </View>
+          <Header label="Perfil" />
           <View style={styles.profileLayout}>
             <View style={styles.devNameView}>
               <Text
