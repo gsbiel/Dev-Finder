@@ -54,7 +54,6 @@ class BuscaDevs extends Component {
     const local = `${cityString}/${state}`;
     const page = this.state.page;
     const resp = await GitHubApi.getUsersByLocation(local, page);
-    console.log(resp.headers['x-ratelimit-remaining']);
     this.setState({page: page + 1, amount: resp.data.items.length});
     resp.data.items.map(u => {
       this.user(u.login);
@@ -114,7 +113,7 @@ class BuscaDevs extends Component {
                   <TouchableOpacity
                     onPress={() =>
                       this.props.navigation.navigate('DevDetails', {
-                        json: JSON.stringify(item),
+                        user: item,
                       })
                     }>
                     <DevFromList user={item} />

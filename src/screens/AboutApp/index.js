@@ -7,7 +7,6 @@ import colors from './../../styles/colors';
 export default class Inicio extends React.PureComponent {
   render() {
     const {navigate} = this.props.navigation;
-    console.log(71, 0, 151);
     return (
       <LinearGradient
         colors={colors.linearGradientColors}
