@@ -15,6 +15,7 @@ import GitHubApi from '../../services/GitHubApi';
 import styles from './styles';
 import SearchBar from '../../components/SearchBar';
 import DevFromList from '../../components/DevFromList';
+import Header from '../../components/Header';
 
 class Favorites extends Component {
   /**
@@ -83,8 +84,8 @@ class Favorites extends Component {
     }
     return (
       <View style={styles.container}>
-        <NavigationEvents onDidFocus={payload => this.forceComponentUpdate()} />
-        <SearchBar />
+        <NavigationEvents onDidFocus={() => this.forceComponentUpdate()} />
+        <Header label="Favoritos" />
         {listContent}
         <Button
           title="Voltar para a HOME"

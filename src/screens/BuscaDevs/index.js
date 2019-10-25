@@ -11,6 +11,7 @@ import {
 import styles from './styles';
 import {connect} from 'react-redux';
 import DevFromList from '../../components/DevFromList';
+import Header from '../../components/Header';
 import GitHubApi from '../../services/GitHubApi';
 import colors from '../../styles/colors';
 
@@ -81,6 +82,7 @@ class BuscaDevs extends Component {
       <LinearGradient
         colors={colors.linearGradientColors}
         style={styles.container}>
+        <Header label={`Desenvolvedores em ${this.props.location.city}`} />
         <View style={styles.listContainer}>
           {this.state.page > 2 && (
             <TouchableOpacity
