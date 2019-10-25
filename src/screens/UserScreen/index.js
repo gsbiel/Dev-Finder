@@ -14,7 +14,7 @@ import Geolocation from 'react-native-geolocation-service';
 import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from 'react-redux';
 import axios, {AxiosInstance, AxiosResponse} from 'axios';
-import { NavigationEvents } from 'react-navigation';
+import {NavigationEvents} from 'react-navigation';
 import styles from './styles';
 import colors from '../../styles/colors';
 import Table from '../../components/Table';
@@ -22,6 +22,7 @@ import TableRow from '../../components/Table/TableRow';
 import SlidingTab from '../../components/SlidingTab';
 import RepositoryItems from '../../components/RepositoryItems';
 import DevList from '../../components/DevList';
+import Loading from '../../components/Loading';
 import GitHubApi from './../../services/GitHubApi';
 import API_KEY from '../../googleAPI';
 
@@ -32,8 +33,8 @@ class UserScreen extends Component {
   state = {
     isLoading: true,
     isGPSAllowed: false,
-    isFavoriteLoading:true,
-    firstFavorites:[]
+    isFavoriteLoading: true,
+    firstFavorites: [],
   };
 
   scrollRef = null;
@@ -42,34 +43,14 @@ class UserScreen extends Component {
   async componentDidMount() {
     try {
       const resp = await GitHubApi.getUser();
-      const user = {
-        name:
-          resp.data.name !== '' && resp.data.name !== null
-            ? resp.data.name
-            : '---',
-        username:
-          resp.data.login !== '' && resp.data.login !== null
-            ? resp.data.login
-            : '---',
-        followers:
-          resp.data.followers !== '' && resp.data.followers !== null
-            ? resp.data.followers
-            : '---',
-        site: resp.data.html_url,
-        email:
-          resp.data.email !== '' && resp.data.email !== null
-            ? resp.data.email
-            : '---',
-        image: resp.data.avatar_url,
-        repositories: resp.data.public_repos,
-      };
+      const user = resp.data;
 
       this.props.dispatch({
         type: 'SET_USER',
         payload: user,
       });
 
-      const resp2 = await GitHubApi.getRepos(user.username);
+      const resp2 = await GitHubApi.getRepos(user.login);
       const repositories = resp2.data.map(repo => {
         return {
           id: repo.id,
@@ -83,14 +64,13 @@ class UserScreen extends Component {
         type: 'SET_REPO',
         payload: repositories,
       });
-
-      this.setState({isLoading: false});
     } catch (error) {
       console.log('Erro: ', error);
     }
 
-    this.getLocation();
-    this.fetchChosenFavorites();
+    await this.getLocation();
+    await this.fetchChosenFavorites();
+    this.setState({isLoading: false});
   }
 
   hasLocationPermission = async () => {
@@ -192,46 +172,52 @@ class UserScreen extends Component {
   };
 
   fetchChosenFavorites = async () => {
-    if(this.props.favorites.length){
-        const respArray = [];
-        var favLength = 3;
-        if(this.props.favorites.length > 0 && this.props.favorites.length < 3){
-            favLength = this.props.favorites.length;
-        }
-        for(let index=0;index<favLength;index++){
-            const resp = await GitHubApi.getUserByUsername(this.props.favorites[index]);
-            respArray.push(resp);
-        }
-        (async () => {
-            const responses = await Promise.all(respArray);
-            const firstFavorites = responses.map(resp=>{
-                return {
-                    username: resp.data.login,
-                    image: resp.data.avatar_url,
-                    name:resp.data.name,
-                    followers:resp.data.followers,
-                    url:resp.data.url
-                };
-            });
-            this.setState({firstFavorites:firstFavorites,isFavoriteLoading:false});
-        })();
+    if (this.props.favorites.length) {
+      const respArray = [];
+      var favLength = 3;
+      if (this.props.favorites.length > 0 && this.props.favorites.length < 3) {
+        favLength = this.props.favorites.length;
+      }
+      for (let index = 0; index < favLength; index++) {
+        const resp = await GitHubApi.getUserByUsername(
+          this.props.favorites[index],
+        );
+        respArray.push(resp);
+      }
+
+      const responses = await Promise.all(respArray);
+      const firstFavorites = responses.map(resp => {
+        // return {
+        //   login: resp.data.login,
+        //   image: resp.data.avatar_url,
+        //   name: resp.data.name,
+        //   followers: resp.data.followers,
+        //   url: resp.data.url,
+        // };
+        return resp.data;
+      });
+      this.setState({
+        firstFavorites: firstFavorites,
+        isFavoriteLoading: false,
+      });
     }
-  }
+  };
 
   forceComponentUpdate = () => {
     this.fetchChosenFavorites();
-  }
+  };
 
   render() {
     let content_screen = (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <ActivityIndicator size="large" />
-      </View>
+      // <View
+      //   style={{
+      //     flex: 1,
+      //     justifyContent: 'center',
+      //     alignItems: 'center',
+      //   }}>
+      //   <ActivityIndicator size="large" />
+      // </View>
+      <Loading />
     );
 
     if (!this.state.isLoading) {
@@ -245,7 +231,7 @@ class UserScreen extends Component {
       content_screen = (
         <View style={styles.userScreenContainer}>
           <NavigationEvents
-              onDidFocus={payload => this.forceComponentUpdate()}
+            onDidFocus={payload => this.forceComponentUpdate()}
           />
           <View style={styles.bar}>
             <Text style={styles.barLabel}> Perfil</Text>
@@ -264,7 +250,7 @@ class UserScreen extends Component {
             <View style={styles.imageView}>
               <Image
                 style={{width: '100%', height: '100%', borderRadius: 70}}
-                source={{uri: this.props.dev.image}}
+                source={{uri: this.props.dev.avatar_url}}
               />
             </View>
 
@@ -290,18 +276,15 @@ class UserScreen extends Component {
                     justifyContent: 'space-around',
                     height: '70%',
                   }}>
-                  <Table rowNumber={3} tableWidth={160}>
-                    <TableRow
-                      label="Username"
-                      value={this.props.dev.username}
-                    />
+                  <Table rowNumber="3" tableWidth="160">
+                    <TableRow label="Username" value={this.props.dev.login} />
                     <TableRow
                       label="Seguidores"
                       value={this.props.dev.followers}
                     />
                     <TableRow
                       label="Repositórios"
-                      value={this.props.dev.repositories}
+                      value={this.props.dev.public_repos}
                     />
                   </Table>
                   <Button
@@ -379,15 +362,17 @@ class UserScreen extends Component {
                           width: '96%',
                           height: '96%',
                         }}>
-                          {
-                            this.state.isFavoriteLoading ? 
-                            <View style={{top:'40%'}}> 
-                                <ActivityIndicator size='large' color=""/> 
-                            </View>  
-                            :
-                            <DevList data={this.state.firstFavorites} navigate={this.props.navigation.navigate} />
-                          }
-                        </View>
+                        {this.state.isFavoriteLoading ? (
+                          <View style={{top: '40%'}}>
+                            <ActivityIndicator size="large" color="" />
+                          </View>
+                        ) : (
+                          <DevList
+                            data={this.state.firstFavorites}
+                            navigate={this.props.navigation.navigate}
+                          />
+                        )}
+                      </View>
                     </View>
                   </ScrollView>
                 </View>

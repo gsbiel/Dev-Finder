@@ -23,35 +23,35 @@ class Favorites extends Component {
   state = {
     devs: [],
     isLoading: true,
-    shouldUpdate:true
+    shouldUpdate: true,
   };
 
-  fetchFavorite = async (username) => {
-      const resp = await GitHubApi.getUserByUsername(username);
-      return {
-        name:resp.data.name,
-        username:resp.data.login,
-        followers:resp.data.followers,
-        url:resp.data.url,
-        image:resp.data.avatar_url
-      }
-  }
+  fetchFavorite = async username => {
+    const resp = await GitHubApi.getUserByUsername(username);
+    // return {
+    //   name:resp.data.name,
+    //   username:resp.data.login,
+    //   followers:resp.data.followers,
+    //   url:resp.data.url,
+    //   image:resp.data.avatar_url
+    // }
+    return resp.data;
+  };
 
-  fetchUrlList =  async () => {
-    if(this.props.favorites.length){
+  fetchUrlList = async () => {
+    if (this.props.favorites.length) {
       const devList = this.props.favorites.map(async username => {
         const dev = await this.fetchFavorite(username);
         return dev;
       });
       (async () => {
         const devs = await Promise.all(devList);
-        this.setState({isLoading:false,devs:devs,shouldUpdate:false});
-      })()
+        this.setState({isLoading: false, devs: devs, shouldUpdate: false});
+      })();
+    } else {
+      this.setState({isLoading: false});
     }
-    else{
-      this.setState({isLoading:false});
-    }
-  }
+  };
 
   async componentDidMount() {
     this.fetchUrlList();
@@ -63,10 +63,7 @@ class Favorites extends Component {
     }
     return (
       <View style={styles.btnContainer}>
-        <TouchableOpacity
-          style={styles.btn}
-          onPress={() => {
-          }}>
+        <TouchableOpacity style={styles.btn} onPress={() => {}}>
           <Text style={styles.btnText}>Carregar Mais</Text>
         </TouchableOpacity>
       </View>
@@ -75,33 +72,30 @@ class Favorites extends Component {
 
   forceComponentUpdate = () => {
     this.fetchUrlList();
-  }
+  };
 
   render() {
-
     let listContent = <ActivityIndicator size="large" color="#a99" />;
 
-    if(!this.state.isLoading){
+    if (!this.state.isLoading) {
       listContent = (
-          <View style={styles.listContainer}>
-            <FlatList
-              data={this.state.devs}
-              keyExtractor={(item) => item.username}
-              renderItem={({item}) => <DevFromList name={item.name} username={item.username} followers={item.followers} avatar_url={item.image} url={item.url}/>}
-              //onEndReached={this.loadMoreData}
-              //ListFooterComponent={this.listFooter.bind(this)}
-            />
-          </View>
+        <View style={styles.listContainer}>
+          <FlatList
+            data={this.state.devs}
+            keyExtractor={item => item.username}
+            renderItem={({item}) => <DevFromList user={item} />}
+            //onEndReached={this.loadMoreData}
+            //ListFooterComponent={this.listFooter.bind(this)}
+          />
+        </View>
       );
     }
-    
+
     return (
       <View style={styles.container}>
-        <NavigationEvents
-            onDidFocus={payload => this.forceComponentUpdate()}
-        />
+        <NavigationEvents onDidFocus={payload => this.forceComponentUpdate()} />
         <SearchBar />
-          {listContent}
+        {listContent}
         <Button
           title="Voltar para a HOME"
           onPress={() => {
@@ -117,11 +111,11 @@ Favorites.navigationOptions = {
   title: 'Favorites',
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     token: state.access_token,
-    favorites: state.favorites
-  }
-}
+    favorites: state.favorites,
+  };
+};
 
 export default connect(mapStateToProps)(Favorites);

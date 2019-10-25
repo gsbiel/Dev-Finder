@@ -1,5 +1,12 @@
 import React, {Component} from 'react';
-import {Image, Text, View, TouchableOpacity, ScrollView} from 'react-native';
+import {
+  Image,
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+  Dimensions,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {connect} from 'react-redux';
 
@@ -24,7 +31,8 @@ class DevDetails extends Component {
   };
 
   scrollRef = null;
-  scrollViewWidth = 280;
+  // scrollViewWidth = 280;
+
   async componentDidMount() {
     const user = this.props.navigation.getParam('user');
     const responseRepos = await GitHubApi.getRepos(user.login);
@@ -46,13 +54,13 @@ class DevDetails extends Component {
     if (this.state.isFavorite) {
       await this.props.dispatch({
         type: 'DEL_FAVORITE',
-        payload: this.props.navigation.getParam('username'),
+        payload: this.state.dev.login,
       });
       this.setState({isFavorite: false});
     } else {
       await this.props.dispatch({
         type: 'ADD_FAVORITE',
-        payload: this.props.navigation.getParam('username'),
+        payload: this.state.dev.login,
       });
       this.setState({isFavorite: true});
     }
@@ -69,7 +77,8 @@ class DevDetails extends Component {
     }
     const dev = this.state.dev;
     const repositoryData = this.state.repositoryData;
-
+    let dimensions = Dimensions.get('window');
+    let scrollViewWidth = dimensions.width - 20;
     return (
       <LinearGradient
         colors={colors.linearGradientColors}
@@ -143,7 +152,7 @@ class DevDetails extends Component {
           <SlidingTab
             labelTab1="Detalhes"
             labelTab2="Repositórios"
-            scrollViewWidth={this.scrollViewWidth}
+            scrollViewWidth={scrollViewWidth}
             scroll={this.scrollHandler}
           />
 
@@ -151,7 +160,7 @@ class DevDetails extends Component {
             style={{
               borderRadius: 20,
               alignSelf: 'center',
-              width: '90%',
+              width: scrollViewWidth - 20,
               height: '70%',
             }}>
             <ScrollView
@@ -166,7 +175,7 @@ class DevDetails extends Component {
                 style={{
                   backgroundColor: colorTheme,
                   height: '100%',
-                  // width: '90%',
+                  width: scrollViewWidth - 20,
                   borderRadius: 20,
                   flex: 1,
                 }}>
@@ -187,7 +196,7 @@ class DevDetails extends Component {
                     label="Seguidores"
                     value={dev.followers.toString()}
                   />
-                  <DevInfoItem label="Site" value={dev.html_url} />
+                  <DevInfoItem label="Site" value={dev.blog} />
                   <DevInfoItem
                     label="E-mail"
                     value={dev.email ? dev.email : '----'}
@@ -198,7 +207,7 @@ class DevDetails extends Component {
                 style={{
                   backgroundColor: colorTheme,
                   height: '100%',
-                  width: this.scrollViewWidth,
+                  width: scrollViewWidth - 20,
                   borderRadius: 20,
                 }}>
                 <View
