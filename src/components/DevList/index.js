@@ -1,8 +1,10 @@
 import React from 'react';
 import {FlatList, Button} from 'react-native';
 
+import {connect} from 'react-redux';
 import DevFromList from '../DevFromList/index';
 import EmptyList from '../EmptyList/index';
+
 
 const DevList = props => {
   return (
@@ -20,15 +22,21 @@ const DevList = props => {
       }}
       keyExtractor={item => item.login}
       ListEmptyComponent={<EmptyList />}
-      ListFooterComponent={
+      ListFooterComponent={ props.favoritesLength>props.listAmount ? 
         <Button
           title="Ver todos"
           color="skyblue"
           onPress={() => props.navigate('Favorites')}
-        />
+        /> : ''
       }
     />
   );
 };
 
-export default DevList;
+const mapStateToProps = (state) => {
+  return {
+    favoritesLength: state.favorites.length
+  }
+}
+
+export default connect(mapStateToProps)(DevList);

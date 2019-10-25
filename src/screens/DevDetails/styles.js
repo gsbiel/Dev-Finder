@@ -3,10 +3,6 @@ import {StyleSheet, Dimensions} from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //   padding: 10,
-    //   width: Math.round(Dimensions.get('window').width) - 10,
-    //   height: Math.round(Dimensions.get('window').height) - 10,
-    //   alignSelf:'center'
   },
   cardA: {
     backgroundColor: '#030442',
@@ -19,7 +15,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   cardB: {
-    //flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-start',
     padding: 10,

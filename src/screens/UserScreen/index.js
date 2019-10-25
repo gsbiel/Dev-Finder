@@ -11,10 +11,13 @@ import {
   TouchableOpacity,
   ToastAndroid
 } from 'react-native';
-import Geolocation from 'react-native-geolocation-service';
+
+import {setFavorites,setUser,setRepositories,setLocation} from '../../actions/actions';
+
 import AsyncStorage from '@react-native-community/async-storage';
+import Geolocation from 'react-native-geolocation-service';
 import {connect} from 'react-redux';
-import axios, {AxiosInstance, AxiosResponse} from 'axios';
+import axios from 'axios';
 import {NavigationEvents} from 'react-navigation';
 import styles from './styles';
 import colors from '../../styles/colors';
@@ -24,6 +27,7 @@ import SlidingTab from '../../components/SlidingTab';
 import RepositoryItems from '../../components/RepositoryItems';
 import DevList from '../../components/DevList';
 import Loading from '../../components/Loading';
+import Header from '../../components/Header';
 import GitHubApi from './../../services/GitHubApi';
 import API_KEY from '../../googleAPI';
 
@@ -46,10 +50,7 @@ class UserScreen extends Component {
       const resp = await GitHubApi.getUser();
       const user = resp.data;
 
-      this.props.dispatch({
-        type: 'SET_USER',
-        payload: user,
-      });
+      this.props.dispatch(setUser(user));
 
       const resp2 = await GitHubApi.getRepos(user.login);
       const repositories = resp2.data.map(repo => {
@@ -61,15 +62,12 @@ class UserScreen extends Component {
         };
       });
 
-      this.props.dispatch({
-        type: 'SET_REPO',
-        payload: repositories,
-      });
+      this.props.dispatch(setRepositories(repositories));
     } catch (error) {
       console.log('Erro: ', error);
     }
 
-    await this.fetchChosenFavorites();
+    this.fetchChosenFavorites();
     this.setState({isLoading: false});
     this.getLocation();
   }
@@ -143,19 +141,13 @@ class UserScreen extends Component {
               city: cidade,
               state: estado,
             };
-            await AsyncStorage.setItem('city', position.city);
-            await AsyncStorage.setItem('state', position.state);
-            this.props.dispatch({
-              type: 'SET_LOCATION',
-              payload: position,
-            });
+            this.props.dispatch(setLocation(position));
           })
           .catch(error => {
             console.log('Erro no fetch com a API do google: ', error);
           });
       },
       error => {
-        //   this.setState({ location: error, loading: false });
         console.log('ERRO: ', error);
       },
       {
@@ -188,13 +180,6 @@ class UserScreen extends Component {
 
       const responses = await Promise.all(respArray);
       const firstFavorites = responses.map(resp => {
-        // return {
-        //   login: resp.data.login,
-        //   image: resp.data.avatar_url,
-        //   name: resp.data.name,
-        //   followers: resp.data.followers,
-        //   url: resp.data.url,
-        // };
         return resp.data;
       });
       this.setState({
@@ -202,31 +187,38 @@ class UserScreen extends Component {
         isFavoriteLoading: false,
       });
     }
+    else{
+      console.log('não há favoritos, vamos buscar no AsyncStorage...')
+      const favoritesJSON = await AsyncStorage.getItem(this.props.dev.login)
+      const favorites = JSON.parse(favoritesJSON);
+      console.log('favoritos: ',favorites.favorites);
+      if(favorites){
+        await this.props.dispatch(setFavorites(favorites.favorites));
+        this.fetchChosenFavorites();
+      }
+    }
   };
 
   forceComponentUpdate = () => {
     this.fetchChosenFavorites();
   };
 
+  componentWillUnmount(){
+    console.log('UserScreen está desmontando..')
+  }
+
   render() {
     let content_screen = (
-      // <View
-      //   style={{
-      //     flex: 1,
-      //     justifyContent: 'center',
-      //     alignItems: 'center',
-      //   }}>
-      //   <ActivityIndicator size="large" />
-      // </View>
       <Loading />
     );
 
     if (!this.state.isLoading) {
       const chosenFavorites = [];
+      let listAmount= devListAmount;
       if (this.props.favorites.length < devListAmount) {
-        devListAmount = this.props.favorites.length;
+        listAmount = this.props.favorites.length;
       }
-      for (let i = 0; i < devListAmount; i++) {
+      for (let i = 0; i < listAmount; i++) {
         chosenFavorites.push(this.props.favorites[i]);
       }
       content_screen = (
@@ -234,9 +226,7 @@ class UserScreen extends Component {
           <NavigationEvents
             onDidFocus={payload => this.forceComponentUpdate()}
           />
-          <View style={styles.bar}>
-            <Text style={styles.barLabel}> Perfil</Text>
-          </View>
+          <Header label="Perfil" />
           <View style={styles.profileLayout}>
             <View style={styles.devNameView}>
               <Text
@@ -371,6 +361,7 @@ class UserScreen extends Component {
                           <DevList
                             data={this.state.firstFavorites}
                             navigate={this.props.navigation.navigate}
+                            listAmount={devListAmount}
                           />
                         )}
                       </View>

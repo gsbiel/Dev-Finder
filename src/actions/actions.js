@@ -2,6 +2,7 @@ export const SET_TOKEN = 'SET_TOKEN';
 export const SET_USER = 'SET_USER';
 export const SET_REPO = 'SET_REPO';
 export const SET_LOCATION = 'SET_LOCATION';
+export const SET_FAVORITES = 'SET_FAVORITES'
 export const ADD_FAVORITE = 'ADD_FAVORITE';
 export const DEL_FAVORITE = 'DEL_FAVORITE';
 
@@ -33,6 +34,13 @@ export const setLocation = (location) => {
     });
 };
 
+export const setFavorites = (favorites) => {
+    return({
+        type: SET_FAVORITES,
+        payload:favorites
+    });
+};
+
 export const addFavorite = (url) => {
     return({
         type: ADD_FAVORITE,
@@ -46,3 +54,4 @@ export const delFavorite = (url) => {
         payload: url
     });
 };
+
