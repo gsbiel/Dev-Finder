@@ -12,9 +12,8 @@ import {
   ToastAndroid
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
-import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from 'react-redux';
-import axios, {AxiosInstance, AxiosResponse} from 'axios';
+import axios from 'axios';
 import {NavigationEvents} from 'react-navigation';
 import styles from './styles';
 import colors from '../../styles/colors';
@@ -143,8 +142,6 @@ class UserScreen extends Component {
               city: cidade,
               state: estado,
             };
-            await AsyncStorage.setItem('city', position.city);
-            await AsyncStorage.setItem('state', position.state);
             this.props.dispatch({
               type: 'SET_LOCATION',
               payload: position,
@@ -155,7 +152,6 @@ class UserScreen extends Component {
           });
       },
       error => {
-        //   this.setState({ location: error, loading: false });
         console.log('ERRO: ', error);
       },
       {
@@ -188,13 +184,6 @@ class UserScreen extends Component {
 
       const responses = await Promise.all(respArray);
       const firstFavorites = responses.map(resp => {
-        // return {
-        //   login: resp.data.login,
-        //   image: resp.data.avatar_url,
-        //   name: resp.data.name,
-        //   followers: resp.data.followers,
-        //   url: resp.data.url,
-        // };
         return resp.data;
       });
       this.setState({
@@ -210,14 +199,6 @@ class UserScreen extends Component {
 
   render() {
     let content_screen = (
-      // <View
-      //   style={{
-      //     flex: 1,
-      //     justifyContent: 'center',
-      //     alignItems: 'center',
-      //   }}>
-      //   <ActivityIndicator size="large" />
-      // </View>
       <Loading />
     );
 

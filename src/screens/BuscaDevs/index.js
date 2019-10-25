@@ -8,7 +8,6 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
 import {connect} from 'react-redux';
 import DevFromList from '../../components/DevFromList';
@@ -43,13 +42,11 @@ class BuscaDevs extends Component {
   }
 
   addDev = async () => {
-    const city = await AsyncStorage.getItem('city');
-    const state = await AsyncStorage.getItem('state');
-    const cityArray = city.split(' ');
+    const cityArray = this.props.location.city.split(' ');
     const cityString = cityArray.reduce((acumulator, next) => {
       return acumulator + '/' + next;
     });
-    const local = `${cityString}/${state}`;
+    const local = `${cityString}/${this.props.location.state}`;
     const page = this.state.page;
     const resp = await GitHubApi.getUsersByLocation(local, page);
     this.setState({page: page + 1, amount: resp.data.items.length});
@@ -141,6 +138,7 @@ BuscaDevs.navigationOptions = {
 const mapStateToProps = state => {
   return {
     token: state.access_token,
+    location: state.userLocation
   };
 };
 
