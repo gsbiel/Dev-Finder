@@ -9,16 +9,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   btnContainer: {
-    paddingBottom: 20,
-    paddingTop: 20,
+    paddingBottom: 10,
+    //paddingTop: 20,
   },
   btn: {
-    backgroundColor: '#000',
+    backgroundColor: '#ccc',
     padding: 10,
     justifyContent: 'center',
   },
   btnText: {
-    color: '#fff',
+    color: 'black',
+    fontWeight:'bold',
+    alignSelf:'center'
   },
 });
 export default styles;

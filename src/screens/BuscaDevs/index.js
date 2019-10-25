@@ -90,7 +90,7 @@ class BuscaDevs extends Component {
                 this.setState({page: this.state.page - 2}),
                   this.loadMoreData(true);
               }}
-              style={styles.btnAnt}>
+              style={styles.btn}>
               <Text style={styles.btnText}>Página anterior</Text>
             </TouchableOpacity>
           )}

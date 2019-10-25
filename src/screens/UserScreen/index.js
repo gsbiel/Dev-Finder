@@ -192,6 +192,9 @@ class UserScreen extends Component {
         isFavoriteLoading: false,
       });
     }
+    else{
+      this.setState({isFavoriteLoading:false})
+    }
   };
 
   forceComponentUpdate = () => {
@@ -205,10 +208,11 @@ class UserScreen extends Component {
 
     if (!this.state.isLoading) {
       const chosenFavorites = [];
+      let listAmount= devListAmount;
       if (this.props.favorites.length < devListAmount) {
-        devListAmount = this.props.favorites.length;
+        listAmount = this.props.favorites.length;
       }
-      for (let i = 0; i < devListAmount; i++) {
+      for (let i = 0; i < listAmount; i++) {
         chosenFavorites.push(this.props.favorites[i]);
       }
       content_screen = (
@@ -351,6 +355,7 @@ class UserScreen extends Component {
                           <DevList
                             data={this.state.firstFavorites}
                             navigate={this.props.navigation.navigate}
+                            listAmount={devListAmount}
                           />
                         )}
                       </View>
