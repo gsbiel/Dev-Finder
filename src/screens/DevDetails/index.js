@@ -83,7 +83,7 @@ class DevDetails extends Component {
       <LinearGradient
         colors={colors.linearGradientColors}
         style={styles.container}>
-        <View style={styles.cardA} />>
+        <View style={styles.cardA} />
         <View
           style={{
             position: 'absolute',

@@ -9,6 +9,7 @@ import {
   PermissionsAndroid,
   Platform,
   TouchableOpacity,
+  ToastAndroid
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -68,9 +69,9 @@ class UserScreen extends Component {
       console.log('Erro: ', error);
     }
 
-    await this.getLocation();
     await this.fetchChosenFavorites();
     this.setState({isLoading: false});
+    this.getLocation();
   }
 
   hasLocationPermission = async () => {
@@ -102,7 +103,7 @@ class UserScreen extends Component {
 
     if (status === PermissionsAndroid.RESULTS.DENIED) {
       ToastAndroid.show(
-        'Location permission denied by user.',
+        'Permissão para acesso à localização negada. Clique em "Obter Localização" para continuar.',
         ToastAndroid.LONG,
       );
     } else if (status === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
