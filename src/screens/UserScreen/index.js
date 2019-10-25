@@ -188,10 +188,8 @@ class UserScreen extends Component {
       });
     }
     else{
-      console.log('não há favoritos, vamos buscar no AsyncStorage...')
       const favoritesJSON = await AsyncStorage.getItem(this.props.dev.login)
       const favorites = JSON.parse(favoritesJSON);
-      console.log('favoritos: ',favorites.favorites);
       if(favorites){
         await this.props.dispatch(setFavorites(favorites.favorites));
         this.fetchChosenFavorites();
