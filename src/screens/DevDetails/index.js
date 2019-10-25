@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {Image, Text, View, TouchableOpacity, ScrollView} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import {connect} from 'react-redux';
 
 import Loading from '../../components/Loading';
-import RepositoryItems from '../../components/RepositoryItems/index';
-import DevInfoItem from '../../components/DevInfoItem/index';
-import SlidingTab from '../../components/SlidingTab/index';
+import RepositoryItems from '../../components/RepositoryItems';
+import DevInfoItem from '../../components/DevInfoItem';
+import SlidingTab from '../../components/SlidingTab';
 import GitHubApi from '../../services/GitHubApi';
 import colors from '../../styles/colors';
 
@@ -16,29 +17,45 @@ const colorTheme = '#030442';
 class DevDetails extends Component {
   state = {
     isLoading: true,
-    isFavorite: 'true',
+    isFavorite: false,
     dev: null,
     repositoryData: null,
+    isFavoriteLoading: true,
   };
 
   scrollRef = null;
   scrollViewWidth = 280;
   async componentDidMount() {
     const user = this.props.navigation.getParam('user');
-    // const username = this.props.navigation.getParam('username');
-    // const responseUser = await GitHubApi.getUserByUsername(username);
     const responseRepos = await GitHubApi.getRepos(user.login);
+
+    const checkFavorite = this.props.favorites.find(dev => {
+      return dev === user.login;
+    });
+
     this.setState({
       dev: user,
       repositoryData: responseRepos.data,
       isLoading: false,
+      isFavoriteLoading: false,
+      isFavorite: checkFavorite ? true : false,
     });
   }
 
-  onLikeHandler = () => {
-    this.setState(prevState => {
-      return {isFavorite: !prevState.isFavorite};
-    });
+  onLikeHandler = async () => {
+    if (this.state.isFavorite) {
+      await this.props.dispatch({
+        type: 'DEL_FAVORITE',
+        payload: this.props.navigation.getParam('username'),
+      });
+      this.setState({isFavorite: false});
+    } else {
+      await this.props.dispatch({
+        type: 'ADD_FAVORITE',
+        payload: this.props.navigation.getParam('username'),
+      });
+      this.setState({isFavorite: true});
+    }
   };
 
   scrollHandler = xValue => {
@@ -90,7 +107,10 @@ class DevDetails extends Component {
             <Text style={styles.devName}>{dev.name}</Text>
           </View>
 
-          <TouchableOpacity onPress={() => this.onLikeHandler()}>
+          <TouchableOpacity
+            onPress={() =>
+              this.state.isFavoriteLoading ? '' : this.onLikeHandler()
+            }>
             <View
               style={{
                 marginTop: 10,
@@ -202,4 +222,10 @@ class DevDetails extends Component {
   }
 }
 
-export default DevDetails;
+const mapStateToProps = state => {
+  return {
+    favorites: state.favorites,
+  };
+};
+
+export default connect(mapStateToProps)(DevDetails);

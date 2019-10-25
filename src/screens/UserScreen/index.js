@@ -14,7 +14,7 @@ import Geolocation from 'react-native-geolocation-service';
 import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from 'react-redux';
 import axios, {AxiosInstance, AxiosResponse} from 'axios';
-
+import { NavigationEvents } from 'react-navigation';
 import styles from './styles';
 import colors from '../../styles/colors';
 import Table from '../../components/Table';
@@ -23,8 +23,6 @@ import SlidingTab from '../../components/SlidingTab';
 import RepositoryItems from '../../components/RepositoryItems';
 import DevList from '../../components/DevList';
 import GitHubApi from './../../services/GitHubApi';
-import axios_git from './../../axios';
-
 import API_KEY from '../../googleAPI';
 
 // Quantos Devs você quer que apareçam na lista de devs favoritos da tela de profile?
@@ -34,6 +32,8 @@ class UserScreen extends Component {
   state = {
     isLoading: true,
     isGPSAllowed: false,
+    isFavoriteLoading:true,
+    firstFavorites:[]
   };
 
   scrollRef = null;
@@ -90,6 +90,7 @@ class UserScreen extends Component {
     }
 
     this.getLocation();
+    this.fetchChosenFavorites();
   }
 
   hasLocationPermission = async () => {
@@ -190,6 +191,37 @@ class UserScreen extends Component {
     this.scrollRef.scrollTo({x: xValue});
   };
 
+  fetchChosenFavorites = async () => {
+    if(this.props.favorites.length){
+        const respArray = [];
+        var favLength = 3;
+        if(this.props.favorites.length > 0 && this.props.favorites.length < 3){
+            favLength = this.props.favorites.length;
+        }
+        for(let index=0;index<favLength;index++){
+            const resp = await GitHubApi.getUserByUsername(this.props.favorites[index]);
+            respArray.push(resp);
+        }
+        (async () => {
+            const responses = await Promise.all(respArray);
+            const firstFavorites = responses.map(resp=>{
+                return {
+                    username: resp.data.login,
+                    image: resp.data.avatar_url,
+                    name:resp.data.name,
+                    followers:resp.data.followers,
+                    url:resp.data.url
+                };
+            });
+            this.setState({firstFavorites:firstFavorites,isFavoriteLoading:false});
+        })();
+    }
+  }
+
+  forceComponentUpdate = () => {
+    this.fetchChosenFavorites();
+  }
+
   render() {
     let content_screen = (
       <View
@@ -212,6 +244,9 @@ class UserScreen extends Component {
       }
       content_screen = (
         <View style={styles.userScreenContainer}>
+          <NavigationEvents
+              onDidFocus={payload => this.forceComponentUpdate()}
+          />
           <View style={styles.bar}>
             <Text style={styles.barLabel}> Perfil</Text>
           </View>
@@ -344,8 +379,15 @@ class UserScreen extends Component {
                           width: '96%',
                           height: '96%',
                         }}>
-                        <DevList data={chosenFavorites} />
-                      </View>
+                          {
+                            this.state.isFavoriteLoading ? 
+                            <View style={{top:'40%'}}> 
+                                <ActivityIndicator size='large' color=""/> 
+                            </View>  
+                            :
+                            <DevList data={this.state.firstFavorites} navigate={this.props.navigation.navigate} />
+                          }
+                        </View>
                     </View>
                   </ScrollView>
                 </View>

@@ -4,7 +4,7 @@ import {FlatList, Button} from 'react-native';
 import DevFromList from '../DevFromList/index';
 import EmptyList from '../EmptyList/index';
 
-const devList = props => {
+const DevList = props => {
   return (
     <FlatList
       ref={flatList => {
@@ -20,9 +20,15 @@ const devList = props => {
       }}
       keyExtractor={item => item.username}
       ListEmptyComponent={<EmptyList />}
-      ListFooterComponent={<Button title="Ver todos" color="skyblue" />}
+      ListFooterComponent={
+        <Button
+          title="Ver todos"
+          color="skyblue"
+          onPress={() => props.navigate('Favorites')}
+        />
+      }
     />
   );
 };
 
-export default devList;
+export default DevList;
