@@ -82,7 +82,7 @@ class Favorites extends Component {
         <View style={styles.listContainer}>
           <FlatList
             data={this.state.devs}
-            keyExtractor={item => item.username}
+            keyExtractor={item => item.login}
             renderItem={({item}) => <DevFromList user={item} />}
             //onEndReached={this.loadMoreData}
             //ListFooterComponent={this.listFooter.bind(this)}

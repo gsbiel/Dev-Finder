@@ -18,7 +18,7 @@ const DevList = props => {
       renderItem={({item}) => {
         return <DevFromList user={item} />;
       }}
-      keyExtractor={item => item.username}
+      keyExtractor={item => item.login}
       ListEmptyComponent={<EmptyList />}
       ListFooterComponent={
         <Button
