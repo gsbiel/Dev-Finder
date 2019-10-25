@@ -11,9 +11,7 @@ import {
 import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
 import {connect} from 'react-redux';
-//import SearchBar from '../../components/SearchBar';
 import DevFromList from '../../components/DevFromList';
-//import {axios_git} from '../../axios';
 import GitHubApi from '../../services/GitHubApi';
 import colors from '../../styles/colors';
 

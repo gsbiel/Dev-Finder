@@ -28,13 +28,6 @@ class Favorites extends Component {
 
   fetchFavorite = async username => {
     const resp = await GitHubApi.getUserByUsername(username);
-    // return {
-    //   name:resp.data.name,
-    //   username:resp.data.login,
-    //   followers:resp.data.followers,
-    //   url:resp.data.url,
-    //   image:resp.data.avatar_url
-    // }
     return resp.data;
   };
 
@@ -84,13 +77,10 @@ class Favorites extends Component {
             data={this.state.devs}
             keyExtractor={item => item.login}
             renderItem={({item}) => <DevFromList user={item} />}
-            //onEndReached={this.loadMoreData}
-            //ListFooterComponent={this.listFooter.bind(this)}
           />
         </View>
       );
     }
-
     return (
       <View style={styles.container}>
         <NavigationEvents onDidFocus={payload => this.forceComponentUpdate()} />

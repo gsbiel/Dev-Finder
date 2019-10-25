@@ -9,7 +9,6 @@
 import React, {Component} from 'react';
 import {createAppContainer, createStackNavigator} from 'react-navigation';
 
-import Main from './screens/Main';
 import Login from './screens/Login';
 import BuscaDevs from './screens/BuscaDevs';
 import DevDetails from './screens/DevDetails';
@@ -22,7 +21,6 @@ import store from './store';
 
 const MainStack = createStackNavigator(
   {
-    Main: Main,
     BuscaDevs: BuscaDevs,
     DevDetails: DevDetails,
     Login: Login,

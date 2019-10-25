@@ -31,7 +31,6 @@ class DevDetails extends Component {
   };
 
   scrollRef = null;
-  // scrollViewWidth = 280;
 
   async componentDidMount() {
     const user = this.props.navigation.getParam('user');
