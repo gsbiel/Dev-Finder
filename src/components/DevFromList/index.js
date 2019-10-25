@@ -1,23 +1,29 @@
 import React, {Component} from 'react';
-
-import {View, Image, Text} from 'react-native';
+import {View, Image, Text, TouchableOpacity} from 'react-native';
+import {withNavigation} from 'react-navigation';
 
 import styles from './styles';
 
-export default class DevFromList extends Component {
+class DevFromList extends Component {
   render() {
+    const user = this.props.user;
     return (
-      <View style={styles.container}>
-        <Image
-          source={require('../../assets/images/user.png')}
-          style={styles.image}
-        />
+      <TouchableOpacity
+        style={styles.container}
+        onPress={() =>
+          this.props.navigation.navigate('DevDetails', {
+            user: user,
+          })
+        }>
+        <Image source={{uri: user.avatar_url}} style={styles.image} />
         <View style={styles.containerInfo}>
-          <Text style={styles.devName}>{this.props.name}</Text>
-          <Text style={styles.devUsername}>{this.props.username}</Text>
-          <Text style={styles.devFollowers}>{this.props.followers} seguidores</Text>
+          <Text style={styles.devName}>{user.name}</Text>
+          <Text style={styles.devUsername}>{user.login}</Text>
+          <Text style={styles.devFollowers}>{user.followers} seguidores</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }
+
+export default withNavigation(DevFromList);
