@@ -28,7 +28,7 @@ class RepositoryItems extends Component {
             data={this.props.data}
             renderItem={({item})=>{
                 return(
-                    <RepositoryItem name={item.name} stars={item.stars} language={item.language}/>
+                    <RepositoryItem name={item.name} stars={item.stars} full_name={item.full_name}/>
                 );
             }}
             keyExtractor={item => item.id}

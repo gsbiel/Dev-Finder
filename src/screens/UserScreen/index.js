@@ -58,7 +58,7 @@ class UserScreen extends Component {
           id: repo.id,
           name: repo.name,
           stars: repo.stars,
-          language: repo.language,
+          full_name: repo.full_name
         };
       });
 
