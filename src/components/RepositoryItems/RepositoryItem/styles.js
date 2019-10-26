@@ -9,7 +9,6 @@ const styles = StyleSheet.create(
         outFlexContainer:{
             flexDirection: 'row',
             width:'90%',
-            height:100,
             borderWidth:1,
             borderColor:colorTheme,
             alignItems: 'center',
@@ -19,7 +18,6 @@ const styles = StyleSheet.create(
             flex:2,
             padding: 10,
             justifyContent:'space-around',
-            height:"100%",
             borderLeftWidth:1,
             borderLeftColor:colorTheme
         },

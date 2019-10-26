@@ -23,7 +23,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 const colorTheme = '#030442';
 
-class DevDetails extends Component {
+class DevDetails extends React.PureComponent {
   state = {
     isLoading: true,
     isFavorite: false,
