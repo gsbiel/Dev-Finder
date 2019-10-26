@@ -15,6 +15,7 @@ import GitHubApi from '../../services/GitHubApi';
 import styles from './styles';
 import SearchBar from '../../components/SearchBar';
 import DevFromList from '../../components/DevFromList';
+import Header from '../../components/Header';
 
 class Favorites extends Component {
   /**
@@ -28,13 +29,6 @@ class Favorites extends Component {
 
   fetchFavorite = async username => {
     const resp = await GitHubApi.getUserByUsername(username);
-    // return {
-    //   name:resp.data.name,
-    //   username:resp.data.login,
-    //   followers:resp.data.followers,
-    //   url:resp.data.url,
-    //   image:resp.data.avatar_url
-    // }
     return resp.data;
   };
 
@@ -82,19 +76,16 @@ class Favorites extends Component {
         <View style={styles.listContainer}>
           <FlatList
             data={this.state.devs}
-            keyExtractor={item => item.username}
+            keyExtractor={item => item.login}
             renderItem={({item}) => <DevFromList user={item} />}
-            //onEndReached={this.loadMoreData}
-            //ListFooterComponent={this.listFooter.bind(this)}
           />
         </View>
       );
     }
-
     return (
       <View style={styles.container}>
-        <NavigationEvents onDidFocus={payload => this.forceComponentUpdate()} />
-        <SearchBar />
+        <NavigationEvents onDidFocus={() => this.forceComponentUpdate()} />
+        <Header label="Favoritos" />
         {listContent}
         <Button
           title="Voltar para a HOME"

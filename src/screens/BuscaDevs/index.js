@@ -8,12 +8,10 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
 import {connect} from 'react-redux';
-//import SearchBar from '../../components/SearchBar';
 import DevFromList from '../../components/DevFromList';
-//import {axios_git} from '../../axios';
+import Header from '../../components/Header';
 import GitHubApi from '../../services/GitHubApi';
 import colors from '../../styles/colors';
 
@@ -45,13 +43,11 @@ class BuscaDevs extends Component {
   }
 
   addDev = async () => {
-    const city = await AsyncStorage.getItem('city');
-    const state = await AsyncStorage.getItem('state');
-    const cityArray = city.split(' ');
+    const cityArray = this.props.location.city.split(' ');
     const cityString = cityArray.reduce((acumulator, next) => {
       return acumulator + '/' + next;
     });
-    const local = `${cityString}/${state}`;
+    const local = `${cityString}/${this.props.location.state}`;
     const page = this.state.page;
     const resp = await GitHubApi.getUsersByLocation(local, page);
     this.setState({page: page + 1, amount: resp.data.items.length});
@@ -86,6 +82,7 @@ class BuscaDevs extends Component {
       <LinearGradient
         colors={colors.linearGradientColors}
         style={styles.container}>
+        <Header label={`Desenvolvedores em ${this.props.location.city}`} />
         <View style={styles.listContainer}>
           {this.state.page > 2 && (
             <TouchableOpacity
@@ -93,7 +90,7 @@ class BuscaDevs extends Component {
                 this.setState({page: this.state.page - 2}),
                   this.loadMoreData(true);
               }}
-              style={styles.btnAnt}>
+              style={styles.btn}>
               <Text style={styles.btnText}>Página anterior</Text>
             </TouchableOpacity>
           )}
@@ -143,6 +140,7 @@ BuscaDevs.navigationOptions = {
 const mapStateToProps = state => {
   return {
     token: state.access_token,
+    location: state.userLocation
   };
 };
 

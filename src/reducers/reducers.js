@@ -5,30 +5,31 @@ import {
   SET_LOCATION,
   ADD_FAVORITE,
   DEL_FAVORITE,
+  SET_FAVORITES
 } from '../actions/actions';
 
 const initialState = {
   access_token: null,
   user: {
-    name: 'Beltrano de Tal Almeida',
-    login: 'Beltral',
-    followers: 500,
-    site: 'www.beltrano.com.br',
-    email: 'beltrano-tal@gmail.com',
+    name: '',
+    login: '',
+    followers: 0,
+    site: '',
+    email: '',
     image:
-      'https://secure.gravatar.com/avatar/f50a9db56e231198af3507f10b5d5491?d=mm',
+      '',
     repositories: 0,
   },
   repositories: [],
   favorites: [
-    'danielbonifacio',
-    'davidalves1',
-    'edgarberlinck',
-    'eliasfaical',
-    'wilcorrea',
-    'viniciusmmartins',
-    'edgareler',
-    'vizeke',
+    // 'danielbonifacio',
+    // 'davidalves1',
+    // 'edgarberlinck',
+    // 'eliasfaical',
+    // 'wilcorrea',
+    // 'viniciusmmartins',
+    // 'edgareler',
+    // 'vizeke',
   ],
   userLocation: {
     city: 'Unknow',
@@ -47,6 +48,8 @@ const appReducer = (state = initialState, action) => {
       return {...state, repositories: action.payload};
     case SET_LOCATION:
       return {...state, userLocation: action.payload};
+    case SET_FAVORITES:
+      return {...state, favorites: action.payload}
     case ADD_FAVORITE:
       return {...state, favorites: [...state.favorites, action.payload]};
     case DEL_FAVORITE:

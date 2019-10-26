@@ -8,6 +8,7 @@ import {
   Dimensions,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import {delFavorite,addFavorite} from '../../actions/actions';
 import {connect} from 'react-redux';
 
 import Loading from '../../components/Loading';
@@ -18,6 +19,7 @@ import GitHubApi from '../../services/GitHubApi';
 import colors from '../../styles/colors';
 
 import styles from './styles';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const colorTheme = '#030442';
 
@@ -31,7 +33,6 @@ class DevDetails extends Component {
   };
 
   scrollRef = null;
-  // scrollViewWidth = 280;
 
   async componentDidMount() {
     const user = this.props.navigation.getParam('user');
@@ -52,16 +53,16 @@ class DevDetails extends Component {
 
   onLikeHandler = async () => {
     if (this.state.isFavorite) {
-      await this.props.dispatch({
-        type: 'DEL_FAVORITE',
-        payload: this.state.dev.login,
-      });
+      await this.props.dispatch(delFavorite(this.state.dev.login));
+      await AsyncStorage.setItem(this.props.user.login,JSON.stringify({
+        favorites: this.props.favorites
+      }));
       this.setState({isFavorite: false});
     } else {
-      await this.props.dispatch({
-        type: 'ADD_FAVORITE',
-        payload: this.state.dev.login,
-      });
+      await this.props.dispatch(addFavorite(this.state.dev.login));
+      await AsyncStorage.setItem(this.props.user.login,JSON.stringify({
+        favorites: this.props.favorites
+      }));
       this.setState({isFavorite: true});
     }
   };
@@ -83,7 +84,7 @@ class DevDetails extends Component {
       <LinearGradient
         colors={colors.linearGradientColors}
         style={styles.container}>
-        <View style={styles.cardA} />>
+        <View style={styles.cardA} />
         <View
           style={{
             position: 'absolute',
@@ -232,6 +233,7 @@ class DevDetails extends Component {
 const mapStateToProps = state => {
   return {
     favorites: state.favorites,
+    user: state.user
   };
 };
 
