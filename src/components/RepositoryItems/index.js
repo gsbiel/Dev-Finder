@@ -67,7 +67,7 @@ class RepositoryItems extends Component {
                         <RepositoryItem name={item.name} stars={item.stars} languages={item.languages}/>
                     );
                 }}
-                keyExtractor={item => item.id}
+                keyExtractor={item => item.id.toString()}
                 ItemSeparatorComponent={this.renderSeparator}
                 ListEmptyComponent ={<EmptyList/>}/>
             )

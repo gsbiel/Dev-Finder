@@ -50,7 +50,6 @@ class BuscaDevs extends Component {
     const local = `${cityString}/${this.props.location.state}`;
     const page = this.state.page;
     const amount = this.state.amount;
-    console.log('Obtendo usuarios da página: ', this.state.page);
     const resp = await GitHubApi.getUsersByLocation(local, page);
     this.setState({page: page + 1, amount: resp.data.items.length});
     if(resp.data.items.length > 0){
