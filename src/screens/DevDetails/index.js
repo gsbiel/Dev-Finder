@@ -144,7 +144,7 @@ class DevDetails extends React.PureComponent {
         {/* ---------------------------------------------------------------- */}
         <View style={styles.cardB}>
           <View>
-            <Text style={styles.devName}>{dev.name}</Text>
+            <Text style={styles.devName}>{dev.name ? dev.name : '----'}</Text>
           </View>
 
           <TouchableOpacity
@@ -223,13 +223,13 @@ class DevDetails extends React.PureComponent {
                     justifyContent: 'space-around',
                     backgroundColor:"#ccc"
                   }}>
-                  <DevInfoItem label="Nome" value={dev.name} />
+                  <DevInfoItem label="Nome" value={dev.name ? dev.name : '----'} />
                   <DevInfoItem label="Usuário" value={dev.login} />
                   <DevInfoItem
                     label="Seguidores"
                     value={dev.followers.toString()}
                   />
-                  <DevInfoItem label="Site" value={dev.blog} />
+                  <DevInfoItem label="Site" value={dev.blog ? dev.blog : '----'} />
                   <DevInfoItem
                     label="E-mail"
                     value={dev.email ? dev.email : '----'}

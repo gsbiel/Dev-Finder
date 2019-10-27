@@ -39,6 +39,7 @@ class UserScreen extends Component {
     isLoading: true,
     isGPSAllowed: false,
     isFavoriteLoading: true,
+    isRepoLoading:true,
     firstFavorites: [],
   };
 
@@ -73,14 +74,15 @@ class UserScreen extends Component {
         const repositoryData = await Promise.all(repositories);
         //this.setState({repositoryData: repositoryData, showRepos:true});
         this.props.dispatch(setRepositories(repositoryData));
-        this.setState({isLoading: false});
+        this.setState({isLoading: false, isRepoLoading:false});
       })();
     } catch (error) {
       console.log('Erro: ', error);
     }
 
-    this.fetchChosenFavorites();    
+    this.fetchChosenFavorites();
     this.getLocation();
+    this.setState({isLoading:false});
   }
 
   hasLocationPermission = async () => {
@@ -340,7 +342,7 @@ class UserScreen extends Component {
                           width: '96%',
                           height: '96%',
                         }}>
-                        <RepositoryItems data={this.props.repositoryData} />
+                        {this.state.isRepoLoading ? <Loading /> : <RepositoryItems data={this.props.repositoryData} />}
                       </View>
                     </View>
 
