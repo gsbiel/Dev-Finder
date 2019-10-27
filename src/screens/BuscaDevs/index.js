@@ -80,7 +80,7 @@ class BuscaDevs extends Component {
   render() {
     return (
       <LinearGradient
-        colors={colors.linearGradientColors}
+        colors={colors.buscaDevGradient}
         style={styles.container}>
         <Header label={`Desenvolvedores em ${this.props.location.city}`} />
         <View style={styles.listContainer}>
@@ -97,7 +97,7 @@ class BuscaDevs extends Component {
 
           {!this.state.loaded && (
             <View style={{top: '50%'}}>
-              <ActivityIndicator size="large" color="white" />
+              <ActivityIndicator size="large" color="#030442" />
             </View>
           )}
 
@@ -123,6 +123,7 @@ class BuscaDevs extends Component {
           )}
         </View>
         <Button
+          color={colors.voltarBtn}
           title="Voltar para a HOME"
           onPress={() => {
             this.props.navigation.navigate('UserScreen');

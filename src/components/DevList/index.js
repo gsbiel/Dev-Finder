@@ -1,9 +1,11 @@
 import React from 'react';
 import {FlatList, Button} from 'react-native';
 
+import colors from '../../styles/colors';
 import {connect} from 'react-redux';
 import DevFromList from '../DevFromList/index';
 import EmptyList from '../EmptyList/index';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 
 const DevList = props => {
@@ -25,7 +27,7 @@ const DevList = props => {
       ListFooterComponent={ props.favoritesLength>props.listAmount ? 
         <Button
           title="Ver todos"
-          color="skyblue"
+          color={colors.devListButtonColor}
           onPress={() => props.navigate('Favorites')}
         /> : ''
       }

@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 import {setFavorites,setUser,setRepositories,setLocation} from '../../actions/actions';
-
+import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-community/async-storage';
 import Geolocation from 'react-native-geolocation-service';
 import {connect} from 'react-redux';
@@ -244,7 +244,7 @@ class UserScreen extends Component {
             </View>
 
             <View style={styles.sectionA}>
-              <View style={styles.cardA1}>
+              <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={colors.linearGradientColors} style={styles.cardA1}>
                 {this.props.local.city &&
                 this.props.local.state &&
                 this.state.isGPSAllowed ? (
@@ -256,8 +256,8 @@ class UserScreen extends Component {
                     <Text style={styles.getLocationBtn}>Obter Localização</Text>
                   </TouchableOpacity>
                 )}
-              </View>
-              <View style={styles.cardA2}>
+              </LinearGradient>
+              <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={colors.secondaryGradient} style={styles.cardA2}>
                 <View
                   style={{
                     alignItems: 'center',
@@ -283,20 +283,20 @@ class UserScreen extends Component {
                     color={colors.themeColor}
                   />
                 </View>
-              </View>
+              </LinearGradient>
             </View>
 
             <View style={styles.sectionB}>
               <SlidingTab
-                position={{top: 20, left: '5%'}}
+                position={{top: 0, left: '5%'}}
                 labelTab1="Repositórios"
                 labelTab2="Favoritos"
                 scrollViewWidth={this.scrollViewWidth}
                 scroll={this.scrollHandler}
               />
 
-              <Text style={styles.infoBtn}></Text>
-              <View style={styles.cardB1}></View>
+              {/* <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={colors.linearGradientColors} style={styles.infoBtn}></LinearGradient> */}
+              <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={colors.linearGradientColors} style={styles.cardB1}></LinearGradient>
               <View style={styles.cardB2}>
                 <View
                   style={{
