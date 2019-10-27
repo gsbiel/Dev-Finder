@@ -45,30 +45,41 @@ class UserScreen extends Component {
   scrollRef = null;
   scrollViewWidth = 280;
 
+  getLanguages = async (fullName) => {
+    const resp = await GitHubApi.getLanguages(fullName);
+    return resp.data;
+  } 
+
   async componentDidMount() {
     try {
       const resp = await GitHubApi.getUser();
       const user = resp.data;
 
       this.props.dispatch(setUser(user));
-
       const resp2 = await GitHubApi.getRepos(user.login);
-      const repositories = resp2.data.map(repo => {
+      const repositories = resp2.data.map(async repo => {
+        const languagesObj = await this.getLanguages(repo.full_name);
+        const languages = Object.keys(languagesObj);
         return {
           id: repo.id,
           name: repo.name,
           stars: repo.stars,
-          full_name: repo.full_name
+          full_name: repo.full_name,
+          languages: languages
         };
       });
 
-      this.props.dispatch(setRepositories(repositories));
+      (async ()=> {
+        const repositoryData = await Promise.all(repositories);
+        //this.setState({repositoryData: repositoryData, showRepos:true});
+        this.props.dispatch(setRepositories(repositoryData));
+        this.setState({isLoading: false});
+      })();
     } catch (error) {
       console.log('Erro: ', error);
     }
 
-    this.fetchChosenFavorites();
-    this.setState({isLoading: false});
+    this.fetchChosenFavorites();    
     this.getLocation();
   }
 
@@ -203,10 +214,6 @@ class UserScreen extends Component {
   forceComponentUpdate = () => {
     this.fetchChosenFavorites();
   };
-
-  componentWillUnmount(){
-    console.log('UserScreen está desmontando..')
-  }
 
   render() {
     let content_screen = (

@@ -30,25 +30,51 @@ class DevDetails extends React.PureComponent {
     dev: null,
     repositoryData: null,
     isFavoriteLoading: true,
+    showRepos:false
   };
 
   scrollRef = null;
 
+
+  getLanguages = async (fullName) => {
+    const resp = await GitHubApi.getLanguages(fullName);
+    return resp.data;
+  } 
+
   async componentDidMount() {
+
     const user = this.props.navigation.getParam('user');
     const responseRepos = await GitHubApi.getRepos(user.login);
+    const repositories = responseRepos.data.map((async repoData=>{
+      const name = repoData.name;
+      const stars = repoData.stars;
+      const id = repoData.id;
+      const languagesObj = await this.getLanguages(repoData.full_name);
+      const languages = Object.keys(languagesObj);
+      return{
+          name,
+          stars,
+          languages,
+          id
+      }
+    }));
 
-    const checkFavorite = this.props.favorites.find(dev => {
-      return dev === user.login;
-    });
+    (async ()=>{
+      const repositoryData = await Promise.all(repositories);
+      const checkFavorite = this.props.favorites.find(dev => {
+        return dev === user.login;
+      });
+  
+      this.setState({
+        dev: user,
+        repositoryData: repositoryData,
+        isLoading: false,
+        isFavoriteLoading: false,
+        isFavorite: checkFavorite ? true : false,
+        showRepos:true
+      });
+    })();
 
-    this.setState({
-      dev: user,
-      repositoryData: responseRepos.data,
-      isLoading: false,
-      isFavoriteLoading: false,
-      isFavorite: checkFavorite ? true : false,
-    });
   }
 
   onLikeHandler = async () => {
@@ -70,6 +96,12 @@ class DevDetails extends React.PureComponent {
   scrollHandler = xValue => {
     this.scrollRef.scrollTo({x: xValue});
   };
+
+  setTimer = async (x) => {
+    setTimeout(()=>{
+      this.setState({showRepos:true});
+    },x);
+  }
 
   render() {
     const isLoading = this.state.isLoading;
@@ -220,7 +252,7 @@ class DevDetails extends React.PureComponent {
                     width: '96%',
                     height: '96%',
                   }}>
-                  <RepositoryItems data={repositoryData} />
+                  {this.state.showRepos ? <RepositoryItems data={repositoryData} /> : <Loading/>}
                 </LinearGradient>
               </View>
             </ScrollView>
