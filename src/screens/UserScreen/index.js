@@ -269,7 +269,7 @@ class UserScreen extends Component {
                     height: '70%',
                   }}>
                   <Table rowNumber="3" tableWidth="160">
-                    <TableRow label="Username" value={this.props.dev.login} />
+                    <TableRow label="Usuário" value={this.props.dev.login} />
                     <TableRow
                       label="Seguidores"
                       value={this.props.dev.followers}

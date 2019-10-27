@@ -192,7 +192,7 @@ class DevDetails extends React.PureComponent {
                     backgroundColor:"#ccc"
                   }}>
                   <DevInfoItem label="Nome" value={dev.name} />
-                  <DevInfoItem label="Username" value={dev.login} />
+                  <DevInfoItem label="Usuário" value={dev.login} />
                   <DevInfoItem
                     label="Seguidores"
                     value={dev.followers.toString()}
