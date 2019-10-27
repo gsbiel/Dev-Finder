@@ -49,11 +49,15 @@ class BuscaDevs extends Component {
     });
     const local = `${cityString}/${this.props.location.state}`;
     const page = this.state.page;
+    const amount = this.state.amount;
+    console.log('Obtendo usuarios da página: ', this.state.page);
     const resp = await GitHubApi.getUsersByLocation(local, page);
     this.setState({page: page + 1, amount: resp.data.items.length});
-    resp.data.items.map(u => {
-      this.user(u.login);
-    });
+    if(resp.data.items.length > 0){
+      resp.data.items.map(u => {
+        this.user(u.login);
+      });
+    }  
   };
 
   loadMoreData = x => {
@@ -66,13 +70,13 @@ class BuscaDevs extends Component {
   listFooter = () => {
     return (
       <View style={styles.btnContainer}>
-        <TouchableOpacity
+        {this.state.amount > 0 && this.state.page <= 100 && (<TouchableOpacity
           style={styles.btn}
           onPress={() => {
             this.loadMoreData(true);
           }}>
           <Text style={styles.btnText}>Próxima página</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>)}
       </View>
     );
   };
@@ -86,9 +90,11 @@ class BuscaDevs extends Component {
         <View style={styles.listContainer}>
           {this.state.page > 2 && (
             <TouchableOpacity
-              onPress={() => {
-                this.setState({page: this.state.page - 2}),
-                  this.loadMoreData(true);
+              onPress={async () => {
+                await this.setState(prevState=>{
+                  return {page: prevState.page-2}
+                });
+                this.loadMoreData(true);
               }}
               style={styles.btn}>
               <Text style={styles.btnText}>Página anterior</Text>
