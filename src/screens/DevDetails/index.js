@@ -82,7 +82,7 @@ class DevDetails extends React.PureComponent {
     let scrollViewWidth = dimensions.width - 20;
     return (
       <LinearGradient
-        colors={colors.linearGradientColors}
+        colors={colors.secondaryGradient}
         style={styles.container}>
         <View style={styles.cardA} />
         <View
@@ -178,7 +178,8 @@ class DevDetails extends React.PureComponent {
                   borderRadius: 20,
                   flex: 1,
                 }}>
-                <View
+                <LinearGradient
+                  colors={colors.secondaryGradient}
                   style={{
                     flex: 1,
                     margin: 5,
@@ -188,6 +189,7 @@ class DevDetails extends React.PureComponent {
                     alignSelf: 'stretch',
                     flexDirection: 'column',
                     justifyContent: 'space-around',
+                    backgroundColor:"#ccc"
                   }}>
                   <DevInfoItem label="Nome" value={dev.name} />
                   <DevInfoItem label="Username" value={dev.login} />
@@ -200,7 +202,7 @@ class DevDetails extends React.PureComponent {
                     label="E-mail"
                     value={dev.email ? dev.email : '----'}
                   />
-                </View>
+                </LinearGradient>
               </View>
               <View
                 style={{
@@ -209,17 +211,17 @@ class DevDetails extends React.PureComponent {
                   width: scrollViewWidth - 20,
                   borderRadius: 20,
                 }}>
-                <View
+                <LinearGradient
+                  colors={colors.secondaryGradient}
                   style={{
                     borderRadius: 40,
-                    backgroundColor: 'white',
                     margin: 5,
                     padding: 10,
                     width: '96%',
                     height: '96%',
                   }}>
                   <RepositoryItems data={repositoryData} />
-                </View>
+                </LinearGradient>
               </View>
             </ScrollView>
           </View>

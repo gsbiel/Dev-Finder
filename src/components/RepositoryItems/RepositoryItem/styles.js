@@ -12,7 +12,8 @@ const styles = StyleSheet.create(
             borderWidth:1,
             borderColor:colorTheme,
             alignItems: 'center',
-            alignSelf:'center'
+            alignSelf:'center',
+            backgroundColor:'white'
         },
         inFlexContainer:{
             flex:2,

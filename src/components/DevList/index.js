@@ -5,7 +5,6 @@ import colors from '../../styles/colors';
 import {connect} from 'react-redux';
 import DevFromList from '../DevFromList/index';
 import EmptyList from '../EmptyList/index';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 
 const DevList = props => {

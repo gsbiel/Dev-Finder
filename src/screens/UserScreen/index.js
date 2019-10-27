@@ -295,7 +295,6 @@ class UserScreen extends Component {
                 scroll={this.scrollHandler}
               />
 
-              {/* <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={colors.linearGradientColors} style={styles.infoBtn}></LinearGradient> */}
               <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={colors.linearGradientColors} style={styles.cardB1}></LinearGradient>
               <View style={styles.cardB2}>
                 <View
