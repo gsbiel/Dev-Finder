@@ -194,6 +194,9 @@ class UserScreen extends Component {
         await this.props.dispatch(setFavorites(favorites.favorites));
         this.fetchChosenFavorites();
       }
+      else{
+        this.setState({isFavoriteLoading:false});
+      }
     }
   };
 
