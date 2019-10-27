@@ -47,7 +47,7 @@ class BuscaDevs extends Component {
     const cityString = cityArray.reduce((acumulator, next) => {
       return acumulator + '/' + next;
     });
-    const local = `${cityString}/${this.props.location.state}`;
+    let local = `${cityString}/${this.props.location.state}`;
     const page = this.state.page;
     const amount = this.state.amount;
     const resp = await GitHubApi.getUsersByLocation(local, page);
@@ -100,7 +100,7 @@ class BuscaDevs extends Component {
             </TouchableOpacity>
           )}
 
-          {!this.state.loaded && (
+          {!this.state.loaded && this.state.amount>0 && (
             <View style={{top: '50%'}}>
               <ActivityIndicator size="large" color="#030442" />
             </View>
