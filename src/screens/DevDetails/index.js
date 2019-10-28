@@ -30,25 +30,51 @@ class DevDetails extends React.PureComponent {
     dev: null,
     repositoryData: null,
     isFavoriteLoading: true,
+    showRepos:false
   };
 
   scrollRef = null;
 
+
+  getLanguages = async (fullName) => {
+    const resp = await GitHubApi.getLanguages(fullName);
+    return resp.data;
+  } 
+
   async componentDidMount() {
+
     const user = this.props.navigation.getParam('user');
     const responseRepos = await GitHubApi.getRepos(user.login);
+    const repositories = responseRepos.data.map((async repoData=>{
+      const name = repoData.name;
+      const stars = repoData.stars;
+      const id = repoData.id;
+      const languagesObj = await this.getLanguages(repoData.full_name);
+      const languages = Object.keys(languagesObj);
+      return{
+          name,
+          stars,
+          languages,
+          id
+      }
+    }));
 
-    const checkFavorite = this.props.favorites.find(dev => {
-      return dev === user.login;
-    });
+    (async ()=>{
+      const repositoryData = await Promise.all(repositories);
+      const checkFavorite = this.props.favorites.find(dev => {
+        return dev === user.login;
+      });
+  
+      this.setState({
+        dev: user,
+        repositoryData: repositoryData,
+        isLoading: false,
+        isFavoriteLoading: false,
+        isFavorite: checkFavorite ? true : false,
+        showRepos:true
+      });
+    })();
 
-    this.setState({
-      dev: user,
-      repositoryData: responseRepos.data,
-      isLoading: false,
-      isFavoriteLoading: false,
-      isFavorite: checkFavorite ? true : false,
-    });
   }
 
   onLikeHandler = async () => {
@@ -71,6 +97,12 @@ class DevDetails extends React.PureComponent {
     this.scrollRef.scrollTo({x: xValue});
   };
 
+  setTimer = async (x) => {
+    setTimeout(()=>{
+      this.setState({showRepos:true});
+    },x);
+  }
+
   render() {
     const isLoading = this.state.isLoading;
     if (isLoading) {
@@ -82,7 +114,7 @@ class DevDetails extends React.PureComponent {
     let scrollViewWidth = dimensions.width - 20;
     return (
       <LinearGradient
-        colors={colors.linearGradientColors}
+        colors={colors.secondaryGradient}
         style={styles.container}>
         <View style={styles.cardA} />
         <View
@@ -112,7 +144,7 @@ class DevDetails extends React.PureComponent {
         {/* ---------------------------------------------------------------- */}
         <View style={styles.cardB}>
           <View>
-            <Text style={styles.devName}>{dev.name}</Text>
+            <Text style={styles.devName}>{dev.name ? dev.name : '----'}</Text>
           </View>
 
           <TouchableOpacity
@@ -178,7 +210,8 @@ class DevDetails extends React.PureComponent {
                   borderRadius: 20,
                   flex: 1,
                 }}>
-                <View
+                <LinearGradient
+                  colors={colors.secondaryGradient}
                   style={{
                     flex: 1,
                     margin: 5,
@@ -188,19 +221,20 @@ class DevDetails extends React.PureComponent {
                     alignSelf: 'stretch',
                     flexDirection: 'column',
                     justifyContent: 'space-around',
+                    backgroundColor:"#ccc"
                   }}>
-                  <DevInfoItem label="Nome" value={dev.name} />
-                  <DevInfoItem label="Username" value={dev.login} />
+                  <DevInfoItem label="Nome" value={dev.name ? dev.name : '----'} />
+                  <DevInfoItem label="Usuário" value={dev.login} />
                   <DevInfoItem
                     label="Seguidores"
                     value={dev.followers.toString()}
                   />
-                  <DevInfoItem label="Site" value={dev.blog} />
+                  <DevInfoItem label="Site" value={dev.blog ? dev.blog : '----'} />
                   <DevInfoItem
                     label="E-mail"
                     value={dev.email ? dev.email : '----'}
                   />
-                </View>
+                </LinearGradient>
               </View>
               <View
                 style={{
@@ -209,17 +243,17 @@ class DevDetails extends React.PureComponent {
                   width: scrollViewWidth - 20,
                   borderRadius: 20,
                 }}>
-                <View
+                <LinearGradient
+                  colors={colors.secondaryGradient}
                   style={{
                     borderRadius: 40,
-                    backgroundColor: 'white',
                     margin: 5,
                     padding: 10,
                     width: '96%',
                     height: '96%',
                   }}>
-                  <RepositoryItems data={repositoryData} />
-                </View>
+                  {this.state.showRepos ? <RepositoryItems data={repositoryData} /> : <Loading/>}
+                </LinearGradient>
               </View>
             </ScrollView>
           </View>

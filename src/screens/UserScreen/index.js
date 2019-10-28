@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 import {setFavorites,setUser,setRepositories,setLocation} from '../../actions/actions';
-
+import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-community/async-storage';
 import Geolocation from 'react-native-geolocation-service';
 import {connect} from 'react-redux';
@@ -39,11 +39,17 @@ class UserScreen extends Component {
     isLoading: true,
     isGPSAllowed: false,
     isFavoriteLoading: true,
+    isRepoLoading:true,
     firstFavorites: [],
   };
 
   scrollRef = null;
   scrollViewWidth = 280;
+
+  getLanguages = async (fullName) => {
+    const resp = await GitHubApi.getLanguages(fullName);
+    return resp.data;
+  } 
 
   async componentDidMount() {
     try {
@@ -51,25 +57,32 @@ class UserScreen extends Component {
       const user = resp.data;
 
       this.props.dispatch(setUser(user));
-
       const resp2 = await GitHubApi.getRepos(user.login);
-      const repositories = resp2.data.map(repo => {
+      const repositories = resp2.data.map(async repo => {
+        const languagesObj = await this.getLanguages(repo.full_name);
+        const languages = Object.keys(languagesObj);
         return {
           id: repo.id,
           name: repo.name,
           stars: repo.stars,
-          full_name: repo.full_name
+          full_name: repo.full_name,
+          languages: languages
         };
       });
 
-      this.props.dispatch(setRepositories(repositories));
+      (async ()=> {
+        const repositoryData = await Promise.all(repositories);
+        //this.setState({repositoryData: repositoryData, showRepos:true});
+        this.props.dispatch(setRepositories(repositoryData));
+        this.setState({isLoading: false, isRepoLoading:false});
+      })();
     } catch (error) {
       console.log('Erro: ', error);
     }
 
     this.fetchChosenFavorites();
-    this.setState({isLoading: false});
     this.getLocation();
+    this.setState({isLoading:false});
   }
 
   hasLocationPermission = async () => {
@@ -194,16 +207,15 @@ class UserScreen extends Component {
         await this.props.dispatch(setFavorites(favorites.favorites));
         this.fetchChosenFavorites();
       }
+      else{
+        this.setState({isFavoriteLoading:false});
+      }
     }
   };
 
   forceComponentUpdate = () => {
     this.fetchChosenFavorites();
   };
-
-  componentWillUnmount(){
-    console.log('UserScreen está desmontando..')
-  }
 
   render() {
     let content_screen = (
@@ -244,7 +256,7 @@ class UserScreen extends Component {
             </View>
 
             <View style={styles.sectionA}>
-              <View style={styles.cardA1}>
+              <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={colors.linearGradientColors} style={styles.cardA1}>
                 {this.props.local.city &&
                 this.props.local.state &&
                 this.state.isGPSAllowed ? (
@@ -256,8 +268,8 @@ class UserScreen extends Component {
                     <Text style={styles.getLocationBtn}>Obter Localização</Text>
                   </TouchableOpacity>
                 )}
-              </View>
-              <View style={styles.cardA2}>
+              </LinearGradient>
+              <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={colors.secondaryGradient} style={styles.cardA2}>
                 <View
                   style={{
                     alignItems: 'center',
@@ -266,7 +278,7 @@ class UserScreen extends Component {
                     height: '70%',
                   }}>
                   <Table rowNumber="3" tableWidth="160">
-                    <TableRow label="Username" value={this.props.dev.login} />
+                    <TableRow label="Usuário" value={this.props.dev.login} />
                     <TableRow
                       label="Seguidores"
                       value={this.props.dev.followers}
@@ -283,20 +295,19 @@ class UserScreen extends Component {
                     color={colors.themeColor}
                   />
                 </View>
-              </View>
+              </LinearGradient>
             </View>
 
             <View style={styles.sectionB}>
               <SlidingTab
-                position={{top: 20, left: '5%'}}
+                position={{top: 0, left: '5%'}}
                 labelTab1="Repositórios"
                 labelTab2="Favoritos"
                 scrollViewWidth={this.scrollViewWidth}
                 scroll={this.scrollHandler}
               />
 
-              <Text style={styles.infoBtn}></Text>
-              <View style={styles.cardB1}></View>
+              <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={colors.linearGradientColors} style={styles.cardB1}></LinearGradient>
               <View style={styles.cardB2}>
                 <View
                   style={{
@@ -331,7 +342,7 @@ class UserScreen extends Component {
                           width: '96%',
                           height: '96%',
                         }}>
-                        <RepositoryItems data={this.props.repositoryData} />
+                        {this.state.isRepoLoading ? <Loading /> : <RepositoryItems data={this.props.repositoryData} />}
                       </View>
                     </View>
 
