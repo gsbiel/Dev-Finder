@@ -9,10 +9,14 @@ import {
   PermissionsAndroid,
   Platform,
   TouchableOpacity,
-  ToastAndroid
+  ToastAndroid,
 } from 'react-native';
-
-import {setFavorites,setUser,setRepositories,setLocation} from '../../actions/actions';
+import {
+  setFavorites,
+  setUser,
+  setRepositories,
+  setLocation,
+} from '../../actions/actions';
 import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-community/async-storage';
 import Geolocation from 'react-native-geolocation-service';
@@ -39,17 +43,17 @@ class UserScreen extends Component {
     isLoading: true,
     isGPSAllowed: false,
     isFavoriteLoading: true,
-    isRepoLoading:true,
+    isRepoLoading: true,
     firstFavorites: [],
   };
 
   scrollRef = null;
   scrollViewWidth = 280;
 
-  getLanguages = async (fullName) => {
+  getLanguages = async fullName => {
     const resp = await GitHubApi.getLanguages(fullName);
     return resp.data;
-  } 
+  };
 
   async componentDidMount() {
     try {
@@ -66,23 +70,23 @@ class UserScreen extends Component {
           name: repo.name,
           stars: repo.stars,
           full_name: repo.full_name,
-          languages: languages
+          languages: languages,
         };
       });
 
-      (async ()=> {
+      (async () => {
         const repositoryData = await Promise.all(repositories);
         //this.setState({repositoryData: repositoryData, showRepos:true});
         this.props.dispatch(setRepositories(repositoryData));
-        this.setState({isLoading: false, isRepoLoading:false});
+        this.setState({isLoading: false, isRepoLoading: false});
       })();
     } catch (error) {
       console.log('Erro: ', error);
     }
 
-    this.fetchChosenFavorites();
+    await this.fetchChosenFavorites();
     this.getLocation();
-    this.setState({isLoading:false});
+    this.setState({isLoading: false});
   }
 
   hasLocationPermission = async () => {
@@ -199,17 +203,16 @@ class UserScreen extends Component {
         firstFavorites: firstFavorites,
         isFavoriteLoading: false,
       });
-    }
-    else{
-      const favoritesJSON = await AsyncStorage.getItem(this.props.dev.login)
+    } else {
+      const favoritesJSON = await AsyncStorage.getItem(this.props.dev.login);
       const favorites = JSON.parse(favoritesJSON);
-      if(favorites){
+      if (favorites) {
         await this.props.dispatch(setFavorites(favorites.favorites));
         this.fetchChosenFavorites();
       }
-      else{
-        this.setState({isFavoriteLoading:false});
-      }
+      this.setState({
+        isFavoriteLoading: false,
+      });
     }
   };
 
@@ -217,14 +220,16 @@ class UserScreen extends Component {
     this.fetchChosenFavorites();
   };
 
+  componentWillUnmount() {
+    console.log('UserScreen está desmontando..');
+  }
+
   render() {
-    let content_screen = (
-      <Loading />
-    );
+    let content_screen = <Loading />;
 
     if (!this.state.isLoading) {
       const chosenFavorites = [];
-      let listAmount= devListAmount;
+      let listAmount = devListAmount;
       if (this.props.favorites.length < devListAmount) {
         listAmount = this.props.favorites.length;
       }
@@ -256,7 +261,11 @@ class UserScreen extends Component {
             </View>
 
             <View style={styles.sectionA}>
-              <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={colors.linearGradientColors} style={styles.cardA1}>
+              <LinearGradient
+                start={{x: 0, y: 0}}
+                end={{x: 1, y: 0}}
+                colors={colors.linearGradientColors}
+                style={styles.cardA1}>
                 {this.props.local.city &&
                 this.props.local.state &&
                 this.state.isGPSAllowed ? (
@@ -269,7 +278,11 @@ class UserScreen extends Component {
                   </TouchableOpacity>
                 )}
               </LinearGradient>
-              <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={colors.secondaryGradient} style={styles.cardA2}>
+              <LinearGradient
+                start={{x: 0, y: 0}}
+                end={{x: 1, y: 0}}
+                colors={colors.secondaryGradient}
+                style={styles.cardA2}>
                 <View
                   style={{
                     alignItems: 'center',
@@ -307,7 +320,11 @@ class UserScreen extends Component {
                 scroll={this.scrollHandler}
               />
 
-              <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={colors.linearGradientColors} style={styles.cardB1}></LinearGradient>
+              <LinearGradient
+                start={{x: 0, y: 0}}
+                end={{x: 1, y: 0}}
+                colors={colors.linearGradientColors}
+                style={styles.cardB1}></LinearGradient>
               <View style={styles.cardB2}>
                 <View
                   style={{
@@ -342,7 +359,11 @@ class UserScreen extends Component {
                           width: '96%',
                           height: '96%',
                         }}>
-                        {this.state.isRepoLoading ? <Loading /> : <RepositoryItems data={this.props.repositoryData} />}
+                        {this.state.isRepoLoading ? (
+                          <Loading />
+                        ) : (
+                          <RepositoryItems data={this.props.repositoryData} />
+                        )}
                       </View>
                     </View>
 

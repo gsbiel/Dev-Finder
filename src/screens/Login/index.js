@@ -5,9 +5,11 @@ import GitHubApi from './../../services/GitHubApi';
 import LinearGradient from 'react-native-linear-gradient';
 import colors from './../../styles/colors';
 import styles from './styles';
+import Loading from '../../components/Loading';
 
 class Login extends Component {
   state = {
+    isLoading: true,
     email: '',
     password: '',
     disabled: false,
@@ -47,6 +49,8 @@ class Login extends Component {
         payload: token,
       });
       this.props.navigation.navigate('UserScreen');
+    } else {
+      this.setState({isLoading: false});
     }
   };
 
@@ -56,12 +60,13 @@ class Login extends Component {
 
   render() {
     const {disabled} = this.state;
-
+    if (this.state.isLoading) {
+      return <Loading />;
+    }
     return (
       <LinearGradient
         colors={colors.linearGradientColors}
         style={styles.container}>
-          
         <View style={styles.header}>
           <Image
             style={styles.headerImage}
