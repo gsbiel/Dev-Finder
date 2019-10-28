@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     width: 130,
     height: 130,
     borderRadius: 70,
-    top: '10%',
+    top: '8%',
     zIndex: 5,
     alignSelf: 'center',
     padding: 5,

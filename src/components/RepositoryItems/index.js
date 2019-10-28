@@ -1,10 +1,17 @@
 import React,{Component} from 'react';
 import {View,FlatList} from 'react-native';
 
+import GitHubApi from '../../services/GitHubApi';
 import RepositoryItem from './RepositoryItem/index';
 import EmptyList from '../EmptyList/index';
+import Loading from '../Loading';
 
 class RepositoryItems extends Component {
+
+    state={
+        isLoading:true,
+        repositories: null
+    }
 
     renderSeparator = () => {
         return(
@@ -16,6 +23,7 @@ class RepositoryItems extends Component {
     }
 
     render(){
+
         return(
             <FlatList
             ref={flatList=>{
@@ -28,13 +36,13 @@ class RepositoryItems extends Component {
             data={this.props.data}
             renderItem={({item})=>{
                 return(
-                    <RepositoryItem name={item.name} stars={item.stars} language={item.language}/>
+                    <RepositoryItem name={item.name} stars={item.stars} languages={item.languages}/>
                 );
             }}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.id.toString()}
             ItemSeparatorComponent={this.renderSeparator}
             ListEmptyComponent ={<EmptyList/>}/>
-        );
+        )
     }
 }
 

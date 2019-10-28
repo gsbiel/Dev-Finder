@@ -8,14 +8,14 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import LinearGradient from 'react-native-linear-gradient';
 import {NavigationEvents} from 'react-navigation';
 import {connect} from 'react-redux';
 import GitHubApi from '../../services/GitHubApi';
-
 import styles from './styles';
-import SearchBar from '../../components/SearchBar';
 import DevFromList from '../../components/DevFromList';
 import Header from '../../components/Header';
+import colors from '../../styles/colors';
 
 class Favorites extends Component {
   /**
@@ -88,6 +88,7 @@ class Favorites extends Component {
         <Header label="Favoritos" />
         {listContent}
         <Button
+          color={colors.voltarBtn}
           title="Voltar para a HOME"
           onPress={() => {
             this.props.navigation.goBack();

@@ -46,6 +46,17 @@ export default class GitHubApi {
   }
 
   /**
+   * @static
+   * @param {string} url
+   * @returns {Promise<AxiosResponse<ListLanguages>>}
+   */
+  static async getLanguages(url) {
+    const request = await this.getAxios();
+    return request.get(`/repos/${url}/languages`);
+  }
+
+
+  /**
    * @returns {Promise<boolean|string>}
    */
   static async login() {
