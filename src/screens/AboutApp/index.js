@@ -7,7 +7,7 @@ import colors from './../../styles/colors';
 
 export default class Inicio extends React.PureComponent {
   state = {
-    nextPage: 'login',
+    nextPage: 'Login',
   };
 
   async componentDidMount() {
