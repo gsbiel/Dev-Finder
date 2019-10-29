@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import axios, {AxiosInstance, AxiosResponse} from 'axios';
 import {authorize} from 'react-native-app-auth';
 
+import {GitAppData} from './APIData';
 export default class GitHubApi {
   /**
    * @returns {Promise<AxiosResponse<UserModel>>}
@@ -65,10 +66,10 @@ export default class GitHubApi {
         authorizationEndpoint: 'https://github.com/login/oauth/authorize',
         tokenEndpoint: 'https://github.com/login/oauth/access_token',
       },
-      clientId: 'CLIENT_ID',
-      clientSecret: 'CLIENT_SECRET',
-      redirectUrl: 'io.devfinder://callback',
-      scopes: ['public_repo', 'read:user'],
+      clientId: GitAppData.clientId,
+      clientSecret: GitAppData.clientSecret,
+      redirectUrl: GitAppData.redirectUrl,
+      scopes: GitAppData.scopes
     };
     try {
       const authState = await authorize(loginConfig);
