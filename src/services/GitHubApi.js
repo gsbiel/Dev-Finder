@@ -65,8 +65,8 @@ export default class GitHubApi {
         authorizationEndpoint: 'https://github.com/login/oauth/authorize',
         tokenEndpoint: 'https://github.com/login/oauth/access_token',
       },
-      clientId: '4d5e5470c4da4dd71d4f',
-      clientSecret: 'b03e3fae2d8c669f7d4de9109edc9fabec05371a',
+      clientId: 'CLIENT_ID',
+      clientSecret: 'CLIENT_SECRET',
       redirectUrl: 'io.devfinder://callback',
       scopes: ['public_repo', 'read:user'],
     };
