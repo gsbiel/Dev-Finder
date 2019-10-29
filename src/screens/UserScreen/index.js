@@ -33,7 +33,7 @@ import DevList from '../../components/DevList';
 import Loading from '../../components/Loading';
 import Header from '../../components/Header';
 import GitHubApi from './../../services/GitHubApi';
-import API_KEY from '../../googleAPI';
+import {googleAppData} from '../../services/APIData';
 
 // Quantos Devs você quer que apareçam na lista de devs favoritos da tela de profile?
 let devListAmount = 3;
@@ -147,7 +147,7 @@ class UserScreen extends Component {
               ',' +
               longitude +
               '&key=' +
-              API_KEY,
+              googleAppData.API_KEY,
           )
           .then(async resp => {
             const cidade =

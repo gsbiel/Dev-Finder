@@ -2,10 +2,9 @@ const colors = {
   themeColor: '#030442',
   primaryColor: '#7800ff',
   linearGradientColors: [
-    '#55248F',
+    '#000',
     '#7800ff',
-    // '#55248F',
-    // '#000',
+    '#000',
   ],
   secondaryGradient: ['#ccc', '#fff', '#ccc'],
   devListButtonColor: '#030442',
