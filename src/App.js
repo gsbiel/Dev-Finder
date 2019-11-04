@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {createAppContainer, createStackNavigator} from 'react-navigation';
+import {createAppContainer, createStackNavigator, createSwitchNavigator, createBottomTabNavigator} from 'react-navigation';
 
 import Login from './screens/Login';
 import BuscaDevs from './screens/BuscaDevs';
@@ -18,6 +18,8 @@ import Favorites from './screens/Favorites';
 
 import {Provider} from 'react-redux';
 import store from './store';
+
+
 
 const MainStack = createStackNavigator(
   {
@@ -34,7 +36,73 @@ const MainStack = createStackNavigator(
   },
 );
 
-const Navigation = createAppContainer(MainStack);
+const UserScreenStack = createStackNavigator(
+  {
+    UserScreen: UserScreen,
+    DevDetails: DevDetails
+  },
+  {
+    initialRouteName:'UserScreen',
+    headerMode:'none'
+  }
+);
+
+const BuscaDevsStack = createStackNavigator(
+  {
+    BuscaDevs:BuscaDevs,
+    DevDetails:DevDetails
+  },
+  {
+    initialRouteName:'BuscaDevs',
+    headerMode:'none'
+  }
+);
+
+const FavoritesStack = createStackNavigator(
+  {
+    Favorites: Favorites,
+    DevDetails:DevDetails
+  },
+  {
+    initialRouteName:'Favorites',
+    headerMode:'none'
+  }
+);
+
+const bottomNavigator = createBottomTabNavigator({
+  UserScreen:{
+    screen: UserScreenStack,
+    navigationOptions:{
+      tabBarLabel:'Home'
+    }
+  },
+  BuscaDevs:{
+    screen: BuscaDevsStack,
+    navigationOptions:{
+      tabBarLabel: 'Search'
+    }
+  },
+  Favorites:{
+    screen: FavoritesStack,
+    navigationOptions:{
+      tabBarLabel:'Favorites'
+    }
+  }
+});
+
+const SwitchNavigator = createSwitchNavigator({
+  AboutApp:{
+    screen: AboutApp
+  },
+  Login:{
+    screen: Login
+  },
+  App:{
+    screen: bottomNavigator
+  }
+});
+
+const Navigation = createAppContainer(SwitchNavigator);
 
 class App extends Component {
   render() {
@@ -45,4 +113,5 @@ class App extends Component {
     );
   }
 }
+
 export default App;
