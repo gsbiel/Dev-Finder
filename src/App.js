@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {createAppContainer, createStackNavigator} from 'react-navigation';
+import {createAppContainer, createStackNavigator, createSwitchNavigator, createBottomTabNavigator} from 'react-navigation';
 
 import Login from './screens/Login';
 import BuscaDevs from './screens/BuscaDevs';
@@ -19,22 +19,91 @@ import Favorites from './screens/Favorites';
 import {Provider} from 'react-redux';
 import store from './store';
 
-const MainStack = createStackNavigator(
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
+const UserScreenStack = createStackNavigator(
   {
-    BuscaDevs: BuscaDevs,
-    DevDetails: DevDetails,
-    Login: Login,
-    AboutApp: AboutApp,
     UserScreen: UserScreen,
-    Favorites: Favorites
+    DevDetails: DevDetails
   },
   {
-    initialRouteName: 'AboutApp',
-    headerMode: 'none',
-  },
+    initialRouteName:'UserScreen',
+    headerMode:'none'
+  }
 );
 
-const Navigation = createAppContainer(MainStack);
+const BuscaDevsStack = createStackNavigator(
+  {
+    BuscaDevs:BuscaDevs,
+    DevDetails:DevDetails
+  },
+  {
+    initialRouteName:'BuscaDevs',
+    headerMode:'none'
+  }
+);
+
+const FavoritesStack = createStackNavigator(
+  {
+    Favorites: Favorites,
+    DevDetails:DevDetails
+  },
+  {
+    initialRouteName:'Favorites',
+    headerMode:'none'
+  }
+);
+
+const bottomNavigator = createBottomTabNavigator(
+  {
+    UserScreen:{
+      screen: UserScreenStack,
+      navigationOptions:{
+        tabBarLabel:'Home',
+        tabBarIcon:({tintColor}) => {
+          return <Icon name="home" size={25} color={tintColor} />;
+        }
+      }
+    },
+    BuscaDevs:{
+      screen: BuscaDevsStack,
+      navigationOptions:{
+        tabBarLabel: 'Search',
+        tabBarIcon : ({tintColor}) => {
+          return <Icon name="search-location" size={25} color={tintColor} />;
+        }
+      }
+    },
+    Favorites:{
+      screen: FavoritesStack,
+      navigationOptions:{
+        tabBarLabel:'Favorites',
+        tabBarIcon: ({tintColor}) => {
+          return <Icon name="star" size={25} color={tintColor} />;
+        }
+      }
+    }
+  },
+  {
+    tabBarOptions:{
+      activeTintColor: "#030442"
+    }
+  }
+);
+
+const SwitchNavigator = createSwitchNavigator({
+  AboutApp:{
+    screen: AboutApp
+  },
+  Login:{
+    screen: Login
+  },
+  App:{
+    screen: bottomNavigator
+  }
+});
+
+const Navigation = createAppContainer(SwitchNavigator);
 
 class App extends Component {
   render() {
@@ -45,4 +114,5 @@ class App extends Component {
     );
   }
 }
+
 export default App;
