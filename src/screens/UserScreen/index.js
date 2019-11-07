@@ -301,12 +301,12 @@ class UserScreen extends Component {
                       value={this.props.dev.public_repos}
                     />
                   </Table>
-                  <Button
+                  {/* <Button
                     disabled={!this.state.isGPSAllowed}
                     title="Busque um Dev!"
                     onPress={() => this.props.navigation.navigate('BuscaDevs')}
                     color={colors.themeColor}
-                  />
+                  /> */}
                 </View>
               </LinearGradient>
             </View>
@@ -329,7 +329,7 @@ class UserScreen extends Component {
                 <View
                   style={{
                     width: 280,
-                    height: '90%',
+                    height: '75%',
                     backgroundColor: 'white',
                     marginTop: 20,
                     alignSelf: 'center',
