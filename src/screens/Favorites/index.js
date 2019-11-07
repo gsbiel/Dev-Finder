@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import LinearGradient from 'react-native-linear-gradient';
 import {NavigationEvents} from 'react-navigation';
 import {connect} from 'react-redux';
 import GitHubApi from '../../services/GitHubApi';
@@ -87,13 +86,6 @@ class Favorites extends Component {
         <NavigationEvents onDidFocus={() => this.forceComponentUpdate()} />
         <Header label="Favoritos" />
         {listContent}
-        <Button
-          color={colors.voltarBtn}
-          title="Voltar para a HOME"
-          onPress={() => {
-            this.props.navigation.goBack();
-          }}
-        />
       </View>
     );
   }

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {
   View,
-  Button,
   Text,
   FlatList,
   ActivityIndicator,
@@ -127,13 +126,6 @@ class BuscaDevs extends Component {
             />
           )}
         </View>
-        <Button
-          color={colors.voltarBtn}
-          title="Voltar para a HOME"
-          onPress={() => {
-            this.props.navigation.navigate('UserScreen');
-          }}
-        />
       </LinearGradient>
     );
   }
