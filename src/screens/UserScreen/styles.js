@@ -12,22 +12,22 @@ const styles = StyleSheet.create({
         flex:1,
     },
     sectionA:{
-        flex:1
+        flex:2
     },
     sectionB:{
-        flex:1,
+        flex:3,
         marginBottom:20
     },
     cardA1:{
-        flex:1,
+        //flex:1,
         width:'100%',
         backgroundColor:'skyblue',
         justifyContent:'center',
         alignItems:'flex-end',
-        paddingRight:10
+        padding:5
     },
     cardA2:{
-        flex:6,
+        flex:2,
         width:'100%',
         backgroundColor:'white',
         alignItems:'center',
