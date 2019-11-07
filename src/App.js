@@ -19,22 +19,7 @@ import Favorites from './screens/Favorites';
 import {Provider} from 'react-redux';
 import store from './store';
 
-
-
-const MainStack = createStackNavigator(
-  {
-    BuscaDevs: BuscaDevs,
-    DevDetails: DevDetails,
-    Login: Login,
-    AboutApp: AboutApp,
-    UserScreen: UserScreen,
-    Favorites: Favorites
-  },
-  {
-    initialRouteName: 'AboutApp',
-    headerMode: 'none',
-  },
-);
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const UserScreenStack = createStackNavigator(
   {
@@ -69,26 +54,42 @@ const FavoritesStack = createStackNavigator(
   }
 );
 
-const bottomNavigator = createBottomTabNavigator({
-  UserScreen:{
-    screen: UserScreenStack,
-    navigationOptions:{
-      tabBarLabel:'Home'
+const bottomNavigator = createBottomTabNavigator(
+  {
+    UserScreen:{
+      screen: UserScreenStack,
+      navigationOptions:{
+        tabBarLabel:'Home',
+        tabBarIcon:({tintColor}) => {
+          return <Icon name="home" size={25} color={tintColor} />;
+        }
+      }
+    },
+    BuscaDevs:{
+      screen: BuscaDevsStack,
+      navigationOptions:{
+        tabBarLabel: 'Search',
+        tabBarIcon : ({tintColor}) => {
+          return <Icon name="search-location" size={25} color={tintColor} />;
+        }
+      }
+    },
+    Favorites:{
+      screen: FavoritesStack,
+      navigationOptions:{
+        tabBarLabel:'Favorites',
+        tabBarIcon: ({tintColor}) => {
+          return <Icon name="star" size={25} color={tintColor} />;
+        }
+      }
     }
   },
-  BuscaDevs:{
-    screen: BuscaDevsStack,
-    navigationOptions:{
-      tabBarLabel: 'Search'
-    }
-  },
-  Favorites:{
-    screen: FavoritesStack,
-    navigationOptions:{
-      tabBarLabel:'Favorites'
+  {
+    tabBarOptions:{
+      activeTintColor: "#030442"
     }
   }
-});
+);
 
 const SwitchNavigator = createSwitchNavigator({
   AboutApp:{
