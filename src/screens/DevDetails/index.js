@@ -11,6 +11,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import {delFavorite,addFavorite} from '../../actions/actions';
 import {connect} from 'react-redux';
 
+import {NavigationEvents} from 'react-navigation';
+
 import Loading from '../../components/Loading';
 import RepositoryItems from '../../components/RepositoryItems';
 import DevInfoItem from '../../components/DevInfoItem';
@@ -116,6 +118,16 @@ class DevDetails extends React.PureComponent {
       <LinearGradient
         colors={colors.secondaryGradient}
         style={styles.container}>
+        <NavigationEvents
+          onDidFocus={() => {
+            const checkFavorite = this.props.favorites.find(dev => {
+              return dev === this.state.dev.login;
+            });
+            this.setState({
+              isFavorite: checkFavorite ? true : false
+            });
+          }}
+        />
         <View style={styles.cardA} />
         <View
           style={{
