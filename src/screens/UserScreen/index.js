@@ -3,7 +3,6 @@ import {
   View,
   Text,
   Image,
-  Button,
   ScrollView,
   ActivityIndicator,
   PermissionsAndroid,
