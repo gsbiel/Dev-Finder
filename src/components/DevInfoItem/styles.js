@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import styled from 'styled-components';
 
 const styles = StyleSheet.create({
     devInfoContainer:{

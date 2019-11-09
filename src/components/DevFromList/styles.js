@@ -1,30 +1,31 @@
-import {StyleSheet} from 'react-native';
+import styled from 'styled-components';
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    padding: 10,
-    margin: 10,
-    borderRadius: 5,
-    flexDirection: 'row'
-  },
-  image: {
-    width: 75,
-    height: 75,
-    borderRadius: 100,
-  },
-  containerInfo: {
-    flexDirection: 'column',
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-  devName: {
-    fontSize: 15,
-    fontWeight: '600',
-    marginBottom: 15,
-  },
-  devUsername: {},
-  devFollowers: {},
-});
+const DevContainer =  styled.TouchableOpacity`
+    background-color: #fff;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    flex-direction: row;
+    align-items: center;
+`;
 
-export default styles;
+const DevImage = styled.Image`
+    width: 75px;
+    height: 75px;
+    border-radius: 100px;
+`;
+
+const InfoBox = styled.View`
+    flex-direction: column;
+    padding-left: 10px;
+    padding-right: 10px;
+`;
+
+const InfoItem = styled.Text`
+    font-size: 15px;
+    font-weight: 600; 
+    margin-bottom: 15px;
+
+`;
+
+export {DevContainer,DevImage,InfoBox,InfoItem};
