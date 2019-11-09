@@ -1,13 +1,13 @@
 import React from 'react';
-import {View,Text} from 'react-native';
 
-import styles from './styles';
+import colors from '.././../styles/colors';
+import {HeaderBar,HeaderLabel} from './styles';
 
 const header = (props) => {
     return(
-        <View style={styles.bar}>
-            <Text style={styles.barLabel}>{props.label}</Text>
-        </View>
+        <HeaderBar theme={colors.themeColor}>
+            <HeaderLabel>{props.label}</HeaderLabel>
+        </HeaderBar>
     );
 }
 
