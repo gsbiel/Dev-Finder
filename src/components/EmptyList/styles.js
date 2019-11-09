@@ -1,18 +1,15 @@
-import {StyleSheet} from 'react-native'
+import styled from 'styled-components';
 
-import colors from '../../styles/colors';
+const Container = styled.View`
+    width: 95%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+`;
 
-const styles = StyleSheet.create({
-    container:{
-        width:'95%',
-        height:'100%',
-        justifyContent:'center',
-        alignItems:'center'
-    },
-    label:{
-        color: colors.themeColor,
-        fontSize:20
-    }
-});
+const Text = styled.Text`
+    color: ${props => props.theme}
+    font-size: 20px;
+`;
 
-export default styles;
+export {Container,Text}

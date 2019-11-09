@@ -1,14 +1,14 @@
 import React from 'react';
-import {View,Text} from 'react-native';
 
-import styles from './styles';
+import colors from '../../styles/colors';
+import {Container, Text} from './styles';
 
 const emptyList = (props) => {
     return(
-        <View style={styles.container}>
-            <Text style={styles.label}>Nenhum...</Text>
-        </View>
-    )
+        <Container>
+            <Text theme={colors.themeColor} >Nenhum...</Text>
+        </Container>
+    );
 }
 
 export default emptyList;
