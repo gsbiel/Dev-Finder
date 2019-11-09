@@ -1,9 +1,13 @@
 import React from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image, TouchableOpacity, ToastAndroid} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import colors from '../../styles/colors';
 import styles from './styles';
+import GitHubApi from '../../services/GitHubApi';
+
+import {setToken} from '../../actions/actions';
+import {connect} from 'react-redux'
 
 const drawerNavigator = (props) => {
 
@@ -28,20 +32,27 @@ const drawerNavigator = (props) => {
             >
                 <TouchableOpacity
                     style={styles.btn}
-                    onPress={()=>console.log('Vai pro app!')}>
+                    onPress={()=> props.navigation.closeDrawer()}>
                         <Text style={styles.textBtn}>App</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                     style={styles.btn}
-                    onPress={()=>console.log('Deslogar do app!')}>
+                    onPress={async ()=>{
+                        console.log('Deslogar do app!');
+                        ToastAndroid.show(
+                            'Usuário desconectado.',
+                            ToastAndroid.LONG,
+                        );
+                        props.dispatch(setToken(''));
+                        await GitHubApi.deleteToken();
+                        props.navigation.navigate('AboutApp')}}>
                         <Text style={styles.textBtn}>Login out</Text>
                 </TouchableOpacity>
 
             </LinearGradient>
-            <Text>Esse é o drawer navigator</Text>
         </View>
     );
 }
 
-export default drawerNavigator;
+export default connect()(drawerNavigator);
