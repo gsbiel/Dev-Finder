@@ -97,6 +97,13 @@ export default class GitHubApi {
   }
 
   /**
+   * @returns {Promise<string>}
+   */
+  static deleteToken() {
+    return AsyncStorage.removeItem('access_token');
+  }
+
+  /**
    * @returns {Promise<AxiosInstance>}
    */
   static async getAxios() {

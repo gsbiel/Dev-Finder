@@ -7,7 +7,13 @@
  */
 
 import React, {Component} from 'react';
-import {createAppContainer, createStackNavigator, createSwitchNavigator, createBottomTabNavigator} from 'react-navigation';
+import {
+          createAppContainer, 
+          createStackNavigator, 
+          createSwitchNavigator, 
+          createBottomTabNavigator,
+          createDrawerNavigator
+        } from 'react-navigation';
 
 import Login from './screens/Login';
 import BuscaDevs from './screens/BuscaDevs';
@@ -15,6 +21,7 @@ import DevDetails from './screens/DevDetails';
 import AboutApp from './screens/AboutApp';
 import UserScreen from './screens/UserScreen';
 import Favorites from './screens/Favorites';
+import DrawerContent from './screens/DrawerContent';
 
 import {Provider} from 'react-redux';
 import store from './store';
@@ -91,6 +98,18 @@ const bottomNavigator = createBottomTabNavigator(
   }
 );
 
+const drawerNavigator =  createDrawerNavigator(
+  {
+    App:{
+      screen: bottomNavigator
+    }
+  },
+  {
+    overlayColor: 'rgba(0,0,0,.7)',
+    contentComponent: DrawerContent
+  }
+);
+
 const SwitchNavigator = createSwitchNavigator({
   AboutApp:{
     screen: AboutApp
@@ -99,7 +118,7 @@ const SwitchNavigator = createSwitchNavigator({
     screen: Login
   },
   App:{
-    screen: bottomNavigator
+    screen: drawerNavigator
   }
 });
 
