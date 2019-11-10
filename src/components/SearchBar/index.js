@@ -1,34 +1,34 @@
 import React from 'react';
-import {View, TextInput} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import styles from './styles';
+import {Container, SearchBox,searchIcon,TextInput} from './styles';
 
-export default class SearchBar extends React.Component {
+class SearchBar extends React.Component {
   constructor(props) {
     super(props);
   }
 
   render() {
     return (
-      <View style={styles.searchContainer}>
-        <View style={styles.searchInput}>
+      <Container>
+        <SearchBox>
           <Icon
             name="search"
             size={22}
-            style={styles.searchIcon}
+            style={searchIcon}
             color="#bbb"
           />
 
           <TextInput
-            style={styles.inputText}
             placeholder="Buscar Dev"
             placeholderTextColor="#999"
             underlineColorAndroid="#fff"
             autoCorrect={false}
           />
-        </View>
-      </View>
+        </SearchBox>
+      </Container>
     );
   }
 }
+
+export default SearchBar;
