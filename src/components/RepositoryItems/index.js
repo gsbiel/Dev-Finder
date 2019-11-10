@@ -1,10 +1,7 @@
 import React,{Component} from 'react';
 import {View,FlatList} from 'react-native';
-
-import GitHubApi from '../../services/GitHubApi';
 import RepositoryItem from './RepositoryItem/index';
 import EmptyList from '../EmptyList/index';
-import Loading from '../Loading';
 
 class RepositoryItems extends Component {
 

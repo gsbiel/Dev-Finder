@@ -1,34 +1,32 @@
-import {StyleSheet} from 'react-native';
+import styled from 'styled-components';
 
+const Container = styled.View`
+    flex-direction: row;
+    width: 90%;
+    border-width: 1px;
+    border-color: ${props => props.theme};
+    align-items: center;
+    align-self: center;
+    background-color: white;
+`;
 
-import colors from '../../../styles/colors';
-const colorTheme = colors.themeColor; 
+const RepositoryBox = styled.View`
+    flex:2;
+    padding: 10px;
+    justify-content: space-around;
+    border-left-width: 1px;
+    border-left-color: ${props => props.theme};
+`;
 
-const styles = StyleSheet.create(
-    {
-        outFlexContainer:{
-            flexDirection: 'row',
-            width:'90%',
-            borderWidth:1,
-            borderColor:colorTheme,
-            alignItems: 'center',
-            alignSelf:'center',
-            backgroundColor:'white'
-        },
-        inFlexContainer:{
-            flex:2,
-            padding: 10,
-            justifyContent:'space-around',
-            borderLeftWidth:1,
-            borderLeftColor:colorTheme
-        },
-        image:{
-            flex:1,
-            resizeMode:'contain',
-            width:'100%',
-            height:'100%'
-        }
-    }
-);
+const RepoImage = styled.Image`
+    flex:1;
+    resize-mode: contain;
+    width: 100%;
+    height: 100%;
+`;
 
-export default styles;
+const LanguageBox = styled.View`
+    padding-left: 10px
+`;
+
+export {Container, RepositoryBox, LanguageBox, RepoImage}
