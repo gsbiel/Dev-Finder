@@ -1,26 +1,38 @@
-import {StyleSheet} from 'react-native';
+import styled from 'styled-components';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5',
-  },
-  listContainer: {
-    flex: 1,
-  },
-  btnContainer: {
-    paddingBottom: 10,
-    //paddingTop: 20,
-  },
-  btn: {
-    backgroundColor: '#ccc',
-    padding: 10,
-    justifyContent: 'center',
-  },
-  btnText: {
-    color: 'black',
-    fontWeight:'bold',
-    alignSelf:'center'
-  },
-});
-export default styles;
+const container = {
+  flex: 1,
+  backgroundColor: '#f5f5f5'
+}
+
+const ListContainer = styled.View`
+    flex: 1;
+`;
+
+const LoadingBox = styled.View`
+    top: 50%;
+`;
+
+const PreviousPage = styled.TouchableOpacity`
+    background-color: #ccc;
+    padding: 10px;
+    justify-content: center;
+`;
+
+const NextPage = styled.TouchableOpacity`
+    background-color: #ccc;
+    padding: 10px;
+    justify-content: center;
+`;
+
+const TextBtn = styled.Text`
+    color: black;
+    font-weight: bold;
+    align-self: center;
+`;
+
+const Footer = styled.View`
+    padding-bottom: 10px;
+`;
+
+export {container, ListContainer, LoadingBox, PreviousPage, NextPage, TextBtn, Footer}
