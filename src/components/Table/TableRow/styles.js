@@ -1,32 +1,38 @@
-import {StyleSheet} from 'react-native';
+import styled from 'styled-components';
 
-import colors from '../../../styles/colors';
+const Row = styled.View`
+    flex: 1;
+    flex-direction: row;
+    background-color: white;
+    border-color: black;
+    border-width: 1px;
+`;
 
-const styles = StyleSheet.create({
-    tableRow:{
-        flex:1,
-        flexDirection:'row',
-        backgroundColor:'white',
-        borderColor:'black',
-        borderWidth:1,   
-    },
-    tableColumn:{
-        borderRightWidth:1,
-        borderRightColor:'black',
-        paddingLeft:2,
-        justifyContent:'center'
-    },
-    labelField:{
-        backgroundColor:colors.themeColor
-    },
-    label:{
-        fontSize:16,
-        color:'white',
-        fontWeight:'bold'
-    },
-    value:{
-        fontSize:14
-    }
-});
+const ColumnA = styled.View`
+    border-right-width: 1px;
+    border-right-color: black;
+    padding-left: 2px;
+    justify-content: center;
+    background-color: ${props => props.theme};
+    width: ${props => props.width};
+`;
 
-export default styles;
+const ColumnB = styled.View`
+    border-right-width: 1px;
+    border-right-color: black;
+    padding-left: 2px;
+    justify-content: center;
+    width: ${props => props.width};
+`;
+
+const Label = styled.Text`
+    font-size: 16px;
+    color: white;
+    font-weight: bold;
+`;
+
+const Value = styled.Text`
+    font-size: 14px;
+`;
+
+export {Row, ColumnA, ColumnB, Label, Value}
