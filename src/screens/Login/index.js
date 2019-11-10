@@ -4,7 +4,15 @@ import {TouchableOpacity, Text, View, Image} from 'react-native';
 import GitHubApi from './../../services/GitHubApi';
 import LinearGradient from 'react-native-linear-gradient';
 import colors from './../../styles/colors';
-import styles from './styles';
+import {
+  container,
+  Header,
+  Logo,
+  AppName,
+  LoginBtn,
+  GitIcon,
+  GitText
+} from './styles';
 import Loading from '../../components/Loading';
 
 class Login extends Component {
@@ -66,31 +74,23 @@ class Login extends Component {
     return (
       <LinearGradient
         colors={colors.linearGradientColors}
-        style={styles.container}>
-        <View style={styles.header}>
-          <Image
-            style={styles.headerImage}
-            source={require('../../assets/images/alvo.png')}
-          />
-          <Text style={styles.headerText}>Dev Finder</Text>
-        </View>
+        style={container}>
+        <Header>
+          <Logo source={require('../../assets/images/alvo.png')}/>
+          <AppName>Dev Finder</AppName>
+        </Header>
 
-        <TouchableOpacity
+        <LoginBtn
           onPress={() => {
             if (!disabled) {
               this.onLoginHandler();
             }
           }}>
-          <View style={styles.git}>
-            <Image
-              style={styles.headerPass}
-              source={require('../../assets/images/GitHub-Mark-Light-32px.png')}
-            />
-            <Text style={[styles.textButton, {marginLeft: 15}]}>
+            <GitIcon source={require('../../assets/images/GitHub-Mark-Light-32px.png')}/>
+            <GitText>
               Login: GitHub
-            </Text>
-          </View>
-        </TouchableOpacity>
+            </GitText>
+        </LoginBtn>
       </LinearGradient>
     );
   }
