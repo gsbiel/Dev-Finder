@@ -1,49 +1,53 @@
-import {StyleSheet} from 'react-native'
+import styled from 'styled-components';
 
-const styles = StyleSheet.create({
-    touchable: {
-      alignSelf: 'center',
-      marginTop:100,
-      alignItems: 'center',
-      justifyContent: 'center',
-      height:50,
-      width:200,
-      borderRadius:5,
-      borderColor:'#fff',
-      borderWidth:1,
-    },  
-    textButton: {
-      color:'white',
-      fontSize: 20,
-      fontStyle: 'italic',
-    },
-    text: {
-      marginTop:50, 
-      marginLeft:'20%', 
-      color:'white', 
-      fontWeight:'bold'
-    },
-    container: {
+const AppHeader = styled.View`
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    padding-top: 100;
+`;
+
+const AppLogo = styled.Image`
+    height: 100px;
+    width: 100px;
+`;
+
+const HeaderText = styled.Text`
+    font-size: 30px;
+    margin-left: 10px;
+    color: #57b4fd;
+    font-style: italic;
+    font-weight: bold;
+`;
+
+const Text = styled.Text`
+    margin-top: 50px;
+    margin-left: 20%;
+    color: white;
+    font-weight: bold;
+`;
+
+const StartBtn = styled.TouchableOpacity`
+    align-self: center;
+    margin-top: 100px;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 200px;
+    border-radius: 5px;
+    border-color: #fff;
+    border-width: 1px;
+`;
+
+const TextBtn = styled.Text`
+    color: white;
+    font-size: 20px;
+    font-style: italic;
+`;
+
+const container = {
       flex: 1,
       backgroundColor: '#ad7',
-    },
-    header: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexDirection: 'row',
-      paddingTop: 100
-    },
-    headerImage: {
-      height: 100,
-      width: 100
-    },
-    headerText: {
-      fontSize:30,
-      marginLeft:10,
-      color: '#57b4fd',
-      fontStyle: 'italic',
-      fontWeight: 'bold'
-    }, 
-  });
+}
 
-  export default styles;
+export {AppHeader, AppLogo, HeaderText, Text, StartBtn, TextBtn, container}
