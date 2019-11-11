@@ -1,18 +1,25 @@
 import React, {Component} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {
-  View,
-  Text,
   FlatList,
   ActivityIndicator,
-  TouchableOpacity,
+  TouchableOpacity
 } from 'react-native';
-import styles from './styles';
+import {
+  container,
+  ListContainer,
+  LoadingBox,
+  PreviousPage,
+  NextPage,
+  TextBtn,
+  Footer
+} from './styles';
+import colors from '../../styles/colors';
 import {connect} from 'react-redux';
 import DevFromList from '../../components/DevFromList';
 import Header from '../../components/Header';
 import GitHubApi from '../../services/GitHubApi';
-import colors from '../../styles/colors';
+
 
 class BuscaDevs extends Component {
   /**
@@ -67,15 +74,15 @@ class BuscaDevs extends Component {
 
   listFooter = () => {
     return (
-      <View style={styles.btnContainer}>
-        {this.state.amount > 0 && this.state.page <= 100 && (<TouchableOpacity
-          style={styles.btn}
+      <Footer>
+        {this.state.amount > 0 && this.state.page <= 100 && (
+        <NextPage
           onPress={() => {
             this.loadMoreData(true);
           }}>
-          <Text style={styles.btnText}>Próxima página</Text>
-        </TouchableOpacity>)}
-      </View>
+            <TextBtn>Próxima página</TextBtn>
+        </NextPage>)}
+      </Footer>
     );
   };
 
@@ -83,26 +90,25 @@ class BuscaDevs extends Component {
     return (
       <LinearGradient
         colors={colors.buscaDevGradient}
-        style={styles.container}>
+        style={container}>
         <Header label={`Desenvolvedores em ${this.props.location.city}`} />
-        <View style={styles.listContainer}>
+        <ListContainer>
           {this.state.page > 2 && (
-            <TouchableOpacity
+            <PreviousPage
               onPress={async () => {
                 await this.setState(prevState=>{
                   return {page: prevState.page-2}
                 });
                 this.loadMoreData(true);
-              }}
-              style={styles.btn}>
-              <Text style={styles.btnText}>Página anterior</Text>
-            </TouchableOpacity>
+              }}>
+                <TextBtn>Página anterior</TextBtn>
+            </PreviousPage>
           )}
 
           {!this.state.loaded && this.state.amount>0 && (
-            <View style={{top: '50%'}}>
+            <LoadingBox>
               <ActivityIndicator size="large" color="#030442" />
-            </View>
+            </LoadingBox>
           )}
 
           {this.state.loaded && (
@@ -125,7 +131,7 @@ class BuscaDevs extends Component {
               ListFooterComponent={this.listFooter.bind(this)}
             />
           )}
-        </View>
+        </ListContainer>
       </LinearGradient>
     );
   }

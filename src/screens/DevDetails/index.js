@@ -1,9 +1,7 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
-  Image,
   Text,
   View,
-  TouchableOpacity,
   ScrollView,
   Dimensions,
 } from 'react-native';
@@ -13,6 +11,7 @@ import {connect} from 'react-redux';
 
 import {NavigationEvents} from 'react-navigation';
 
+import LikeBtn from '../../components/LikeBtn';
 import Loading from '../../components/Loading';
 import RepositoryItems from '../../components/RepositoryItems';
 import DevInfoItem from '../../components/DevInfoItem';
@@ -20,7 +19,20 @@ import SlidingTab from '../../components/SlidingTab';
 import GitHubApi from '../../services/GitHubApi';
 import colors from '../../styles/colors';
 
-import styles from './styles';
+import {
+  container, 
+  devInfoContainer,
+  devReposContainer,
+  BackCard, 
+  FrontalCard, 
+  ReturnBtn, 
+  ImageBox, 
+  DevImage, 
+  DevName, 
+  OuterBord, 
+  ScrollBoard, 
+} from './styles';
+
 import AsyncStorage from '@react-native-community/async-storage';
 
 const colorTheme = '#030442';
@@ -117,7 +129,7 @@ class DevDetails extends React.PureComponent {
     return (
       <LinearGradient
         colors={colors.secondaryGradient}
-        style={styles.container}>
+        style={container}>
         <NavigationEvents
           onDidFocus={() => {
             const checkFavorite = this.props.favorites.find(dev => {
@@ -128,84 +140,36 @@ class DevDetails extends React.PureComponent {
             });
           }}
         />
-        <View style={styles.cardA} />
+        <BackCard />
         <View
           style={{
             position: 'absolute',
             top: '6%',
             left: '5%',
           }}>
-          <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-            <View
-              style={{
-                borderWidth: 1,
-                borderColor: 'white',
-                borderRadius: 5,
-                padding: 2,
-              }}>
-              <Text style={{color: 'white', padding: 3}}>Voltar</Text>
-            </View>
-          </TouchableOpacity>
+            <ReturnBtn onPress={() => this.props.navigation.goBack()}>
+                <Text style={{color: 'white', padding: 3}}>Voltar</Text>
+            </ReturnBtn>
         </View>
-        <View style={styles.image}>
-          <Image
-            style={{width: '100%', height: '100%', borderRadius: 70}}
-            source={{uri: dev.avatar_url}}
-          />
-        </View>
+        <ImageBox>
+            <DevImage
+              source={{uri: dev.avatar_url}}
+            />
+        </ImageBox>
         {/* ---------------------------------------------------------------- */}
-        <View style={styles.cardB}>
-          <View>
-            <Text style={styles.devName}>{dev.name ? dev.name : '----'}</Text>
-          </View>
-
-          <TouchableOpacity
-            onPress={() =>
-              this.state.isFavoriteLoading ? '' : this.onLikeHandler()
-            }>
-            <View
-              style={{
-                marginTop: 10,
-                alignSelf: 'center',
-                flexDirection: 'row',
-                borderColor: this.state.isFavorite ? 'green' : '#ccc',
-                borderWidth: 1,
-                padding: 2,
-                borderRadius: 5,
-              }}>
-              <View
-                style={{
-                  width: 20,
-                  height: 20,
-                  backgroundColor: this.state.isFavorite ? 'green' : '#ccc',
-                  borderRadius: 10,
-                }}></View>
-
-              <Text
-                style={{
-                  marginLeft: 5,
-                  fontWeight: 'bold',
-                  fontSize: 16,
-                }}>
-                {this.state.isFavorite ? 'Gostei!' : 'Gostou?'}
-              </Text>
-            </View>
-          </TouchableOpacity>
-
+        <FrontalCard>
+          <DevName>{dev.name ? dev.name : '----'}</DevName>
+          <LikeBtn 
+            isFavorite={this.state.isFavorite} 
+            likeHandler={this.onLikeHandler}
+            isFavoriteLoading={this.props.isFavoriteLoading}/>
           <SlidingTab
             labelTab1="Detalhes"
             labelTab2="Repositórios"
             scrollViewWidth={scrollViewWidth}
             scroll={this.scrollHandler}
           />
-
-          <View
-            style={{
-              borderRadius: 20,
-              alignSelf: 'center',
-              width: scrollViewWidth - 20,
-              height: '70%',
-            }}>
+          <OuterBord scrollViewWidth={scrollViewWidth}>
             <ScrollView
               ref={scrollView => {
                 if (scrollView !== null && this.scrollView !== scrollView) {
@@ -214,27 +178,10 @@ class DevDetails extends React.PureComponent {
               }}
               scrollEnabled={false}
               horizontal={true}>
-              <View
-                style={{
-                  backgroundColor: colorTheme,
-                  height: '100%',
-                  width: scrollViewWidth - 20,
-                  borderRadius: 20,
-                  flex: 1,
-                }}>
+              <ScrollBoard theme={colors.themeColor} scrollViewWidth={scrollViewWidth}>
                 <LinearGradient
                   colors={colors.secondaryGradient}
-                  style={{
-                    flex: 1,
-                    margin: 5,
-                    padding: 1,
-                    borderRadius: 40,
-                    backgroundColor: 'white',
-                    alignSelf: 'stretch',
-                    flexDirection: 'column',
-                    justifyContent: 'space-around',
-                    backgroundColor:"#ccc"
-                  }}>
+                  style={devInfoContainer}>
                   <DevInfoItem label="Nome" value={dev.name ? dev.name : '----'} />
                   <DevInfoItem label="Usuário" value={dev.login} />
                   <DevInfoItem
@@ -247,29 +194,17 @@ class DevDetails extends React.PureComponent {
                     value={dev.email ? dev.email : '----'}
                   />
                 </LinearGradient>
-              </View>
-              <View
-                style={{
-                  backgroundColor: colorTheme,
-                  height: '100%',
-                  width: scrollViewWidth - 20,
-                  borderRadius: 20,
-                }}>
+              </ScrollBoard>
+              <ScrollBoard theme={colors.themeColor} scrollViewWidth={scrollViewWidth}>
                 <LinearGradient
                   colors={colors.secondaryGradient}
-                  style={{
-                    borderRadius: 40,
-                    margin: 5,
-                    padding: 10,
-                    width: '96%',
-                    height: '96%',
-                  }}>
+                  style={devReposContainer}>
                   {this.state.showRepos ? <RepositoryItems data={repositoryData} /> : <Loading/>}
                 </LinearGradient>
-              </View>
+              </ScrollBoard>
             </ScrollView>
-          </View>
-        </View>
+          </OuterBord>
+        </FrontalCard>
         {/* ---------------------------------------------------------------- */}
       </LinearGradient>
     );

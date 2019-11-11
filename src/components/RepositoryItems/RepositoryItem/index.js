@@ -1,9 +1,12 @@
 import React from 'react';
-import {View,Image,Text} from 'react-native';
-import GitHubApi from '../../../services/GitHubApi';
+import {Text} from 'react-native';
 
-
-import styles from './styles';
+import colors from '../../../styles/colors';
+import {Container, 
+        RepositoryBox, 
+        LanguageBox, 
+        RepoImage} 
+from './styles';
 
 class RepositoryItem extends React.PureComponent {
 
@@ -16,25 +19,22 @@ class RepositoryItem extends React.PureComponent {
 
         let languagesTxt = this.props.languages.map((language=>{
             return (
-                <View key={language} style={{
-                    paddingLeft:10
-                }}>
+                <LanguageBox key={language}>
                     <Text>- {language}</Text>
-                </View>
+                </LanguageBox>
             );
         }))
 
         return(
-            <View style={styles.outFlexContainer}>
-                <Image style={styles.image}
-                    source={{uri: 'https://icon-library.net/images/data-repository-icon/data-repository-icon-15.jpg'}}/>
-                <View style={styles.inFlexContainer}>
+            <Container theme={colors.themeColor}>
+                <RepoImage source={{uri: 'https://icon-library.net/images/data-repository-icon/data-repository-icon-15.jpg'}}/>
+                <RepositoryBox theme={colors.themeColor}>
                     <Text >{this.props.name}</Text>
                     <Text >{this.props.stars ? this.props.stars : '0'} stars</Text>
                     <Text>Linguagens: </Text>
                     {languagesTxt.length>0 ? languagesTxt : <Text style={{paddingLeft:10}}>Nenhuma</Text>}   
-                </View>
-            </View>
+                </RepositoryBox>
+            </Container>
         );
     } 
 }

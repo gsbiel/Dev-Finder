@@ -1,8 +1,17 @@
 import React from 'react';
-import {TouchableOpacity, Text, View, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import styles from './styles';
 import GitHubApi from './../../services/GitHubApi';
+
+import {
+    AppHeader,
+    AppLogo,
+    HeaderText,
+    Text,
+    StartBtn,
+    TextBtn,
+    container
+} from './styles';
+
 import colors from './../../styles/colors';
 
 export default class Inicio extends React.PureComponent {
@@ -13,6 +22,7 @@ export default class Inicio extends React.PureComponent {
   async componentDidMount() {
     await this.getToken();
   }
+  
   getToken = async () => {
     const token = await GitHubApi.getToken();
     if (token && token.length) {
@@ -26,28 +36,24 @@ export default class Inicio extends React.PureComponent {
     return (
       <LinearGradient
         colors={colors.linearGradientColors}
-        style={styles.container}>
-        <View style={styles.header}>
-          <Image
-            style={styles.headerImage}
+        style={container}>
+        <AppHeader>
+          <AppLogo
             source={require('../../assets/images/alvo.png')}
           />
+          <HeaderText>Dev Finder</HeaderText>
+        </AppHeader>
 
-          <Text style={styles.headerText}>Dev Finder</Text>
-        </View>
-
-        <Text style={styles.text}>
+        <Text>
           Aqui no Dev Finder, você localiza{'\n\n'}
           os desenvolvedore de software mais{'\n\n'}
           próximos de sua região e de acordo{'\n\n'}
           com o seu perfil de busca.
         </Text>
 
-        <TouchableOpacity onPress={() => navigate(nextPage)}>
-          <View style={styles.touchable}>
-            <Text style={styles.textButton}>Iniciar</Text>
-          </View>
-        </TouchableOpacity>
+        <StartBtn onPress={() => navigate(nextPage)}>
+            <TextBtn>Iniciar</TextBtn>
+        </StartBtn>
       </LinearGradient>
     );
   }

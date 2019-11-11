@@ -1,52 +1,63 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import styled from 'styled-components';
 
-const { width } = Dimensions.get('screen');
+const container = {
+  flex: 1,
+  backgroundColor: '#ad7',
+  justifyContent:'space-between'
+}
 
-const styles = StyleSheet.create({
-    git: {
-      flexDirection:'row',  
-      alignSelf: 'center',
-      marginTop:50,
-      alignItems: 'center',
-      justifyContent: 'center',
-      height:50,
-      width:200,
-      borderColor:'#fff',
-      borderWidth:1,
-      marginBottom:100
-    },  
-    textButton: {
-      color:'white',
-      fontSize: 20,
-      fontStyle: 'italic',
-      fontWeight:'bold',
-    },  
-    container: {
-      flex: 1,
-      backgroundColor: '#ad7',
-      justifyContent:'space-between'
-    },
-    header: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexDirection: 'row',
-      paddingTop: 100
-    },
-    headerImage: {
-      height: 100,
-      width: 100
-    },
-    headerPass: {
-      height: 25,
-      width: 25
-    },
-    headerText: {
-      fontSize:30,
-      marginLeft:10,
-      color: '#57b4fd',
-      fontStyle: 'italic',
-      fontWeight: 'bold'
-    }, 
-  });
+const Header = styled.View`
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  padding-top: 100px;
+`;
 
-  export default styles;
+const Logo = styled.Image`
+  height: 100px;
+  width: 100px;
+`;
+
+const AppName = styled.Text`
+  font-size: 30px;
+  margin-left: 10px;
+  color: #57b4fd;
+  font-style: italic;
+  font-weight: bold;
+`;
+
+const LoginBtn = styled.TouchableOpacity`
+  flex-direction: row;
+  align-self: center;
+  margin-top: 50px;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 200px;
+  border-color: #fff;
+  border-width: 1px;
+  margin-bottom: 100px;
+`;
+
+const GitIcon = styled.Image`
+  height: 25px;
+  width: 25px;
+`;
+
+const GitText = styled.Text`
+  color: white;
+  font-size: 20px;
+  font-style: italic;
+  font-weight: bold;
+  margin-left: 15px;
+`;
+
+export {
+  container,
+  Header,
+  Logo,
+  AppName,
+  LoginBtn,
+  GitIcon,
+  GitText
+}

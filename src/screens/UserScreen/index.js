@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import {
   View,
-  Text,
-  Image,
   ScrollView,
   ActivityIndicator,
   PermissionsAndroid,
   Platform,
   TouchableOpacity,
   ToastAndroid,
+  Dimensions
 } from 'react-native';
 import {
   setFavorites,
@@ -22,7 +21,26 @@ import Geolocation from 'react-native-geolocation-service';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import {NavigationEvents} from 'react-navigation';
-import styles from './styles';
+import {
+    firstGradient,
+    secondGradient,
+    thirdGradient,
+    Screen,
+    Profile,
+    UserName,
+    Name,
+    ImageBox,
+    UserImage,
+    UserDataSection,
+    GitDataSection,
+    LocationLabel,
+    GetLocation,
+    TableContainer,
+    ScrollContainer,
+    ScrollBox,
+    OuterBorder,
+    InnerBorder
+} from './styles';
 import colors from '../../styles/colors';
 import Table from '../../components/Table';
 import TableRow from '../../components/Table/TableRow';
@@ -36,6 +54,9 @@ import {googleAppData} from '../../services/APIData';
 
 // Quantos Devs você quer que apareçam na lista de devs favoritos da tela de profile?
 let devListAmount = 3;
+
+const screenWidth = Dimensions.get('window').width;
+const screenHeight = Dimensions.get('window').height;
 
 class UserScreen extends Component {
   state = {
@@ -236,44 +257,35 @@ class UserScreen extends Component {
         chosenFavorites.push(this.props.favorites[i]);
       }
       content_screen = (
-        <View style={styles.userScreenContainer}>
+        <Screen screenWidth={screenWidth} screenHeight={screenHeight}>
           <NavigationEvents
             onDidFocus={payload => this.forceComponentUpdate()}
           />
           <Header label="Perfil" />
-          <View style={styles.profileLayout}>
-            <View style={styles.devNameView}>
-              <Text
-                style={{
-                  color: colors.themeColor,
-                  fontSize: 24,
-                  fontWeight: 'bold',
-                }}>
+          <Profile>
+            <UserName>
+              <Name theme={colors.themeColor}>
                 {this.props.dev.name}
-              </Text>
-            </View>
-            <View style={styles.imageView}>
-              <Image
-                style={{width: '100%', height: '100%', borderRadius: 70}}
-                source={{uri: this.props.dev.avatar_url}}
-              />
-            </View>
-
-            <View style={styles.sectionA}>
+              </Name>
+            </UserName>
+            <ImageBox>
+              <UserImage source={{uri: this.props.dev.avatar_url}}/>
+            </ImageBox>
+            <UserDataSection>
               <LinearGradient
                 start={{x: 0, y: 0}}
                 end={{x: 1, y: 0}}
                 colors={colors.linearGradientColors}
-                style={styles.cardA1}>
+                style={firstGradient}>
                 {this.props.local.city &&
                 this.props.local.state &&
                 this.state.isGPSAllowed ? (
-                  <Text style={styles.locationLabel}>
+                  <LocationLabel>
                     {this.props.local.city}-{this.props.local.state}
-                  </Text>
+                  </LocationLabel>
                 ) : (
                   <TouchableOpacity onPress={() => this.getLocation()}>
-                    <Text style={styles.getLocationBtn}>Obter Localização</Text>
+                    <GetLocation>Obter Localização</GetLocation>
                   </TouchableOpacity>
                 )}
               </LinearGradient>
@@ -281,14 +293,8 @@ class UserScreen extends Component {
                 start={{x: 0, y: 0}}
                 end={{x: 1, y: 0}}
                 colors={colors.secondaryGradient}
-                style={styles.cardA2}>
-                <View
-                  style={{
-                    alignItems: 'center',
-                    width: '100%',
-                    justifyContent: 'space-around',
-                    height: '70%',
-                  }}>
+                style={secondGradient}>
+                <TableContainer>
                   <Table rowNumber="3" tableWidth="160">
                     <TableRow label="Usuário" value={this.props.dev.login} />
                     <TableRow
@@ -300,17 +306,11 @@ class UserScreen extends Component {
                       value={this.props.dev.public_repos}
                     />
                   </Table>
-                  {/* <Button
-                    disabled={!this.state.isGPSAllowed}
-                    title="Busque um Dev!"
-                    onPress={() => this.props.navigation.navigate('BuscaDevs')}
-                    color={colors.themeColor}
-                  /> */}
-                </View>
+                </TableContainer>
               </LinearGradient>
-            </View>
+            </UserDataSection>
 
-            <View style={styles.sectionB}>
+            <GitDataSection>
               <SlidingTab
                 position={{top: 0, left: '5%'}}
                 labelTab1="Repositórios"
@@ -323,17 +323,9 @@ class UserScreen extends Component {
                 start={{x: 0, y: 0}}
                 end={{x: 1, y: 0}}
                 colors={colors.linearGradientColors}
-                style={styles.cardB1}></LinearGradient>
-              <View style={styles.cardB2}>
-                <View
-                  style={{
-                    width: 280,
-                    height: '75%',
-                    backgroundColor: 'white',
-                    marginTop: 20,
-                    alignSelf: 'center',
-                    borderRadius: 20,
-                  }}>
+                style={thirdGradient}></LinearGradient>
+              <ScrollContainer>
+                <ScrollBox>
                   <ScrollView
                     ref={scroll => {
                       if (scroll !== null && this.scrollRef !== scroll) {
@@ -341,47 +333,20 @@ class UserScreen extends Component {
                       }
                     }}
                     scrollEnabled={false}
-                    horizontal={true}>
-                    <View
-                      style={{
-                        backgroundColor: colors.themeColor,
-                        height: '100%',
-                        width: this.scrollViewWidth,
-                        borderRadius: 20,
-                      }}>
-                      <View
-                        style={{
-                          borderRadius: 40,
-                          backgroundColor: 'white',
-                          margin: 5,
-                          padding: 10,
-                          width: '96%',
-                          height: '96%',
-                        }}>
+                    horizontal={true}
+                  >
+                    <OuterBorder theme={colors.themeColor} scrollWidth={this.scrollViewWidth}>
+                      <InnerBorder>
                         {this.state.isRepoLoading ? (
                           <Loading />
                         ) : (
                           <RepositoryItems data={this.props.repositoryData} />
                         )}
-                      </View>
-                    </View>
+                      </InnerBorder>
+                    </OuterBorder>
 
-                    <View
-                      style={{
-                        backgroundColor: colors.themeColor,
-                        height: '100%',
-                        width: this.scrollViewWidth,
-                        borderRadius: 20,
-                      }}>
-                      <View
-                        style={{
-                          borderRadius: 40,
-                          backgroundColor: 'white',
-                          margin: 5,
-                          padding: 10,
-                          width: '96%',
-                          height: '96%',
-                        }}>
+                    <OuterBorder theme={colors.themeColor} scrollWidth={this.scrollViewWidth}>
+                      <InnerBorder>
                         {this.state.isFavoriteLoading ? (
                           <View style={{top: '40%'}}>
                             <ActivityIndicator size="large" color="" />
@@ -393,14 +358,15 @@ class UserScreen extends Component {
                             listAmount={devListAmount}
                           />
                         )}
-                      </View>
-                    </View>
+                      </InnerBorder>
+                    </OuterBorder>
+
                   </ScrollView>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
+                </ScrollBox>
+              </ScrollContainer>
+            </GitDataSection>
+          </Profile>
+        </Screen>
       );
     }
     return content_screen;

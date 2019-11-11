@@ -1,19 +1,20 @@
 import React, {Component} from 'react';
 import {
-  View,
-  Button,
-  Text,
   FlatList,
-  ActivityIndicator,
-  TouchableOpacity,
+  ActivityIndicator
 } from 'react-native';
-
 import {NavigationEvents} from 'react-navigation';
 import {connect} from 'react-redux';
 import GitHubApi from '../../services/GitHubApi';
-import styles from './styles';
 import DevFromList from '../../components/DevFromList';
 import Header from '../../components/Header';
+import {
+  Container,
+  FavoriteList,
+  Footer,
+  LoadMoreBtn,
+  TextBtn
+} from './styles';
 import colors from '../../styles/colors';
 
 class Favorites extends Component {
@@ -55,11 +56,11 @@ class Favorites extends Component {
       return <ActivityIndicator size="large" color="#a99" />;
     }
     return (
-      <View style={styles.btnContainer}>
-        <TouchableOpacity style={styles.btn} onPress={() => {}}>
-          <Text style={styles.btnText}>Carregar Mais</Text>
-        </TouchableOpacity>
-      </View>
+      <Footer>
+        <LoadMoreBtn onPress={() => {}}>
+          <TextBtn>Carregar Mais</TextBtn>
+        </LoadMoreBtn>
+      </Footer>
     );
   };
 
@@ -72,21 +73,21 @@ class Favorites extends Component {
 
     if (!this.state.isLoading) {
       listContent = (
-        <View style={styles.listContainer}>
+        <FavoriteList>
           <FlatList
             data={this.state.devs}
             keyExtractor={item => item.login}
             renderItem={({item}) => <DevFromList user={item} />}
           />
-        </View>
+        </FavoriteList>
       );
     }
     return (
-      <View style={styles.container}>
+      <Container background={colors.favoritesBackg}>
         <NavigationEvents onDidFocus={() => this.forceComponentUpdate()} />
         <Header label="Favoritos" />
         {listContent}
-      </View>
+      </Container>
     );
   }
 }

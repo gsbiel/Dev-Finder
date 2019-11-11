@@ -1,43 +1,57 @@
-import {StyleSheet} from 'react-native';
+import styled from 'styled-components';
 
-const styles = StyleSheet.create({
-    drawerContainer:{
-        flex:1
-    },
-    headerContainer:{
-        height:'40%'
-    },
-    bodyContainer:{
-        height:'60%'
-    },
-    appHeader:{
-        flex:1,
-        flexDirection:'row',
-        justifyContent:'center',
-        alignItems:'center'
-    },
-    appLogo:{
-        width:80,
-        height:80
-    },
-    headerText: {
-        fontSize:30,
-        marginLeft:10,
-        color: '#57b4fd',
-        fontStyle: 'italic',
-        fontWeight: 'bold'
-    },
-    btn:{
-        height:'20%',
-        backgroundColor:'white',
-        marginBottom:10,
-        justifyContent:'center',
-        paddingLeft:10
-    },
-    textBtn:{
-        fontWeight:'bold',
-        fontSize:22
-    }
-});
+const headerContainer = {
+    height: '40%'
+}
 
-export default styles;
+const bodyContainer = {
+    height:'60%'
+}
+
+const Container = styled.View`
+    flex: 1;
+`;
+
+const Header = styled.View`
+    flex: 1;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+`;
+
+const Logo = styled.Image`
+    width: 80px;
+    height: 80px;
+`;
+
+const AppName = styled.Text`
+    font-size: 30px;
+    margin-left: 10px;
+    color: #57b4fd;
+    font-style: italic;
+    font-weight: bold;
+`;
+
+const AppBtn = styled.TouchableOpacity`
+    height: 20%;
+    background-color: white;
+    margin-bottom: 10px;
+    justify-content: center;
+    padding-left: 10px;
+`;
+
+const TextBtn = styled.Text`
+    font-weight: bold;
+    font-size: 22px;
+`;
+
+export{
+    headerContainer,
+    bodyContainer,
+    Container,
+    Header,
+    Logo,
+    AppName,
+    AppBtn,
+    TextBtn
+}

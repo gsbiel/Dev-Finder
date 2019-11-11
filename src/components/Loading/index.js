@@ -1,21 +1,13 @@
 import React from 'react';
-import {View, ActivityIndicator} from 'react-native';
-
+import {ActivityIndicator} from 'react-native';
 import colors from './../../styles/colors';
-
-const styles = {
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-};
+import {Container} from './styles';
 
 const Loading = () => {
   return (
-    <View style={styles.container}>
+    <Container>
       <ActivityIndicator size="large" color={colors.primaryColor} />
-    </View>
+    </Container>
   );
 };
 
