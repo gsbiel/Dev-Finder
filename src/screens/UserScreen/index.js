@@ -14,6 +14,7 @@ import {
   setUser,
   setRepositories,
   setLocation,
+  setLocationPermissions
 } from '../../actions/actions';
 import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -124,6 +125,7 @@ class UserScreen extends Component {
 
     if (hasPermission) {
       this.setState({isGPSAllowed: true});
+      this.props.dispatch(setLocationPermissions(true));
       return true;
     }
 
@@ -133,6 +135,7 @@ class UserScreen extends Component {
 
     if (status === PermissionsAndroid.RESULTS.GRANTED) {
       this.setState({isGPSAllowed: true});
+      this.props.dispatch(setLocationPermissions(true));
       return true;
     }
 

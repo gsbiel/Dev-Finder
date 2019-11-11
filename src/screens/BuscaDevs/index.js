@@ -3,8 +3,10 @@ import LinearGradient from 'react-native-linear-gradient';
 import {
   FlatList,
   ActivityIndicator,
-  TouchableOpacity
+  TouchableOpacity,
+  ToastAndroid
 } from 'react-native';
+import {NavigationEvents} from 'react-navigation';
 import {
   container,
   ListContainer,
@@ -43,9 +45,18 @@ class BuscaDevs extends Component {
       this.setState({loaded: true});
   };
 
-  componentDidMount() {
-    this.setState({loaded: false, page: 1, devs: []});
-    this.addDev();
+  async componentDidMount() {
+    if (this.props.hasPermission) {
+      this.setState({loaded: false, page: 1, devs: []});
+      this.addDev();
+    }
+    else{
+      ToastAndroid.show(
+        'Busca falhou pois o acesso à geolocalização foi negado.',
+        ToastAndroid.LONG,
+      );
+      this.props.navigation.navigate('UserScreen');
+    }
   }
 
   addDev = async () => {
@@ -91,6 +102,22 @@ class BuscaDevs extends Component {
       <LinearGradient
         colors={colors.buscaDevGradient}
         style={container}>
+        <NavigationEvents
+          onDidFocus={() => {
+                            if(!this.props.hasPermission){
+                              ToastAndroid.show(
+                                'Busca falhou pois o acesso à geolocalização foi negado.',
+                                ToastAndroid.LONG,
+                              );
+                              this.props.navigation.navigate('UserScreen');
+                            }else{
+                              if(!this.state.devs.length){
+                                this.addDev();
+                              }
+                            }
+                          }
+                      }
+        />
         <Header label={`Desenvolvedores em ${this.props.location.city}`} />
         <ListContainer>
           {this.state.page > 2 && (
@@ -144,7 +171,8 @@ BuscaDevs.navigationOptions = {
 const mapStateToProps = state => {
   return {
     token: state.access_token,
-    location: state.userLocation
+    location: state.userLocation,
+    hasPermission: state.hasLocationPermisions
   };
 };
 

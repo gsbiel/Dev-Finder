@@ -5,11 +5,13 @@ import {
   SET_LOCATION,
   ADD_FAVORITE,
   DEL_FAVORITE,
-  SET_FAVORITES
+  SET_FAVORITES,
+  SET_LOCATION_PERMISSIONS
 } from '../actions/actions';
 
 const initialState = {
   access_token: null,
+  hasLocationPermisions: false,
   user: {
     name: '',
     login: '',
@@ -57,6 +59,8 @@ const appReducer = (state = initialState, action) => {
         return !(element === action.payload);
       });
       return {...state, favorites: newFavorites};
+    case SET_LOCATION_PERMISSIONS:
+      return {...state, hasLocationPermisions: action.payload}
     default:
       return state;
   }
