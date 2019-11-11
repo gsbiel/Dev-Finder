@@ -5,6 +5,7 @@ export const SET_LOCATION = 'SET_LOCATION';
 export const SET_FAVORITES = 'SET_FAVORITES'
 export const ADD_FAVORITE = 'ADD_FAVORITE';
 export const DEL_FAVORITE = 'DEL_FAVORITE';
+export const SET_LOCATION_PERMISSIONS = 'SET_LOCATION_PERMISSIONS'
 
 export const setToken = (token) => {
     return({
@@ -52,6 +53,13 @@ export const delFavorite = (url) => {
     return({
         type: DEL_FAVORITE,
         payload: url
+    });
+};
+
+export const setLocationPermissions = (permission) => {
+    return({
+        type: SET_LOCATION_PERMISSIONS,
+        payload: permission
     });
 };
 
