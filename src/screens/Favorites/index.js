@@ -43,7 +43,7 @@ class Favorites extends Component {
         this.setState({isLoading: false, devs: devs, shouldUpdate: false});
       })();
     } else {
-      this.setState({isLoading: false});
+      this.setState({isLoading: false, devs:[]});
     }
   };
 

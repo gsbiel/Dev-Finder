@@ -105,7 +105,7 @@ class UserScreen extends Component {
       console.log('Erro: ', error);
     }
 
-    await this.fetchChosenFavorites();
+    this.fetchChosenFavorites();
     this.getLocation();
     this.setState({isLoading: false});
   }
@@ -229,7 +229,7 @@ class UserScreen extends Component {
     } else {
       const favoritesJSON = await AsyncStorage.getItem(this.props.dev.login);
       const favorites = JSON.parse(favoritesJSON);
-      if (favorites) {
+      if (favorites.favorites.length) {
         await this.props.dispatch(setFavorites(favorites.favorites));
         this.fetchChosenFavorites();
       }
@@ -240,7 +240,12 @@ class UserScreen extends Component {
   };
 
   forceComponentUpdate = () => {
-    this.fetchChosenFavorites();
+    if(this.props.favorites.length){
+      this.fetchChosenFavorites();
+    }else{
+      console.log('to entrando aqui')
+      this.setState({firstFavorites:[]});
+    } 
   };
 
   componentWillUnmount() {
