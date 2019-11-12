@@ -243,7 +243,6 @@ class UserScreen extends Component {
     if(this.props.favorites.length){
       this.fetchChosenFavorites();
     }else{
-      console.log('to entrando aqui')
       this.setState({firstFavorites:[]});
     } 
   };
