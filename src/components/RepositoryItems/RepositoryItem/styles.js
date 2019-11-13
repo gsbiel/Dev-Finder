@@ -1,9 +1,10 @@
 import styled from 'styled-components';
+import normalize from 'react-native-normalize';
 
 const Container = styled.View`
     flex-direction: row;
     width: 90%;
-    border-width: 1px;
+    border-width: ${normalize(3)}px;
     border-color: ${props => props.theme};
     align-items: center;
     align-self: center;
@@ -12,9 +13,9 @@ const Container = styled.View`
 
 const RepositoryBox = styled.View`
     flex:2;
-    padding: 10px;
+    padding: ${normalize(13)}px;
     justify-content: space-around;
-    border-left-width: 1px;
+    border-left-width: ${normalize(3)}px;
     border-left-color: ${props => props.theme};
 `;
 
@@ -26,7 +27,7 @@ const RepoImage = styled.Image`
 `;
 
 const LanguageBox = styled.View`
-    padding-left: 10px
+    padding-left: ${normalize(13)}px;
 `;
 
 export {Container, RepositoryBox, LanguageBox, RepoImage}
