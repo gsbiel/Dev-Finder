@@ -1,16 +1,17 @@
 import styled from 'styled-components';
+import normalize from 'react-native-normalize';
 
 const InfoBox = styled.View`
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    margin: 5px;
+    margin: ${normalize(5)}px;
 `;
 
 const LabelBox = styled.View`
     flex:1;
     background-color: ${props => props.theme}
-    border-radius: 10px;
+    border-radius: ${normalize(10)}px;
 `;
 
 const ValueBox = styled.View`
@@ -19,7 +20,7 @@ const ValueBox = styled.View`
 
 const Label = styled.Text`
     align-self: center;
-    padding: 5px;
+    padding: ${normalize(5)}px;
     color: white;
     font-weight: bold;
 `;
@@ -27,7 +28,7 @@ const Label = styled.Text`
 const Value = styled.Text`
     align-self: flex-start;
     font-weight: bold;
-    padding: 5px;
+    padding: ${normalize(5)}px;
 `;
 
 export {InfoBox,LabelBox,ValueBox,Label,Value};
