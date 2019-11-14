@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import normalize from 'react-native-normalize';
 
 const Container = styled.View`
   flex: 1;
@@ -11,13 +12,13 @@ const FavoriteList = styled.View`
 `;
 
 const Footer = styled.View`
-  padding-bottom: 20px;
-  padding-top: 20px;
+  padding-bottom: ${normalize(23)}px;
+  padding-top: ${normalize(23)}px;
 `;
 
 const LoadMoreBtn = styled.TouchableOpacity`
   background-color: #000;
-  padding: 10px;
+  padding: ${normalize(13)}px;
   justify-content: center;
 `;
 
