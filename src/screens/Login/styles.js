@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import normalize from 'react-native-normalize';
 
 const container = {
   flex: 1,
@@ -10,17 +11,17 @@ const Header = styled.View`
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  padding-top: 100px;
+  padding-top: ${normalize(103)}px;
 `;
 
 const Logo = styled.Image`
-  height: 100px;
-  width: 100px;
+  height: ${normalize(103)}px;
+  width: ${normalize(103)}px;
 `;
 
 const AppName = styled.Text`
-  font-size: 30px;
-  margin-left: 10px;
+  font-size: ${normalize(33)}px;
+  margin-left: ${normalize(13)}px;
   color: #57b4fd;
   font-style: italic;
   font-weight: bold;
@@ -29,27 +30,27 @@ const AppName = styled.Text`
 const LoginBtn = styled.TouchableOpacity`
   flex-direction: row;
   align-self: center;
-  margin-top: 50px;
+  margin-top: ${normalize(53)}px;
   align-items: center;
   justify-content: center;
-  height: 50px;
-  width: 200px;
+  height: ${normalize(53)}px;
+  width: ${normalize(203)}px;
   border-color: #fff;
-  border-width: 1px;
-  margin-bottom: 100px;
+  border-width: ${normalize(3)}px;
+  margin-bottom: ${normalize(103)}px;
 `;
 
 const GitIcon = styled.Image`
-  height: 25px;
-  width: 25px;
+  height: ${normalize(28)}px;
+  width: ${normalize(28)}px;
 `;
 
 const GitText = styled.Text`
   color: white;
-  font-size: 20px;
+  font-size: ${normalize(23)}px;
   font-style: italic;
   font-weight: bold;
-  margin-left: 15px;
+  margin-left: ${normalize(18)}px;
 `;
 
 export {
