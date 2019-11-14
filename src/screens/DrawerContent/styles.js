@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import normalize from 'react-native-normalize';
 
 const headerContainer = {
     height: '40%'
@@ -20,13 +21,13 @@ const Header = styled.View`
 `;
 
 const Logo = styled.Image`
-    width: 80px;
-    height: 80px;
+    width: ${normalize(83)}px;
+    height: ${normalize(83)}px;
 `;
 
 const AppName = styled.Text`
-    font-size: 30px;
-    margin-left: 10px;
+    font-size: ${normalize(33)}px;
+    margin-left: ${normalize(13)}px;
     color: #57b4fd;
     font-style: italic;
     font-weight: bold;
@@ -35,14 +36,14 @@ const AppName = styled.Text`
 const AppBtn = styled.TouchableOpacity`
     height: 20%;
     background-color: white;
-    margin-bottom: 10px;
+    margin-bottom: ${normalize(13)}px;
     justify-content: center;
-    padding-left: 10px;
+    padding-left: ${normalize(13)}px;
 `;
 
 const TextBtn = styled.Text`
     font-weight: bold;
-    font-size: 22px;
+    font-size: ${normalize(25)}px;
 `;
 
 export{

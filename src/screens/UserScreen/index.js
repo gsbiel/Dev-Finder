@@ -247,10 +247,6 @@ class UserScreen extends Component {
     } 
   };
 
-  componentWillUnmount() {
-    console.log('UserScreen está desmontando..');
-  }
-
   render() {
     let content_screen = <Loading />;
 

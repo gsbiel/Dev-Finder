@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import {View,FlatList} from 'react-native';
 import RepositoryItem from './RepositoryItem/index';
 import EmptyList from '../EmptyList/index';
+import normalize from 'react-native-normalize';
 
 class RepositoryItems extends Component {
 
@@ -14,7 +15,7 @@ class RepositoryItems extends Component {
         return(
             <View style={{
                 width:'96%',
-                height:20
+                height: normalize(20)
             }} />
         );
     }

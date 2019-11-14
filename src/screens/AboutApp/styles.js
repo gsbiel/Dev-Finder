@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import normalize from 'react-native-normalize';
 
 const AppHeader = styled.View`
     align-items: center;
@@ -8,20 +9,20 @@ const AppHeader = styled.View`
 `;
 
 const AppLogo = styled.Image`
-    height: 100px;
-    width: 100px;
+    height: ${normalize(103)}px;
+    width: ${normalize(103)}px;
 `;
 
 const HeaderText = styled.Text`
-    font-size: 30px;
-    margin-left: 10px;
+    font-size: ${normalize(33)}px;
+    margin-left: ${normalize(13)}px;
     color: #57b4fd;
     font-style: italic;
     font-weight: bold;
 `;
 
 const Text = styled.Text`
-    margin-top: 50px;
+    margin-top: ${normalize(53)}px;
     margin-left: 20%;
     color: white;
     font-weight: bold;
@@ -29,19 +30,19 @@ const Text = styled.Text`
 
 const StartBtn = styled.TouchableOpacity`
     align-self: center;
-    margin-top: 100px;
+    margin-top: ${normalize(103)}px;
     align-items: center;
     justify-content: center;
-    height: 50px;
-    width: 200px;
-    border-radius: 5px;
+    height: ${normalize(53,'height')}px;
+    width: ${normalize(203)}px;
+    border-radius: ${normalize(8)}px;
     border-color: #fff;
-    border-width: 1px;
+    border-width: ${normalize(3)}px;
 `;
 
 const TextBtn = styled.Text`
     color: white;
-    font-size: 20px;
+    font-size: ${normalize(20)}px;
     font-style: italic;
 `;
 

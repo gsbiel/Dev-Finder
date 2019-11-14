@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import normalize from 'react-native-normalize';
 
 const container = {
   flex: 1,
@@ -15,13 +16,13 @@ const LoadingBox = styled.View`
 
 const PreviousPage = styled.TouchableOpacity`
     background-color: #ccc;
-    padding: 10px;
+    padding: ${normalize(13)}px;
     justify-content: center;
 `;
 
 const NextPage = styled.TouchableOpacity`
     background-color: #ccc;
-    padding: 10px;
+    padding: ${normalize(13)}px;
     justify-content: center;
 `;
 
@@ -29,10 +30,11 @@ const TextBtn = styled.Text`
     color: black;
     font-weight: bold;
     align-self: center;
+    font-size: ${normalize(16)}px;
 `;
 
 const Footer = styled.View`
-    padding-bottom: 10px;
+    padding-bottom: ${normalize(13)}px;
 `;
 
 export {container, ListContainer, LoadingBox, PreviousPage, NextPage, TextBtn, Footer}

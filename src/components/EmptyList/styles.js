@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import normalize from 'react-native-normalize';
 
 const Container = styled.View`
     width: 95%;
@@ -9,7 +10,7 @@ const Container = styled.View`
 
 const Text = styled.Text`
     color: ${props => props.theme}
-    font-size: 20px;
+    font-size: ${normalize(20)}px;
 `;
 
 export {Container,Text}
