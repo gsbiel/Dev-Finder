@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import normalize from 'react-native-normalize';
 
 const firstGradient = {
     width:'100%',
@@ -40,17 +41,17 @@ const UserName = styled.View`
 
 const Name = styled.Text`
     color: ${props => props.theme};
-    font-size: 24px;
+    font-size: ${normalize(27)}px;
     font-weight: bold;
 `;
 
 const ImageBox = styled.View`
     position: absolute;
-    width: 100px;
-    height: 100px;
-    border-radius: 50px;
+    width: ${normalize(103)}px;
+    height: ${normalize(103)}px;
+    border-radius:${normalize(53)}px;
     border-color: black;
-    border-width: 5px;
+    border-width: ${normalize(8)}px;
     background-color: white;
     left: 5%;
     top: 3%;
@@ -60,7 +61,7 @@ const ImageBox = styled.View`
 const UserImage = styled.Image`
     width: 100%;
     height: 100%;
-    border-radius: 70px;
+    border-radius: ${normalize(73)}px;
 `;
 
 const UserDataSection = styled.View`
@@ -69,14 +70,14 @@ const UserDataSection = styled.View`
 
 const GitDataSection = styled.View`
     flex: 3;
-    margin-bottom: 20px;
+    margin-bottom: ${normalize(23)}px;
 `;
 
 const LocationLabel = styled.Text`
     color: white;
     font-weight: bold;
-    font-size: 18px;
-    border-width: 1px;
+    font-size: ${normalize(18)}px;
+    border-width: ${normalize(3)}px;
     border-color: white;
 `;
 
@@ -84,10 +85,10 @@ const GetLocation = styled.Text`
     color: orange;
     background-color: white;
     font-weight: bold;
-    font-size: 18px;
-    border-width: 1px;
+    font-size: ${normalize(18)}px;
+    border-width: ${normalize(3)}px;
     border-color: orange;
-    padding: 5px;
+    padding: ${normalize(8)}px;
 `;
 
 const TableContainer = styled.View`
@@ -104,26 +105,26 @@ const ScrollContainer = styled.View`
 `;
 
 const ScrollBox = styled.View`
-    width: 280px;
+    width: ${normalize(293)}px;
     height: 75%;
     background-color: white;
-    margin-top: 20px;
+    margin-top: ${normalize(23)}px;
     align-self: center;
-    border-radius: 20px;
+    border-radius: ${normalize(23)}px;
 `;
 
 const OuterBorder = styled.View`
     background-color: ${props => props.theme};
     height: 100%;
     width: ${props => props.scrollWidth};
-    border-radius: 20px;
+    border-radius: ${normalize(23)}px;
 `;
 
 const InnerBorder = styled.View`
-    border-radius: 40px;
+    border-radius: ${normalize(43)}px;
     background-color: white;
-    margin: 5px;
-    padding: 10px;
+    margin: ${normalize(8)}px;
+    padding: ${normalize(13)}px;
     width: 96%;
     height: 96%;
 `;
