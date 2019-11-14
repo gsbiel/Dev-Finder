@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import normalize from 'react-native-normalize';
 
 const container = {
     flex: 1
@@ -6,9 +7,9 @@ const container = {
 
 const devInfoContainer ={ 
     flex: 1,
-    margin: 5,
-    padding: 1,
-    borderRadius: 40,
+    margin: normalize(8),
+    padding: normalize(3),
+    borderRadius: normalize(43),
     backgroundColor: 'white',
     alignSelf: 'stretch',
     flexDirection: 'column',
@@ -17,71 +18,71 @@ const devInfoContainer ={
 }
 
 const devReposContainer = {
-    borderRadius: 40,
-    margin: 5,
-    padding: 10,
+    borderRadius: normalize(43),
+    margin: normalize(8),
+    padding: normalize(13),
     width: '96%',
     height: '96%'
 }
 
 const BackCard = styled.View`
     background-color: #030442;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+    border-top-left-radius: ${normalize(23)}px;
+    border-top-right-radius: ${normalize(23)}px;
     width: auto;
     height: 22%;
     top: 3%;
-    margin-right: 10px;
-    margin-left: 10px;
+    margin-right: ${normalize(13)}px;
+    margin-left: ${normalize(13)}px;
 `;
 
 const FrontalCard = styled.View`
     flex-direction: column;
     justify-content: flex-start;
-    padding: 10px;
-    padding-top: 43px;
+    padding: ${normalize(13)}px;
+    padding-top: ${normalize(46)}px;
     z-index: 1;
-    border-radius: 25px;
+    border-radius: ${normalize(28)}px;
     background-color: white;
     width: auto;
     height: 75%;
-    margin-right: 10px;
-    margin-left: 10px;
+    margin-right: ${normalize(13)}px;
+    margin-left: ${normalize(13)}px;
 `;
 
 const ReturnBtn = styled.TouchableOpacity`
-    border-width: 1px;
+    border-width: ${normalize(3)}px;
     border-color: white;
-    border-radius: 5px;
-    padding: 2px;
+    border-radius: ${normalize(8)}px;
+    padding: ${normalize(5)}px;
 `;
 
 const ImageBox = styled.View`
     position: absolute;
     background-color: white;
-    width: 130px;
-    height: 130px;
-    border-radius: 70px;
+    width: ${normalize(133)}px;
+    height: ${normalize(133)}px;
+    border-radius: ${normalize(73)}px;
     top: 8%;
     z-index: 5;
     align-self: center;
-    padding: 5px;
+    padding: ${normalize(8)}px;
 `;
 
 const DevImage = styled.Image`
     width: 100%;
     height: 100%;
-    border-radius: 70px;
+    border-radius: ${normalize(73)}px;
 `;
 
 const DevName = styled.Text`
     align-self: center;
     font-weight: bold;
-    font-size: 22px;
+    font-size: ${normalize(25)}px;
 `;
 
 const OuterBord = styled.View`
-    border-radius: 20px;
+    border-radius: ${normalize(23)}px;
     align-self: center;
     width: ${props => props.scrollViewWidth-20};
     height: 70%;
@@ -91,7 +92,7 @@ const ScrollBoard = styled.View`
     background-color: ${props => props.theme};
     height: 100%;
     width: ${props => props.scrollViewWidth-20};
-    border-radius: 20px;
+    border-radius: ${normalize(23)}px;
 `;
 
 export {
